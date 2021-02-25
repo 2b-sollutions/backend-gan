@@ -1,0 +1,542 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0",
+        "title": "Backend-GAN",
+        "description": "This is a description for Backend-GAN"
+    },
+    "paths": {
+        "/login": {
+            "post": {
+                "tags": ["Login"],
+                "summary": "login as user",
+                "consumes": [],
+                "produces": ["text/plain", "application/json", "text/json"],
+                "parameters": [{
+                    "name": "value",
+                    "in": "body",
+                    "required": false,
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "userName": { "type": "string" },
+                            "password": { "type": "string" }
+                        },
+                        "example": {
+                            "userName": "TesteStore",
+                            "password": "Vovo3843"
+                        }
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+
+                    }
+                }
+            }
+        },
+        "/users": {
+            "post": {
+                "tags": ["Users"],
+                "summary": "creating user",
+                "consumes": [],
+                "produces": ["text/plain", "application/json", "text/json"],
+                "parameters": [{
+                    "name": "value",
+                    "in": "body",
+                    "required": false,
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "userName": { "type": "string" },
+                            "password": { "type": "string" }
+                        },
+                        "example": {
+                            "userName": "Nilo",
+                            "password": "Vovo3843",
+                            "fullName": "Nilo Araujo Dias",
+                            "celphone": "12988108463",
+                            "adress": "",
+                            "profile": 3,
+                            "age": "30",
+                            "acountBank": [{
+                                "number": 1231231,
+                                "agency": 3434,
+                                "instituition": "Santander",
+                                "CPF": "222.444.333-098"
+                            }]
+                        }
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+
+                    }
+                }
+            },
+            "get": {
+                "tags": ["Users"],
+                "summary": "geting users",
+                "consumes": [],
+                "produces": ["text/plain", "application/json", "text/json"],
+                "parameters": [{
+                    "name": "token",
+                    "in": "header",
+                    "required": false,
+                    "schema": {
+                        "type": "apiKey",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkUmVxdWVzdCI6eyJ1c2VyTmFtZSI6IlRlc3RlSW5mbHVlbmNlciIsImlkIjoiNjAzMjhiMDBiZGM1MzA0YTZjZGUyZGYwIiwicGVyZmlsIjoyfSwiaWF0IjoxNjEzOTkzNzY5LCJleHAiOjE2MTM5OTczNjl9.KVWJ4D1HKqPoIYSFxgBaYiUUXR33QXITEWcN1hQHoOg"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+
+                    }
+                }
+            }
+        },
+        "/users/{user_id}": {
+            "get": {
+                "tags": ["Users"],
+                "summary": "Geting user by id",
+                "consumes": [],
+                "produces": ["text/plain", "application/json", "text/json"],
+                "parameters": [{
+
+                        "name": "token",
+                        "in": "header",
+                        "required": false,
+                        "schema": {
+                            "type": "apiKey",
+                            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkUmVxdWVzdCI6eyJ1c2VyTmFtZSI6IlRlc3RlSW5mbHVlbmNlciIsImlkIjoiNjAzMjhiMDBiZGM1MzA0YTZjZGUyZGYwIiwicGVyZmlsIjoyfSwiaWF0IjoxNjEzOTkzNzY5LCJleHAiOjE2MTM5OTczNjl9.KVWJ4D1HKqPoIYSFxgBaYiUUXR33QXITEWcN1hQHoOg"
+                        }
+
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "required": false,
+                        "schema": {
+                            "type": "object",
+                            "example": "60327d65a4af5739f84a1ccc"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["Users"],
+                "summary": "Delete user by id",
+                "consumes": [],
+                "produces": ["text/plain", "application/json", "text/json"],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "required": false,
+                        "schema": {
+                            "type": "apiKey",
+                            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkUmVxdWVzdCI6eyJ1c2VyTmFtZSI6IlRlc3RlSW5mbHVlbmNlciIsImlkIjoiNjAzMjhiMDBiZGM1MzA0YTZjZGUyZGYwIiwicGVyZmlsIjoyfSwiaWF0IjoxNjEzOTkzNzY5LCJleHAiOjE2MTM5OTczNjl9.KVWJ4D1HKqPoIYSFxgBaYiUUXR33QXITEWcN1hQHoOg"
+                        }
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "required": false,
+                        "schema": {
+                            "type": "object",
+                            "example": "60327d65a4af5739f84a1ccc"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+
+                    }
+                }
+            }
+        },
+        "/influencers": {
+            "post": {
+                "tags": ["Influencers"],
+                "summary": "Createing Influenceres",
+                "consumes": [],
+                "produces": ["text/plain", "application/json", "text/json"],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "required": false,
+                        "schema": {
+                            "type": "apiKey",
+                            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkUmVxdWVzdCI6eyJ1c2VyTmFtZSI6IlRlc3RlSW5mbHVlbmNlciIsImlkIjoiNjAzMjhiMDBiZGM1MzA0YTZjZGUyZGYwIiwicGVyZmlsIjoyfSwiaWF0IjoxNjEzOTkzNzY5LCJleHAiOjE2MTM5OTczNjl9.KVWJ4D1HKqPoIYSFxgBaYiUUXR33QXITEWcN1hQHoOg"
+                        }
+                    },
+                    {
+                        "name": "value",
+                        "in": "body",
+                        "required": false,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "userName": { "type": "string" },
+                                "password": { "type": "string" }
+                            },
+                            "example": {
+                                "userName": "testeInfluencer",
+                                "fullName": "1234",
+                                "cellPhone": "122334444",
+                                "email": "testeInfluencer@gmail.com",
+                                "cpf": "334443",
+                                "mei": "34567",
+                                "age": "30"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+
+                    }
+                }
+            },
+            "get": {
+                "tags": ["Influencers"],
+                "summary": "Geting Influencers",
+                "consumes": [],
+                "produces": ["text/plain", "application/json", "text/json"],
+                "parameters": [{
+                    "name": "token",
+                    "in": "header",
+                    "required": false,
+                    "schema": {
+                        "type": "apiKey",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkUmVxdWVzdCI6eyJ1c2VyTmFtZSI6IlRlc3RlSW5mbHVlbmNlciIsImlkIjoiNjAzMjhiMDBiZGM1MzA0YTZjZGUyZGYwIiwicGVyZmlsIjoyfSwiaWF0IjoxNjEzOTkzNzY5LCJleHAiOjE2MTM5OTczNjl9.KVWJ4D1HKqPoIYSFxgBaYiUUXR33QXITEWcN1hQHoOg"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+
+                    }
+                }
+            }
+        },
+        "/influencers/myAcount": {
+            "get": {
+                "tags": ["Influencers"],
+                "summary": "Geting my account",
+                "consumes": [],
+                "produces": ["text/plain", "application/json", "text/json"],
+                "parameters": [{
+                    "name": "token",
+                    "in": "header",
+                    "required": false,
+                    "schema": {
+                        "type": "apiKey",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkUmVxdWVzdCI6eyJ1c2VyTmFtZSI6IlRlc3RlSW5mbHVlbmNlciIsImlkIjoiNjAzMjhiMDBiZGM1MzA0YTZjZGUyZGYwIiwicGVyZmlsIjoyfSwiaWF0IjoxNjEzOTkzNzY5LCJleHAiOjE2MTM5OTczNjl9.KVWJ4D1HKqPoIYSFxgBaYiUUXR33QXITEWcN1hQHoOg"
+                    }
+
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/influencers/{influencer_id}": {
+            "get": {
+                "tags": ["Influencers"],
+                "summary": "Geting influencer by id",
+                "consumes": [],
+                "produces": ["text/plain", "application/json", "text/json"],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "required": false,
+                        "schema": {
+                            "type": "apiKey",
+                            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkUmVxdWVzdCI6eyJ1c2VyTmFtZSI6IlRlc3RlSW5mbHVlbmNlciIsImlkIjoiNjAzMjhiMDBiZGM1MzA0YTZjZGUyZGYwIiwicGVyZmlsIjoyfSwiaWF0IjoxNjEzOTkzNzY5LCJleHAiOjE2MTM5OTczNjl9.KVWJ4D1HKqPoIYSFxgBaYiUUXR33QXITEWcN1hQHoOg"
+                        }
+                    },
+                    {
+                        "name": "influencer_id",
+                        "in": "path",
+                        "required": false,
+                        "schema": {
+                            "type": "object",
+                            "example": "60328b00bdc5304a6cde2df0"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+
+                    }
+                }
+            }
+        },
+        "/stores": {
+            "post": {
+                "tags": ["Stores"],
+                "summary": "Createing Stores",
+                "consumes": [],
+                "produces": ["text/plain", "application/json", "text/json"],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "required": false,
+                        "schema": {
+                            "type": "apiKey",
+                            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkUmVxdWVzdCI6eyJ1c2VyTmFtZSI6IlRlc3RlSW5mbHVlbmNlciIsImlkIjoiNjAzMjhiMDBiZGM1MzA0YTZjZGUyZGYwIiwicGVyZmlsIjoyfSwiaWF0IjoxNjEzOTkzNzY5LCJleHAiOjE2MTM5OTczNjl9.KVWJ4D1HKqPoIYSFxgBaYiUUXR33QXITEWcN1hQHoOg"
+                        }
+                    },
+                    {
+                        "name": "value",
+                        "in": "body",
+                        "required": false,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "userName": { "type": "string" },
+                                "password": { "type": "string" }
+                            },
+                            "example": {
+                                "razaoSocial": "12312321313",
+                                "celphone": "12222",
+                                "influencerList": ["5ffdb1b45c67c0450c4d73fa", "5febbe951a5a5d553cd970e8", "5febbe991a5a5d553cd970e9"],
+                                "cnpj": "34523445678",
+                                "adress": {
+                                    "street": "loka",
+                                    "number": 555,
+                                    "city": "São Paulo"
+                                },
+                                "acountBank": {
+                                    "number": 5555,
+                                    "agency": "",
+                                    "instituition": 365,
+                                    "cpf": 333
+                                },
+                                "legalTerms": true,
+                                "email": "testeStore@gmail.com"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+
+                    }
+                }
+            },
+            "get": {
+                "tags": ["Stores"],
+                "summary": "Geting Stores",
+                "consumes": [],
+                "produces": ["text/plain", "application/json", "text/json"],
+                "parameters": [{
+                    "name": "token",
+                    "in": "header",
+                    "required": false,
+                    "schema": {
+                        "type": "apiKey",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkUmVxdWVzdCI6eyJ1c2VyTmFtZSI6IlRlc3RlSW5mbHVlbmNlciIsImlkIjoiNjAzMjhiMDBiZGM1MzA0YTZjZGUyZGYwIiwicGVyZmlsIjoyfSwiaWF0IjoxNjEzOTkzNzY5LCJleHAiOjE2MTM5OTczNjl9.KVWJ4D1HKqPoIYSFxgBaYiUUXR33QXITEWcN1hQHoOg"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+
+                    }
+                }
+            }
+        },
+        "/stores/{store_id}": {
+            "get": {
+                "tags": ["Stores"],
+                "summary": "Geting store by id",
+                "consumes": [],
+                "produces": ["text/plain", "application/json", "text/json"],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "required": false,
+                        "schema": {
+                            "type": "apiKey",
+                            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkUmVxdWVzdCI6eyJ1c2VyTmFtZSI6IlRlc3RlSW5mbHVlbmNlciIsImlkIjoiNjAzMjhiMDBiZGM1MzA0YTZjZGUyZGYwIiwicGVyZmlsIjoyfSwiaWF0IjoxNjEzOTkzNzY5LCJleHAiOjE2MTM5OTczNjl9.KVWJ4D1HKqPoIYSFxgBaYiUUXR33QXITEWcN1hQHoOg"
+                        }
+
+                    },
+                    {
+                        "name": "store_id",
+                        "in": "path",
+                        "required": false,
+                        "schema": {
+                            "type": "object",
+                            "example": "60327fa7bc253f41f0984b29"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+
+        },
+        "/stores/addInfluencer": {
+            "post": {
+                "tags": ["Stores"],
+                "summary": "Add influencers at Store",
+                "consumes": [],
+                "produces": ["text/plain", "application/json", "text/json"],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "required": false,
+                        "schema": {
+                            "type": "apiKey",
+                            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkUmVxdWVzdCI6eyJ1c2VyTmFtZSI6IlRlc3RlSW5mbHVlbmNlciIsImlkIjoiNjAzMjhiMDBiZGM1MzA0YTZjZGUyZGYwIiwicGVyZmlsIjoyfSwiaWF0IjoxNjEzOTkzNzY5LCJleHAiOjE2MTM5OTczNjl9.KVWJ4D1HKqPoIYSFxgBaYiUUXR33QXITEWcN1hQHoOg"
+                        }
+                    },
+                    {
+                        "name": "influencerListFront",
+                        "in": "body",
+                        "required": false,
+                        "schema": {
+                            "type": "object",
+                            "example": {
+                                "influencerListFront": ["6005b5f45a614523007a8a46"]
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/stores/removeInfluencer": {
+            "post": {
+                "tags": ["Stores"],
+                "summary": "Geting store by id",
+                "consumes": [],
+                "produces": ["text/plain", "application/json", "text/json"],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "required": false,
+                        "schema": {
+                            "type": "apiKey",
+                            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkUmVxdWVzdCI6eyJ1c2VyTmFtZSI6IlRlc3RlSW5mbHVlbmNlciIsImlkIjoiNjAzMjhiMDBiZGM1MzA0YTZjZGUyZGYwIiwicGVyZmlsIjoyfSwiaWF0IjoxNjEzOTkzNzY5LCJleHAiOjE2MTM5OTczNjl9.KVWJ4D1HKqPoIYSFxgBaYiUUXR33QXITEWcN1hQHoOg"
+                        }
+
+                    },
+                    {
+                        "name": "influencerListFront",
+                        "in": "body",
+                        "required": false,
+                        "schema": {
+                            "type": "object",
+                            "example": {
+                                "influencerListFront": ["6005b5f45a614523007a8a46"]
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+
+        },
+        "/carts": {
+            "post": {
+                "tags": ["Carts"],
+                "summary": "Create cart",
+                "consumes": [],
+                "produces": ["text/plain", "application/json", "text/json"],
+                "parameters": [{
+                        "name": "token",
+                        "in": "header",
+                        "required": false,
+                        "schema": {
+                            "type": "apiKey",
+                            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkUmVxdWVzdCI6eyJ1c2VyTmFtZSI6IlRlc3RlSW5mbHVlbmNlciIsImlkIjoiNjAzMjhiMDBiZGM1MzA0YTZjZGUyZGYwIiwicGVyZmlsIjoyfSwiaWF0IjoxNjEzOTkzNzY5LCJleHAiOjE2MTM5OTczNjl9.KVWJ4D1HKqPoIYSFxgBaYiUUXR33QXITEWcN1hQHoOg"
+                        }
+                    },
+                    {
+                        "name": "influencerListFront",
+                        "in": "body",
+                        "required": false,
+                        "schema": {
+                            "type": "object",
+                            "example": {
+                                "products": ["5ff099d688cc0342dc6c165e", "5ff365a47cf88d2b1cd36501"],
+                                "adress": {
+                                    "street": "testeaaa",
+                                    "number": 555,
+                                    "city": "São Paulo"
+                                },
+                                "payment": {
+                                    "card": {
+                                        "bankCode": 365,
+                                        "number": 5555,
+                                        "cvc": 333
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+
+        },
+        "/carts/mycart": {
+            "post": {
+                "tags": ["Carts"],
+                "summary": "Take cart",
+                "consumes": [],
+                "produces": ["text/plain", "application/json", "text/json"],
+                "parameters": [{
+                    "name": "token",
+                    "in": "header",
+                    "required": false,
+                    "schema": {
+                        "type": "apiKey",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkUmVxdWVzdCI6eyJ1c2VyTmFtZSI6IlRlc3RlSW5mbHVlbmNlciIsImlkIjoiNjAzMjhiMDBiZGM1MzA0YTZjZGUyZGYwIiwicGVyZmlsIjoyfSwiaWF0IjoxNjEzOTkzNzY5LCJleHAiOjE2MTM5OTczNjl9.KVWJ4D1HKqPoIYSFxgBaYiUUXR33QXITEWcN1hQHoOg"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+
+        },
+
+        "definitions": {}
+    }
+}

@@ -1,24 +1,35 @@
 const Store = require('../../models/Store')
-const helpers = require('../../helpers')
+const Helpers = require('../../helpers')
 
 module.exports = {
     async createStore(req, res) {
         const bodydata = req.body;
 
-        const { bearer } = req.headers
+        const { token } = req.headers;
         const { cnpj } = bodydata
 
         console.log("req", req.user)
+
+        var decoded = await Helpers.decodeToken(token, { complete: true });
+
+        const userModel = decoded.payloadRequest
+
+        const storeObject = { userId: userModel.id, ...bodydata }
 
         try {
             store = await Store.findOne({ cnpj })
             if (store !== null) {
                 return res.status(400).json({ message: "Cnpj ja cadastrado" })
             }
-            bodydata = await newStore.populate('userName').execPopulate()
-            const newStore = await Store.create(bodydata)
-            return res.status(200).json(newStore)
+
+            const createdStore = await Store.create(storeObject)
+
+            await createdStore.populate('userName').execPopulate()
+
+            return res.status(200).json(createdStore)
+
         } catch (error) {
+
             return res.status(400).json(error.message)
         }
     },
@@ -67,18 +78,28 @@ module.exports = {
     async addInfluencer(req, res) {
 
         const bodydata = req.body
+        const { token } = req.headers
 
-        const { store_id } = req.params
+        var decoded = await Helpers.decodeToken(token, { complete: true });
+
+        const store_id = decoded.payloadRequest.id
+
+
         const { influencerListFront } = bodydata
 
         try {
             const store = await Store.findById(store_id)
+
             const { influencerList } = store
+
             influencerListFront.forEach(element => {
                 influencerList.push(element)
             });
+
             const updatedStore = await Store.findByIdAndUpdate(store_id, { influencerList: influencerList }, { new: true })
+
             return res.status(200).json(updatedStore)
+
         } catch (error) {
             return res.status(400).json(error)
         }
@@ -87,7 +108,12 @@ module.exports = {
 
         const bodydata = req.body
 
-        const { store_id } = req.params
+        const { token } = req.headers
+
+        var decoded = await Helpers.decodeToken(token, { complete: true });
+
+        const store_id = decoded.payloadRequest.id
+
         const { influencerListFront } = bodydata
 
         try {

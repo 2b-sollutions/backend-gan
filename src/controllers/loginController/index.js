@@ -18,7 +18,7 @@ module.exports = {
                 responsePass: hasUser.password
             }
 
-            const validPassword = await Helpers.dencryptPassword(passwordParams)
+            const validPassword = await Helpers.decryptPassword(passwordParams)
 
             if (!validPassword) {
                 return res.status(404).json({ message: 'Senha incorreta' })

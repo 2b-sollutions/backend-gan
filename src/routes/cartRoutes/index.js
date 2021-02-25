@@ -1,10 +1,16 @@
 const { Router } = require('express')
 const routes = Router()
-
+const authenticationn = require('../../middlewares')
 const cartController = require("../../controllers/cartController")
 
-routes.post('/carts/:user_id', cartController.createCart)
-routes.get('/carts/:cart_id', cartController.getUserCarts)
-routes.get('/carts/:user_id/:car_id', cartController.getCart)
+routes.post('/carts', authenticationn.verifyToken, cartController.createCart)
+routes.get('/carts/mycart', authenticationn.verifyToken, cartController.getMyCart)
+
+//Precisa de perfil**************
+routes.get('/carts/:user_id/', cartController.getUserCarts)
+routes.get('/carts', authenticationn.verifyToken, cartController.getCarts)
+
+
+
 
 module.exports = routes

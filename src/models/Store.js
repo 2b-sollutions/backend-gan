@@ -52,7 +52,7 @@ const Schema = new mongoose.Schema({
         ref: 'Influencer',
 
     }],
-    userName: {
+    userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true,

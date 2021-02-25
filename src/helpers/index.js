@@ -12,7 +12,7 @@ module.exports = {
         return encryptPassword
 
     },
-    async dencryptPassword(passwordParams) {
+    async decryptPassword(passwordParams) {
 
         const { requestPass, responsePass } = passwordParams
 
@@ -30,10 +30,10 @@ module.exports = {
         return token
 
     },
-    async verifyToken(token) {
-
+    async verifyToken(req) {
+        const token = req.headers.token
         const secretKey = process.env.SECRET_KEY
-        const validToken = jwt.verify(token, secretKey)
+        const validToken = await jwt.verify(token, secretKey)
 
         return validToken
 

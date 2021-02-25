@@ -2,8 +2,9 @@ const mongoose = require('mongoose')
 
 const Schema = new mongoose.Schema({
 
-    userName: {
-        type: String,
+    userId: {
+        type: mongoose.Schema.Types.Array,
+        ref: 'User',
         required: true,
     },
     fullName: {

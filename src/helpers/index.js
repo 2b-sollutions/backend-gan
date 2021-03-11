@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs")
-var jwt = require('jsonwebtoken');
-
+const jwt = require('jsonwebtoken');
+const { consultarCep, calcularPrecoPrazo } = require("correios-brasil");
 
 
 module.exports = {
@@ -43,5 +43,28 @@ module.exports = {
         const decodedToken = jwt.decode(token, secretKey)
 
         return decodedToken
+    },
+    async getCep(cep) {
+        try {
+            const cepReturn = await consultarCep(cep)
+            return cepReturn
+
+
+        } catch (error) {
+            return error
+        }
+
+    },
+    async getCepTax(cep) {
+        try {
+            const cepReturn = await calcularPrecoPrazo(cep)
+            return cepReturn
+
+
+        } catch (error) {
+            return error
+        }
+
     }
+
 }

@@ -35,6 +35,9 @@ const Schema = new mongoose.Schema({
                 type: Number
             }
         }
+    },
+    enable: {
+        type: Boolean
     }
 })
 

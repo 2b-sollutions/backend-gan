@@ -7,10 +7,7 @@ const Schema = new mongoose.Schema({
         ref: 'User',
         required: true,
     },
-    fullName: {
-        type: String,
-        required: true,
-    },
+
     cellPhone: {
         type: String,
         required: true,

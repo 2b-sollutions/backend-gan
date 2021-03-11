@@ -514,7 +514,7 @@
 
         },
         "/carts/mycart": {
-            "post": {
+            "get": {
                 "tags": ["Carts"],
                 "summary": "Take cart",
                 "consumes": [],

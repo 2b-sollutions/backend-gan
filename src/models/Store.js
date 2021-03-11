@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
 
 const Schema = new mongoose.Schema({
-
     razaoSocial: {
         type: String,
         required: true,
@@ -19,6 +18,10 @@ const Schema = new mongoose.Schema({
         },
         city: {
             type: String,
+        },
+        postCode: {
+            type: String,
+            required: true
         }
     },
     cnpj: {

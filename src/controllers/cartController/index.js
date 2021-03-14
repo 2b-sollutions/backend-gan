@@ -1,6 +1,22 @@
 const Cart = require('../../models/Cart')
 const Product = require('../../models/Product')
+const Store = require('../../models/Store')
 const Helpers = require('../../helpers')
+
+
+let args = {
+    // Não se preocupe com a formatação dos valores de entrada do cep, qualquer uma será válida (ex: 21770-200, 21770 200, 21asa!770@###200 e etc),
+    sCepOrigem: '04620012',
+    //s"81200100",
+    sCepDestino: '04620012',
+    nVlPeso: "1",
+    nCdFormato: "1",
+    nVlComprimento: "20",
+    nVlAltura: "20",
+    nVlLargura: "20",
+    nCdServico: ["04014", '04510'], //Array com os códigos de serviço
+    nVlDiametro: "0",
+};
 
 module.exports = {
 
@@ -161,7 +177,7 @@ module.exports = {
 
         try {
 
-            // Recupera o cep 
+            // Recupera o cep
             const cepRequested = req.body.CEP
 
 
@@ -184,17 +200,20 @@ module.exports = {
         const userId = decoded.payloadRequest.id
 
         try {
-
+            const listStore = []
+            const totalSedex = []
+            const totalPac = []
             const cepRequested = req.body.CEP
 
-            // Fazer uma requisião  para toda a lista de produtos do carrinho e recuperar os ceps das marcars para serem o cep origem 
+            // Fazer uma requisião  para toda a lista de produtos do carrinho e recuperar os ceps das marcars para serem o cep origem
 
             const myCart = await Cart.find({ userId: userId })
+
             const enableCart = myCart.filter(function(cart) {
                 return cart.enable;
             });
 
-            const listStore = []
+            // filtra todas as lojas distintas dos produtos incluso no meu carrinho
 
             for (const productId of enableCart[0].products) {
 
@@ -204,24 +223,37 @@ module.exports = {
                     listStore.push(product.store)
                     console.log("listStore", listStore)
                 }
-
-            };
-            console.log("listStore", listStore)
-            let args = {
-                // Não se preocupe com a formatação dos valores de entrada do cep, qualquer uma será válida (ex: 21770-200, 21770 200, 21asa!770@###200 e etc),
-                sCepOrigem: '04620012',
-                //s"81200100",
-                sCepDestino: req.body.CEP,
-                nVlPeso: "1",
-                nCdFormato: "1",
-                nVlComprimento: "20",
-                nVlAltura: "20",
-                nVlLargura: "20",
-                nCdServico: ["04014", '04510'], //Array com os códigos de serviço
-                nVlDiametro: "0",
             };
 
-            const frete = await Helpers.getCepTax(args)
+            for (const storeID of listStore) {
+
+                const store = await Store.findById(storeID)
+
+                args.sCepOrigem = store.adress.postCode
+                args.sCepDestino = req.body.CEP
+
+
+                args.nCdServico = ["04014"]
+                const fretePac = await Helpers.getCepTax(args)
+                args.nCdServico = ["04510"]
+                const freteSedex = await Helpers.getCepTax(args)
+
+                totalPac.push(freteSedex[0].Valor)
+                totalSedex.push(fretePac[0].Valor)
+
+            };
+
+            let sumPac = totalPac.reduce(function(acumulador, valorAtual) {
+                return acumulador + valorAtual;
+            })
+            let sumSedex = totalSedex.reduce(function(acumulador, valorAtual) {
+                return acumulador + valorAtual;
+            })
+            console.log("totalPac", sumPac)
+            console.log("totalSedex", sumSedex)
+
+
+
 
             return res.status(200).json(frete)
 

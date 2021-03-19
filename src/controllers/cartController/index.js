@@ -64,14 +64,12 @@ module.exports = {
         const { token } = req.headers;
 
         var decoded = await Helpers.decodeToken(token, { complete: true });
-        console.log("descoded@@@", decoded)
 
         try {
 
             const userId = decoded.payloadRequest.id
 
             const myCart = await Cart.find({ userId })
-            console.log("myCart@@@", decoded)
                 // await myCart.populate('products').execPopulate()
 
             return res.status(200).json(myCart)
@@ -180,7 +178,6 @@ module.exports = {
             // Recupera o cep
             const cepRequested = req.body.CEP
 
-
             const adress = await Helpers.getCep(cepRequested)
 
             return res.status(200).json(adress)
@@ -200,7 +197,7 @@ module.exports = {
         const userId = decoded.payloadRequest.id
 
         try {
-            const listStore = []
+
             const totalSedex = []
             const totalPac = []
             const cepRequested = req.body.CEP
@@ -219,19 +216,10 @@ module.exports = {
 
                 const product = await Product.findById(productId)
 
-                if (!listStore.includes(product.store)) {
-                    listStore.push(product.store)
-                    console.log("listStore", listStore)
-                }
-            };
-
-            for (const storeID of listStore) {
-
-                const store = await Store.findById(storeID)
+                const store = await Store.findById(product.store)
 
                 args.sCepOrigem = store.adress.postCode
-                args.sCepDestino = req.body.CEP
-
+                args.sCepDestino = cepRequested
 
                 args.nCdServico = ["04014"]
                 const fretePac = await Helpers.getCepTax(args)
@@ -243,19 +231,26 @@ module.exports = {
 
             };
 
-            let sumPac = totalPac.reduce(function(acumulador, valorAtual) {
-                return acumulador + valorAtual;
-            })
-            let sumSedex = totalSedex.reduce(function(acumulador, valorAtual) {
-                return acumulador + valorAtual;
-            })
-            console.log("totalPac", sumPac)
-            console.log("totalSedex", sumSedex)
+            let totalPacReturn = totalPac.reduce(function(acumulador, valorAtual) {
+
+                var valorParseado = valorAtual.replace(",", ".")
+                return acumulador + parseFloat(valorParseado)
+            }, 0)
+
+            let totalSedexReturn = totalSedex.reduce((acumulador, valorAtual) => {
 
 
+                var valorParseado = valorAtual.replace(",", ".")
+                return acumulador + parseFloat(valorParseado)
 
+            }, 0)
 
-            return res.status(200).json(frete)
+            const payloadFinal = {
+                totalPacReturn,
+                totalSedexReturn
+            }
+
+            return res.status(200).json(payloadFinal)
 
         } catch (error) {
 

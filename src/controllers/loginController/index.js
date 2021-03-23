@@ -27,7 +27,7 @@ module.exports = {
             const payloadRequest = {
                 userName: hasUser.userName,
                 id: hasUser._id,
-                perfil: hasUser.profile
+                profile: hasUser.profile
             }
 
             const token = await Helpers.createToken(payloadRequest)

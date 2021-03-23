@@ -2,9 +2,7 @@ const mongoose = require('mongoose')
 
 const Schema = new mongoose.Schema({
     userId: {
-        type: mongoose.Schema.Types.Array,
-        ref: 'User',
-        required: true,
+        type: String
     },
     createdAt: {
         type: Date,
@@ -12,6 +10,19 @@ const Schema = new mongoose.Schema({
     description: {
         type: String
     },
+    userImage: {
+        type: String
+    },
+    productList: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Product',
+        required: true
+    }],
+    imagePost: {
+        type: String,
+        required: true,
+    }
+
 })
 
 module.exports = mongoose.model('Post', Schema)

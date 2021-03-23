@@ -23,7 +23,7 @@ module.exports = {
         const { store_id } = req.params
 
         try {
-            const producs = await Product.find({ userName: store_id })
+            const producs = await Product.find({ store: store_id })
 
             return res.status(200).json(producs)
 

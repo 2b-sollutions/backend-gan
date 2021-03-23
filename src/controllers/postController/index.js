@@ -10,11 +10,12 @@ module.exports = {
         const { token } = req.headers
 
         var decoded = await Helpers.decodeToken(token, { complete: true });
-
+        console.log("decoded", decoded)
         const userId = decoded.payloadRequest.id
 
         try {
-            user = await User.findOne({ userId })
+            user = await User.findById(userId)
+            console.log("user", user.profile)
 
             if (user.profile !== 3) {
 
@@ -23,7 +24,9 @@ module.exports = {
             }
 
             bodyData.userImage = user.userImage
-
+            bodyData.createdAt = new Date().toISOString()
+            bodyData.userId = user._id
+            console.log("bodyData", bodyData)
             const newPost = await Post.create(bodyData)
 
             return res.status(200).json(newPost)
@@ -72,7 +75,7 @@ module.exports = {
 
         try {
 
-            const deletedPost = await User.findByIdAndDelete(post_id)
+            const deletedPost = await Post.findByIdAndDelete(post_id)
 
             return res.status(200).json(deletedPost)
 

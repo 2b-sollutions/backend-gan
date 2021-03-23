@@ -536,7 +536,140 @@
             }
 
         },
+        "/carts/addProduct": {
+            "get": {
+                "tags": ["Carts"],
+                "summary": "Take cart",
+                "consumes": [],
+                "produces": ["text/plain", "application/json", "text/json"],
+                "parameters": [{
+                    "name": "token",
+                    "in": "header",
+                    "required": false,
+                    "schema": {
+                        "type": "apiKey",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkUmVxdWVzdCI6eyJ1c2VyTmFtZSI6IlRlc3RlSW5mbHVlbmNlciIsImlkIjoiNjAzMjhiMDBiZGM1MzA0YTZjZGUyZGYwIiwicGVyZmlsIjoyfSwiaWF0IjoxNjEzOTkzNzY5LCJleHAiOjE2MTM5OTczNjl9.KVWJ4D1HKqPoIYSFxgBaYiUUXR33QXITEWcN1hQHoOg"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
 
+        },
+        "/carts/removeProduct": {
+            "get": {
+                "tags": ["Carts"],
+                "summary": "Take cart",
+                "consumes": [],
+                "produces": ["text/plain", "application/json", "text/json"],
+                "parameters": [{
+                    "name": "token",
+                    "in": "header",
+                    "required": false,
+                    "schema": {
+                        "type": "apiKey",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkUmVxdWVzdCI6eyJ1c2VyTmFtZSI6IlRlc3RlSW5mbHVlbmNlciIsImlkIjoiNjAzMjhiMDBiZGM1MzA0YTZjZGUyZGYwIiwicGVyZmlsIjoyfSwiaWF0IjoxNjEzOTkzNzY5LCJleHAiOjE2MTM5OTczNjl9.KVWJ4D1HKqPoIYSFxgBaYiUUXR33QXITEWcN1hQHoOg"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+
+        },
+        "/post/myPosts": {
+            "get": {
+                "tags": ["Post"],
+                "summary": "Take MyPost",
+                "consumes": [],
+                "produces": ["text/plain", "application/json", "text/json"],
+                "parameters": [{
+                    "name": "token",
+                    "in": "header",
+                    "required": false,
+                    "schema": {
+                        "type": "apiKey",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkUmVxdWVzdCI6eyJ1c2VyTmFtZSI6IlRlc3RlSW5mbHVlbmNlciIsImlkIjoiNjAzMjhiMDBiZGM1MzA0YTZjZGUyZGYwIiwicGVyZmlsIjoyfSwiaWF0IjoxNjEzOTkzNzY5LCJleHAiOjE2MTM5OTczNjl9.KVWJ4D1HKqPoIYSFxgBaYiUUXR33QXITEWcN1hQHoOg"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+
+        },
+        "/post": {
+            "get": {
+                "tags": ["Post"],
+                "summary": "Take All Posts",
+                "consumes": [],
+                "produces": ["text/plain", "application/json", "text/json"],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+
+        },
+        "/carts/cep": {
+            "get": {
+                "tags": ["Carts"],
+                "summary": "Take cart",
+                "produces": ["text/plain", "application/json", "text/json"],
+                "parameters": [{
+                    "name": "value",
+                    "in": "body",
+                    "required": false,
+                    "schema": {
+                        "type": "object",
+                        "example": {
+                            "CEP":"12422110"
+                        }
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+
+        },
+        "/carts/cepTax": {
+            "get": {
+                "tags": ["Carts"],
+                "summary": "Take cart",
+                "consumes": [],
+                "produces": ["text/plain", "application/json", "text/json"],
+                "parameters": [{
+                    "name": "value",
+                    "in": "body",
+                    "required": false,
+                    "schema": {
+                        "type": "object",
+                        "example": {
+                            "CEP":"12422110"
+                        }
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+
+        },
+            
+       
         "definitions": {}
     }
 }

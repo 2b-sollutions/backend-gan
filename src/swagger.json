@@ -620,7 +620,7 @@
 
         },
         "/carts/cep": {
-            "get": {
+            "post": {
                 "tags": ["Carts"],
                 "summary": "Take cart",
                 "produces": ["text/plain", "application/json", "text/json"],
@@ -631,7 +631,7 @@
                     "schema": {
                         "type": "object",
                         "example": {
-                            "CEP":"12422110"
+                            "CEP": "12422110"
                         }
                     }
                 }],
@@ -644,7 +644,7 @@
 
         },
         "/carts/cepTax": {
-            "get": {
+            "post": {
                 "tags": ["Carts"],
                 "summary": "Take cart",
                 "consumes": [],
@@ -656,7 +656,7 @@
                     "schema": {
                         "type": "object",
                         "example": {
-                            "CEP":"12422110"
+                            "CEP": "12422110"
                         }
                     }
                 }],
@@ -668,8 +668,8 @@
             }
 
         },
-            
-       
+
+
         "definitions": {}
     }
 }

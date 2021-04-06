@@ -5,6 +5,7 @@ const productRoutes = require("./productRoutes")
 const storeRoutes = require("./storeRoutes")
 const influencerRoutes = require("./influencerRoutes")
 const postRoutes = require("./postRoutes")
+const paymentRoutes = require("./paymentRoutes")
 
 module.exports = {
     userRoutes,
@@ -13,5 +14,6 @@ module.exports = {
     productRoutes,
     storeRoutes,
     influencerRoutes,
-    postRoutes
+    postRoutes,
+    paymentRoutes
 }

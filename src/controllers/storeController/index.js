@@ -8,8 +8,6 @@ module.exports = {
         const { token } = req.headers;
         const { cnpj } = bodydata
 
-        console.log("req", req.user)
-
         var decoded = await Helpers.decodeToken(token, { complete: true });
 
         const userModel = decoded.payloadRequest

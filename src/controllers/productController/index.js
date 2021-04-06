@@ -75,7 +75,7 @@ module.exports = {
     },
     async getProductById(req, res) {
         const { product_id } = req.params
-        console.log("PRODUCTID", product_id)
+
         try {
 
             const product = await Product.findById(product_id)

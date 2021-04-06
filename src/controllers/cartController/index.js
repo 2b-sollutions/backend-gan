@@ -48,7 +48,7 @@ module.exports = {
         try {
 
             const userCart = await Cart.find({ userId: user_id })
-            console.log(userCart)
+
             await userCart.populate('products').execPopulate()
 
             return res.status(200).json(userCart)

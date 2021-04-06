@@ -1,6 +1,8 @@
 const Post = require('../../models/Post')
 const User = require('../../models/User')
 const Helpers = require('../../helpers')
+const dayjs = require('dayjs');
+
 module.exports = {
 
     async createPost(req, res) {
@@ -10,25 +12,19 @@ module.exports = {
         const { token } = req.headers
 
         var decoded = await Helpers.decodeToken(token, { complete: true });
-        console.log("decoded", decoded)
+
         const userId = decoded.payloadRequest.id
 
         try {
             user = await User.findById(userId)
-            console.log("user", user.profile)
-
             if (user.profile !== 3) {
-
                 return res.status(400).json({ message: "Você não é um Influenciador" })
-
             }
-
             bodyData.userImage = user.userImage
-            bodyData.createdAt = new Date().toISOString()
+            bodyData.createdAt = new Date()
             bodyData.userId = user._id
-            console.log("bodyData", bodyData)
-            const newPost = await Post.create(bodyData)
 
+            const newPost = await Post.create(bodyData)
             return res.status(200).json(newPost)
 
         } catch (error) {
@@ -41,8 +37,21 @@ module.exports = {
         try {
 
             const posts = await Post.find()
+            const payloadResponse = await Promise.all(
+                posts.map(async(element) => {
+                    const day = dayjs(new Date());
+                    const updatedDays = day.diff(element.createdAt, "day")
+                    const user = await User.findById(element.userId)
+                    const payloadResponse = {
+                        user: user.userName,
+                        userImage: element.imagePost,
+                        updateDate: updatedDays,
+                        post: element.description
+                    }
+                return payloadResponse
+            }))
 
-            return res.status(200).json(posts)
+            return res.status(200).json(payloadResponse)
 
         } catch (error) {
 

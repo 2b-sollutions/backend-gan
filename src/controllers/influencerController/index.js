@@ -1,5 +1,7 @@
 const Influencer = require('../../models/Influencer')
+const User = require('../../models/User')
 const Helpers = require('../../helpers')
+const Post = require('../../models/Post')
 module.exports = {
 
     async createInfluencer(req, res) {
@@ -67,6 +69,33 @@ module.exports = {
             const influencers = await Influencer.find()
 
             return res.status(200).json(influencers)
+
+        } catch (error) {
+            return res.status(400).json(error)
+        }
+    },
+    async getPostInfluencer(req, res) {
+        try {
+
+            const influencers = await Influencer.find()
+
+            const payloadResponse = await Promise.allSettled(
+                influencers.map(async(element) => {
+
+                    const user = await User.findById(element.userId)
+
+                    const post = await Post.find({ userId: element.userId })
+
+                    const payloadResponse = {
+                        user: user.userName,
+                        userImage: user.userImage,
+                        post: post
+                    }
+                    console.log("payloadResponse", payloadResponse)
+                    return payloadResponse
+                }))
+
+            return res.status(200).json(payloadResponse)
 
         } catch (error) {
             return res.status(400).json(error)

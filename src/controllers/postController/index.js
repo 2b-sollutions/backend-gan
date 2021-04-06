@@ -35,7 +35,6 @@ module.exports = {
     async getPost(req, res) {
 
         try {
-
             const posts = await Post.find()
             const payloadResponse = await Promise.all(
                 posts.map(async(element) => {

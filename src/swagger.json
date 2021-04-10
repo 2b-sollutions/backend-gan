@@ -264,7 +264,16 @@
                         "description": "Success"
 
                     }
-                }
+                },
+                "parameters": [{
+                    "name": "userName",
+                    "in": "path",
+                    "required": false,
+                    "schema": {
+                        "type": "object",
+                        "example": "60327d65a4af5739f84a1ccc"
+                    }
+                }]
             }
         },
         "/stores": {

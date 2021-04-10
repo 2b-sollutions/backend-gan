@@ -19,6 +19,15 @@ const Schema = new mongoose.Schema({
     productImage: {
         type: String
     },
+    productCategory: {
+        type: String
+    },
+    productColor: {
+        type: String
+    },
+    productSize: {
+        type: String
+    },
     store: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Store',

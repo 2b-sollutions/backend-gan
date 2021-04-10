@@ -21,10 +21,13 @@ module.exports = {
                 return res.status(400).json({ message: "Você não é um Influenciador" })
             }
             bodyData.userImage = user.userImage
+
             bodyData.createdAt = new Date()
+
             bodyData.userId = user._id
 
             const newPost = await Post.create(bodyData)
+
             return res.status(200).json(newPost)
 
         } catch (error) {
@@ -40,15 +43,22 @@ module.exports = {
                 posts.map(async(element) => {
                     const day = dayjs(new Date());
                     const updatedDays = day.diff(element.createdAt, "day")
+                    const updatedWeek = day.diff(element.createdAt, "week")
+                    const updatedMonth = day.diff(element.createdAt, "month")
                     const user = await User.findById(element.userId)
                     const payloadResponse = {
                         user: user.userName,
-                        userImage: element.imagePost,
-                        updateDate: updatedDays,
-                        post: element.description
+                        userImage: user.userImage,
+                        updateDate: {
+                            updatedDays,
+                            updatedWeek,
+                            updatedMonth,
+                        },
+                        imagePost: element.imagePost,
+                        postId: element.id
                     }
-                return payloadResponse
-            }))
+                    return payloadResponse
+                }))
 
             return res.status(200).json(payloadResponse)
 

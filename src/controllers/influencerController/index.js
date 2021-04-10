@@ -63,15 +63,20 @@ module.exports = {
 
         }
     },
-    async getInfluencerById(req, res) {
+    async getInfluencerByUserName(req, res) {
         try {
+            const userName = req.params.userName
+            const user = await User.find({ userName })
+            if (user.length === 0) {
+                return res.status(400).json({ message: "Nome de usuario não encontrado" })
+            }
+            const influencer = await Influencer.find({ userId: user[0].id })
 
-            const influencers = await Influencer.find()
 
-            return res.status(200).json(influencers)
+            return res.status(200).json(influencer)
 
         } catch (error) {
-            return res.status(400).json(error)
+            return res.status(400).json(error.message)
         }
     },
     async getPostInfluencer(req, res) {

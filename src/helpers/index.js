@@ -15,16 +15,13 @@ module.exports = {
     async decryptPassword(passwordParams) {
 
         const { requestPass, responsePass } = passwordParams
-
         const isValid = await bcrypt.compare(requestPass, responsePass)
-
         return isValid
     },
     async createToken(payloadRequest) {
 
         const secretKey = process.env.SECRET_KEY
         const expirationTime = process.env.TOKEN_EXPIRATION_TIME
-
         const token = jwt.sign({ payloadRequest }, secretKey, { expiresIn: expirationTime })
 
         return token
@@ -41,26 +38,20 @@ module.exports = {
     async decodeToken(token) {
         const secretKey = process.env.SECRET_KEY
         const decodedToken = jwt.decode(token, secretKey)
-
         return decodedToken
     },
     async getCep(cep) {
         try {
             const cepReturn = await consultarCep(cep)
             return cepReturn
-
-
         } catch (error) {
             return error
         }
-
     },
     async getCepTax(cep) {
         try {
             const cepReturn = await calcularPrecoPrazo(cep)
             return cepReturn
-
-
         } catch (error) {
             return error
         }

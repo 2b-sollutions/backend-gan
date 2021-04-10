@@ -253,31 +253,12 @@
                 }
             }
         },
-        "/influencers/{influencer_id}": {
+        "/influencers/{userName}": {
             "get": {
                 "tags": ["Influencers"],
-                "summary": "Geting influencer by id",
+                "summary": "Geting influencer by User Name",
                 "consumes": [],
                 "produces": ["text/plain", "application/json", "text/json"],
-                "parameters": [{
-                        "name": "token",
-                        "in": "header",
-                        "required": false,
-                        "schema": {
-                            "type": "apiKey",
-                            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkUmVxdWVzdCI6eyJ1c2VyTmFtZSI6IlRlc3RlSW5mbHVlbmNlciIsImlkIjoiNjAzMjhiMDBiZGM1MzA0YTZjZGUyZGYwIiwicGVyZmlsIjoyfSwiaWF0IjoxNjEzOTkzNzY5LCJleHAiOjE2MTM5OTczNjl9.KVWJ4D1HKqPoIYSFxgBaYiUUXR33QXITEWcN1hQHoOg"
-                        }
-                    },
-                    {
-                        "name": "influencer_id",
-                        "in": "path",
-                        "required": false,
-                        "schema": {
-                            "type": "object",
-                            "example": "60328b00bdc5304a6cde2df0"
-                        }
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "Success"

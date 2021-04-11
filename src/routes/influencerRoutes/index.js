@@ -10,7 +10,7 @@ routes.get('/influencers/myAcount', authenticationn.verifyToken, influencerContr
 
 // Precisa de perfil
 routes.get('/influencers', influencerController.getInfluencer)
-routes.get('/postInfluencer', influencerController.getPostInfluencer)
+routes.get('/influencers/postInfluencer', influencerController.getPostInfluencer)
 routes.get('/influencers/:userName', influencerController.getInfluencerByUserName)
 
 

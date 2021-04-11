@@ -253,6 +253,19 @@
                 }
             }
         },
+        "/influencers/postInfluencer": {
+            "get": {
+                "tags": ["Influencers"],
+                "summary": "Geting all Influencers posts",
+                "consumes": [],
+                "produces": ["text/plain", "application/json", "text/json"],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
         "/influencers/{userName}": {
             "get": {
                 "tags": ["Influencers"],

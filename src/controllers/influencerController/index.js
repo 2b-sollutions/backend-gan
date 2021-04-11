@@ -68,17 +68,18 @@ module.exports = {
         try {
             const userName = req.params.userName
             const user = await User.find({ userName })
-            console.log("USER", user[0].id)
+
             if (user.length === 0) {
                 return res.status(400).json({ message: "Nome de usuario não encontrado" })
             }
             const influencer = await Influencer.find({ userId: user[0].id })
+            console.log(influencer[0].mei)
 
             const payloadResponse = {
-                userName: user.userName,
-                userImage: user.userImage,
-                _id: user.id,
-                description: influencer.fullName
+                userName: user[0].userName,
+                userImage: user[0].userImage,
+                _id: user[0].id,
+                description: influencer[0].cellPhone
             }
 
             return res.status(200).json(payloadResponse)

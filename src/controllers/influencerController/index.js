@@ -1,5 +1,6 @@
 const Influencer = require('../../models/Influencer')
 const User = require('../../models/User')
+const Product = require('../../models/Product')
 const Helpers = require('../../helpers')
 const Post = require('../../models/Post')
 module.exports = {
@@ -67,13 +68,20 @@ module.exports = {
         try {
             const userName = req.params.userName
             const user = await User.find({ userName })
+            console.log("USER", user[0].id)
             if (user.length === 0) {
                 return res.status(400).json({ message: "Nome de usuario não encontrado" })
             }
             const influencer = await Influencer.find({ userId: user[0].id })
 
+            const payloadResponse = {
+                userName: user.userName,
+                userImage: user.userImage,
+                _id: user.id,
+                description: influencer.fullName
+            }
 
-            return res.status(200).json(influencer)
+            return res.status(200).json(payloadResponse)
 
         } catch (error) {
             return res.status(400).json(error.message)
@@ -85,25 +93,34 @@ module.exports = {
             const influencers = await Influencer.find()
 
             const payloadResponse = await Promise.allSettled(
+
                 influencers.map(async(element) => {
 
-                    const user = await User.findById(element.userId)
+                    const posts = await Post.find({ userId: element.userId })
 
-                    const post = await Post.find({ userId: element.userId })
+                    for (const post of posts) {
+                        const productDetailList = await Promise.all(post.productList.map(async(element) => {
+                            const product = await Product.findById({ _id: element })
+                            return product
+                        }))
 
-                    const payloadResponse = {
-                        user: user.userName,
-                        userImage: user.userImage,
-                        post: post
+                        const payloadResponse = {
+                            _id: post._id,
+                            imagePost: post.imagePost,
+                            description: post.description,
+                            createdAt: post.createdAt,
+                            userId: post.userId,
+                            productDetailList
+                        }
+                        return payloadResponse
                     }
-                    console.log("payloadResponse", payloadResponse)
-                    return payloadResponse
-                }))
+                })
+            )
 
             return res.status(200).json(payloadResponse)
 
         } catch (error) {
-            return res.status(400).json(error)
+            return res.status(400).json(error.message)
         }
     },
 }

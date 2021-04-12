@@ -73,8 +73,6 @@ module.exports = {
                 return res.status(400).json({ message: "Nome de usuario não encontrado" })
             }
             const influencer = await Influencer.find({ userId: user[0].id })
-            console.log(influencer[0].mei)
-
             const payloadResponse = {
                 userName: user[0].userName,
                 userImage: user[0].userImage,
@@ -98,23 +96,29 @@ module.exports = {
                 influencers.map(async(element) => {
 
                     const posts = await Post.find({ userId: element.userId })
-
+                    const user = await User.find({ _id: element.userId })
+                    const postsList = []
                     for (const post of posts) {
+
                         const productDetailList = await Promise.all(post.productList.map(async(element) => {
                             const product = await Product.findById({ _id: element })
                             return product
                         }))
-
                         const payloadResponse = {
-                            _id: post._id,
+                            postId: post._id,
+                            userId: user[0]._id,
+                            userName: user[0].userName,
+                            userImage: user[0].userImage,
                             imagePost: post.imagePost,
-                            description: post.description,
+                            descriptionPost: post.description,
                             createdAt: post.createdAt,
-                            userId: post.userId,
                             productDetailList
+
                         }
-                        return payloadResponse
+                        postsList.push(payloadResponse)
+
                     }
+                    return postsList
                 })
             )
 

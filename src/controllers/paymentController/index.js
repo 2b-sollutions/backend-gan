@@ -72,7 +72,6 @@ module.exports = {
                 }]
 
             }
-            console.log("entrei")
             paypal.payment.execute(paymentId, execute_payment_json, (error, payment) => {
                 if (error) {
                     console.log(error.response);

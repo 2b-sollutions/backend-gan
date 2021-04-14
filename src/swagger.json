@@ -657,6 +657,29 @@
             }
 
         },
+        "/post/{userd_id}'": {
+            "get": {
+                "tags": ["Post"],
+                "summary": "Take All Posts by User Id",
+                "consumes": [],
+                "produces": ["text/plain", "application/json", "text/json"],
+                "parameters": [{
+                    "name": "userd_id",
+                    "in": "path",
+                    "required": false,
+                    "schema": {
+                        "type": "object",
+                        "example": "60327fa7bc253f41f0984b29"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+
+        },
         "/post/postInfluencer": {
             "get": {
                 "tags": ["Post"],

@@ -253,19 +253,6 @@
                 }
             }
         },
-        "/influencers/postInfluencer": {
-            "get": {
-                "tags": ["Influencers"],
-                "summary": "Geting all Influencers posts",
-                "consumes": [],
-                "produces": ["text/plain", "application/json", "text/json"],
-                "responses": {
-                    "200": {
-                        "description": "Success"
-                    }
-                }
-            }
-        },
         "/influencers/{userName}": {
             "get": {
                 "tags": ["Influencers"],
@@ -585,43 +572,6 @@
             }
 
         },
-        "/post/myPosts": {
-            "get": {
-                "tags": ["Post"],
-                "summary": "Take MyPost",
-                "consumes": [],
-                "produces": ["text/plain", "application/json", "text/json"],
-                "parameters": [{
-                    "name": "token",
-                    "in": "header",
-                    "required": false,
-                    "schema": {
-                        "type": "apiKey",
-                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkUmVxdWVzdCI6eyJ1c2VyTmFtZSI6IlRlc3RlSW5mbHVlbmNlciIsImlkIjoiNjAzMjhiMDBiZGM1MzA0YTZjZGUyZGYwIiwicGVyZmlsIjoyfSwiaWF0IjoxNjEzOTkzNzY5LCJleHAiOjE2MTM5OTczNjl9.KVWJ4D1HKqPoIYSFxgBaYiUUXR33QXITEWcN1hQHoOg"
-                    }
-                }],
-                "responses": {
-                    "200": {
-                        "description": "Success"
-                    }
-                }
-            }
-
-        },
-        "/post": {
-            "get": {
-                "tags": ["Post"],
-                "summary": "Take All Posts",
-                "consumes": [],
-                "produces": ["text/plain", "application/json", "text/json"],
-                "responses": {
-                    "200": {
-                        "description": "Success"
-                    }
-                }
-            }
-
-        },
         "/carts/cep": {
             "post": {
                 "tags": ["Carts"],
@@ -671,8 +621,184 @@
             }
 
         },
+        "/post/myPosts": {
+            "get": {
+                "tags": ["Post"],
+                "summary": "Take MyPost",
+                "consumes": [],
+                "produces": ["text/plain", "application/json", "text/json"],
+                "parameters": [{
+                    "name": "token",
+                    "in": "header",
+                    "required": false,
+                    "schema": {
+                        "type": "apiKey",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkUmVxdWVzdCI6eyJ1c2VyTmFtZSI6IlRlc3RlSW5mbHVlbmNlciIsImlkIjoiNjAzMjhiMDBiZGM1MzA0YTZjZGUyZGYwIiwicGVyZmlsIjoyfSwiaWF0IjoxNjEzOTkzNzY5LCJleHAiOjE2MTM5OTczNjl9.KVWJ4D1HKqPoIYSFxgBaYiUUXR33QXITEWcN1hQHoOg"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/post": {
+            "get": {
+                "tags": ["Post"],
+                "summary": "Take All Posts",
+                "consumes": [],
+                "produces": ["text/plain", "application/json", "text/json"],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
 
+        },
+        "/post/postInfluencer": {
+            "get": {
+                "tags": ["Influencers"],
+                "summary": "Geting all Influencer post's",
+                "consumes": [],
+                "produces": ["text/plain", "application/json", "text/json"],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/products/post/{post_id}": {
+            "get": {
+                "tags": ["Producs"],
+                "summary": "Geting products by post_id",
+                "consumes": [],
+                "produces": ["text/plain", "application/json", "text/json"],
+                "parameters": [{
+                    "name": "post_id",
+                    "in": "path",
+                    "required": false,
+                    "schema": {
+                        "type": "object",
+                        "example": "60327fa7bc253f41f0984b29"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            },
+            "/products/post/{post_id}": {
+                "get": {
+                    "tags": ["Products"],
+                    "summary": "Geting products by post_id",
+                    "consumes": [],
+                    "produces": ["text/plain", "application/json", "text/json"],
+                    "parameters": [{
+                        "name": "post_id",
+                        "in": "path",
+                        "required": false,
+                        "schema": {
+                            "type": "object",
+                            "example": "60327fa7bc253f41f0984b29"
+                        }
+                    }],
+                    "responses": {
+                        "200": {
+                            "description": "Success"
+                        }
+                    }
+                }
 
-        "definitions": {}
+            },
+            "/products/{product_id}": {
+                "get": {
+                    "tags": ["Products"],
+                    "summary": "Geting products by product_id",
+                    "consumes": [],
+                    "produces": ["text/plain", "application/json", "text/json"],
+                    "parameters": [{
+                        "name": "product_id",
+                        "in": "path",
+                        "required": false,
+                        "schema": {
+                            "type": "object",
+                            "example": "60327fa7bc253f41f0984b29"
+                        }
+                    }],
+                    "responses": {
+                        "200": {
+                            "description": "Success"
+                        }
+                    }
+                }
+
+            },
+            "/products/{store_id}": {
+                "post": {
+                    "tags": ["Products"],
+                    "summary": "Register products by store_id",
+                    "consumes": [],
+                    "produces": ["text/plain", "application/json", "text/json"],
+                    "parameters": [{
+                        "name": "store_id",
+                        "in": "path",
+                        "required": false,
+                        "schema": {
+                            "type": "object",
+                            "example": "60327fa7bc253f41f0984b29"
+                        }
+                    }],
+                    "responses": {
+                        "200": {
+                            "description": "Success"
+                        }
+                    }
+                }
+
+            },
+            "/products": {
+                "get": {
+                    "tags": ["Products"],
+                    "summary": "Take All Products",
+                    "consumes": [],
+                    "produces": ["text/plain", "application/json", "text/json"],
+                    "responses": {
+                        "200": {
+                            "description": "Success"
+                        }
+                    }
+                }
+
+            },
+            "/products/{store_id}": {
+                "get": {
+                    "tags": ["Products"],
+                    "summary": "Take all products by store_id",
+                    "consumes": [],
+                    "produces": ["text/plain", "application/json", "text/json"],
+                    "parameters": [{
+                        "name": "store_id",
+                        "in": "path",
+                        "required": false,
+                        "schema": {
+                            "type": "object",
+                            "example": "60327fa7bc253f41f0984b29"
+                        }
+                    }],
+                    "responses": {
+                        "200": {
+                            "description": "Success"
+                        }
+                    }
+                }
+
+            },
+
+            "definitions": {}
+        }
     }
 }

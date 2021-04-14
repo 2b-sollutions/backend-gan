@@ -10,7 +10,9 @@ routes.put('/products/:store_id/:product_id', productController.updateProduct)
 routes.delete('/products/:store_id/:product_id', productController.deleteProduct)
 
 routes.get('/products', productController.getProducts)
-routes.get('/product/:product_id', productController.getProductById)
+routes.get('/products/:product_id', productController.getProductById)
+routes.get('/products/post/:post_id', productController.getProductByPostId)
+
 
 
 module.exports = routes

@@ -1,8 +1,6 @@
 const Influencer = require('../../models/Influencer')
 const User = require('../../models/User')
-const Product = require('../../models/Product')
 const Helpers = require('../../helpers')
-const Post = require('../../models/Post')
 module.exports = {
 
     async createInfluencer(req, res) {
@@ -85,47 +83,7 @@ module.exports = {
         } catch (error) {
             return res.status(400).json(error.message)
         }
-    },
-    async getPostInfluencer(req, res) {
-        try {
+    }
 
-            const influencers = await Influencer.find()
 
-            const payloadResponse = await Promise.allSettled(
-
-                influencers.map(async(element) => {
-
-                    const posts = await Post.find({ userId: element.userId })
-                    const user = await User.find({ _id: element.userId })
-                    const postsList = []
-                    for (const post of posts) {
-
-                        const productDetailList = await Promise.all(post.productList.map(async(element) => {
-                            const product = await Product.findById({ _id: element })
-                            return product
-                        }))
-                        const payloadResponse = {
-                            postId: post._id,
-                            userId: user[0]._id,
-                            userName: user[0].userName,
-                            userImage: user[0].userImage,
-                            imagePost: post.imagePost,
-                            descriptionPost: post.description,
-                            createdAt: post.createdAt,
-                            productDetailList
-
-                        }
-                        postsList.push(payloadResponse)
-
-                    }
-                    return postsList
-                })
-            )
-
-            return res.status(200).json(payloadResponse)
-
-        } catch (error) {
-            return res.status(400).json(error.message)
-        }
-    },
 }

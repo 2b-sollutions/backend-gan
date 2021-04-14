@@ -657,7 +657,7 @@
             }
 
         },
-        "/post/{userd_id}'": {
+        "/post/{userd_id}": {
             "get": {
                 "tags": ["Post"],
                 "summary": "Take All Posts by User Id",

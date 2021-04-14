@@ -659,7 +659,7 @@
         },
         "/post/postInfluencer": {
             "get": {
-                "tags": ["Influencers"],
+                "tags": ["Post"],
                 "summary": "Geting all Influencer post's",
                 "consumes": [],
                 "produces": ["text/plain", "application/json", "text/json"],

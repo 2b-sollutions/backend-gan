@@ -690,115 +690,115 @@
                         "description": "Success"
                     }
                 }
-            },
-            "/products/post/{post_id}": {
-                "get": {
-                    "tags": ["Products"],
-                    "summary": "Geting products by post_id",
-                    "consumes": [],
-                    "produces": ["text/plain", "application/json", "text/json"],
-                    "parameters": [{
-                        "name": "post_id",
-                        "in": "path",
-                        "required": false,
-                        "schema": {
-                            "type": "object",
-                            "example": "60327fa7bc253f41f0984b29"
-                        }
-                    }],
-                    "responses": {
-                        "200": {
-                            "description": "Success"
-                        }
+            }
+        },
+        "/products/post/{post_id}": {
+            "get": {
+                "tags": ["Products"],
+                "summary": "Geting products by post_id",
+                "consumes": [],
+                "produces": ["text/plain", "application/json", "text/json"],
+                "parameters": [{
+                    "name": "post_id",
+                    "in": "path",
+                    "required": false,
+                    "schema": {
+                        "type": "object",
+                        "example": "60327fa7bc253f41f0984b29"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Success"
                     }
                 }
+            }
 
-            },
-            "/products/{product_id}": {
-                "get": {
-                    "tags": ["Products"],
-                    "summary": "Geting products by product_id",
-                    "consumes": [],
-                    "produces": ["text/plain", "application/json", "text/json"],
-                    "parameters": [{
-                        "name": "product_id",
-                        "in": "path",
-                        "required": false,
-                        "schema": {
-                            "type": "object",
-                            "example": "60327fa7bc253f41f0984b29"
-                        }
-                    }],
-                    "responses": {
-                        "200": {
-                            "description": "Success"
-                        }
+        },
+        "/products/{product_id}": {
+            "get": {
+                "tags": ["Products"],
+                "summary": "Geting products by product_id",
+                "consumes": [],
+                "produces": ["text/plain", "application/json", "text/json"],
+                "parameters": [{
+                    "name": "product_id",
+                    "in": "path",
+                    "required": false,
+                    "schema": {
+                        "type": "object",
+                        "example": "60327fa7bc253f41f0984b29"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Success"
                     }
                 }
+            }
 
-            },
-            "/products/{store_id}": {
-                "post": {
-                    "tags": ["Products"],
-                    "summary": "Register products by store_id",
-                    "consumes": [],
-                    "produces": ["text/plain", "application/json", "text/json"],
-                    "parameters": [{
-                        "name": "store_id",
-                        "in": "path",
-                        "required": false,
-                        "schema": {
-                            "type": "object",
-                            "example": "60327fa7bc253f41f0984b29"
-                        }
-                    }],
-                    "responses": {
-                        "200": {
-                            "description": "Success"
-                        }
+        },
+        "/products/{store_id}": {
+            "post": {
+                "tags": ["Products"],
+                "summary": "Register products by store_id",
+                "consumes": [],
+                "produces": ["text/plain", "application/json", "text/json"],
+                "parameters": [{
+                    "name": "store_id",
+                    "in": "path",
+                    "required": false,
+                    "schema": {
+                        "type": "object",
+                        "example": "60327fa7bc253f41f0984b29"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Success"
                     }
                 }
+            }
 
-            },
-            "/products": {
-                "get": {
-                    "tags": ["Products"],
-                    "summary": "Take All Products",
-                    "consumes": [],
-                    "produces": ["text/plain", "application/json", "text/json"],
-                    "responses": {
-                        "200": {
-                            "description": "Success"
-                        }
+        },
+        "/products": {
+            "get": {
+                "tags": ["Products"],
+                "summary": "Take All Products",
+                "consumes": [],
+                "produces": ["text/plain", "application/json", "text/json"],
+                "responses": {
+                    "200": {
+                        "description": "Success"
                     }
                 }
+            }
 
-            },
-            "/products/{store_id}": {
-                "get": {
-                    "tags": ["Products"],
-                    "summary": "Take all products by store_id",
-                    "consumes": [],
-                    "produces": ["text/plain", "application/json", "text/json"],
-                    "parameters": [{
-                        "name": "store_id",
-                        "in": "path",
-                        "required": false,
-                        "schema": {
-                            "type": "object",
-                            "example": "60327fa7bc253f41f0984b29"
-                        }
-                    }],
-                    "responses": {
-                        "200": {
-                            "description": "Success"
-                        }
+        },
+        "/products/{store_id}": {
+            "get": {
+                "tags": ["Products"],
+                "summary": "Take all products by store_id",
+                "consumes": [],
+                "produces": ["text/plain", "application/json", "text/json"],
+                "parameters": [{
+                    "name": "store_id",
+                    "in": "path",
+                    "required": false,
+                    "schema": {
+                        "type": "object",
+                        "example": "60327fa7bc253f41f0984b29"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Success"
                     }
                 }
+            }
 
-            },
+        },
 
-            "definitions": {}
-        }
+        "definitions": {}
     }
 }

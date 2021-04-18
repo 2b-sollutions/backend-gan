@@ -7,8 +7,6 @@ paypal.configure(paypalConfig)
 
 module.exports = {
     async buy(req, res) {
-
-
         try {
 
             var create_payment_json = {

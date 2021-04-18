@@ -657,7 +657,30 @@
             }
 
         },
-        "/post/{userd_id}": {
+        "/post/{post_id}": {
+            "get": {
+                "tags": ["Post"],
+                "summary": "Take Post by Post Id",
+                "consumes": [],
+                "produces": ["text/plain", "application/json", "text/json"],
+                "parameters": [{
+                    "name": "post_id",
+                    "in": "path",
+                    "required": false,
+                    "schema": {
+                        "type": "object",
+                        "example": "606c41631c236f1a74d2a2d7"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+
+        },
+        "/post/user/{userd_id}": {
             "get": {
                 "tags": ["Post"],
                 "summary": "Take All Posts by User Id",

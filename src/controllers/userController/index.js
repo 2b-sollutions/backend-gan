@@ -2,6 +2,8 @@ const User = require('../../models/User')
 const helpers = require('../../helpers')
 module.exports = {
     async createUser(req, res) {
+
+        console.log("testeRquisicao", req.Context)
         const bodydata = req.body;
 
         const { password, userName } = bodydata

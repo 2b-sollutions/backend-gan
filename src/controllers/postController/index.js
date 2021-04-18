@@ -105,6 +105,36 @@ module.exports = {
             return res.status(400).json(error)
         }
     },
+    async getPostById(req, res) {
+        console.log("req.params", req.params)
+        const postId = req.params.post_id
+        try {
+            console.log("oiiii")
+            const post = await Post.findById({ _id: postId })
+            console.log(post)
+            const day = dayjs(new Date());
+            const updatedDays = day.diff(post.createdAt, "day")
+            const updatedWeek = day.diff(post.createdAt, "week")
+            const updatedMonth = day.diff(post.createdAt, "month")
+            const user = await User.findById(post.userId)
+            const payloadResponse = {
+                user: user.userName,
+                userImage: user.userImage,
+                updateDate: {
+                    updatedDays,
+                    updatedWeek,
+                    updatedMonth,
+                },
+                imagePost: post.imagePost,
+                postId: post.id
+            }
+
+            return res.status(200).json(payloadResponse)
+        } catch (error) {
+
+            return res.status(400).json(error)
+        }
+    },
     async getPostByUserId(req, res) {
 
         const userId = req.params.user_id

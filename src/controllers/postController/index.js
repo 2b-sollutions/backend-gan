@@ -109,7 +109,7 @@ module.exports = {
         console.log("req.params", req.params)
         const postId = req.params.post_id
         try {
-            console.log("oiiii")
+
             const post = await Post.findById({ _id: postId })
             console.log(post)
             const day = dayjs(new Date());
@@ -117,6 +117,10 @@ module.exports = {
             const updatedWeek = day.diff(post.createdAt, "week")
             const updatedMonth = day.diff(post.createdAt, "month")
             const user = await User.findById(post.userId)
+            const productDetailList = await Promise.all(post.productList.map(async(element) => {
+                const product = await Product.findById({ _id: element })
+                return product
+            }))
             const payloadResponse = {
                 user: user.userName,
                 userImage: user.userImage,
@@ -126,7 +130,8 @@ module.exports = {
                     updatedMonth,
                 },
                 imagePost: post.imagePost,
-                postId: post.id
+                postId: post.id,
+                productDetailList
             }
 
             return res.status(200).json(payloadResponse)

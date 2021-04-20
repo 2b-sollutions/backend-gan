@@ -4,7 +4,7 @@ const User = require('../../models/User')
 const Product = require('../../models/Product')
 
 const Helpers = require('../../helpers')
-const dayjs = require('./node_modules/dayjs');
+const dayjs = require('dayjs')
 
 module.exports = {
 

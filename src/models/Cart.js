@@ -9,32 +9,13 @@ const Schema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required: true,
     },
-    adress: {
-        street: {
-            type: String,
-            required: true
-        },
-        number: {
-            type: Number,
-            required: true
-        },
-        city: {
-            type: String,
-            required: true
-        }
+    totalValue: {
+        type: Number,
+        required: true,
     },
-    payment: {
-        card: {
-            bankCoe: {
-                type: Number,
-            },
-            number: {
-                type: String,
-            },
-            cvc: {
-                type: Number
-            }
-        }
+    quantity: {
+        type: Number,
+        required: true,
     },
     enable: {
         type: Boolean

@@ -1,6 +1,6 @@
 const User = require('../../models/User')
 const Helpers = require('../../helpers')
-const paypal = require('paypal-rest-sdk')
+const paypal = require('./node_modules/paypal-rest-sdk')
 const paypalConfig = require('../../config')
 
 paypal.configure(paypalConfig)

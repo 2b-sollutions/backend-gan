@@ -4,19 +4,16 @@ module.exports = {
     async createOrder(req, res) {
 
         const bodydata = req.body;
-
         const { password, userName } = bodydata
+        const { token } = req.headers;
+        var decoded = await Helpers.decodeToken(token, { complete: true });
+        const userId = decoded.payloadRequest.id
 
         try {
-            user = await Order.findOne({ userName })
-            if (user !== null) {
-                return res.status(400).json({ message: "Usuario ja cadastrado" })
-            }
-            const encryptPassword = await helpers.encryptPassword(password)
-            bodydata.password = encryptPassword
-            const newUser = await User.create(bodydata)
+            order = await Order.findOne({ userId })
 
-            return res.status(200).json(newUser)
+            const newOrder = await Order.create(bodydata)
+            return res.status(200).json(newOrder)
         } catch (error) {
             return res.status(400).json(error.message)
         }

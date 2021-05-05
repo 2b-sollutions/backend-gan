@@ -3,6 +3,7 @@ const routes = Router()
 const authenticationn = require('../../middlewares')
 const postController = require("../../controllers/postController")
 
+
 routes.post('/post/createPost', postController.createPost)
 
 routes.get('/post', postController.getPost)

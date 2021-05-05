@@ -5,7 +5,7 @@ const productController = require("../../controllers/productController")
 
 
 routes.post('/products/:store_id', productController.createProduct)
-routes.get('/products/:store_id', productController.getUserProducts)
+routes.get('/products/store/:store_id', productController.getUserProducts)
 routes.put('/products/:store_id/:product_id', productController.updateProduct)
 routes.delete('/products/:store_id/:product_id', productController.deleteProduct)
 

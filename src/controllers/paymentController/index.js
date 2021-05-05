@@ -1,38 +1,44 @@
 const User = require('../../models/User')
+const Order = require('../../models/Order')
 const Helpers = require('../../helpers')
 const paypal = require('paypal-rest-sdk')
 const paypalConfig = require('../../config')
+
 
 paypal.configure(paypalConfig)
 
 module.exports = {
     async buy(req, res) {
+        const { token } = req.headers;
+
+        var decoded = await Helpers.decodeToken(token, { complete: true });
+        const userId = decoded.payloadRequest.id
         try {
 
             var create_payment_json = {
-                "intent": "sale",
-                "payer": {
-                    "payment_method": "paypal"
+                intent: "sale",
+                payer: {
+                    payment_method: "paypal"
                 },
-                "redirect_urls": {
-                    "return_url": "http://localhost:8090/success",
-                    "cancel_url": "http://cancel.url"
+                redirect_urls: {
+                    return_url: "http://localhost:8090/success",
+                    cancel_url: "http://cancel.url"
                 },
-                "transactions": [{
-                    "item_list": {
-                        "items": [{
-                            "name": "item",
-                            "sku": "item",
-                            "price": "15.00",
-                            "currency": "BRL",
-                            "quantity": 1
+                transactions: [{
+                    item_list: {
+                        items: [{
+                            name: "item",
+                            sku: "item",
+                            price: req.body.totalPrice,
+                            currency: "BRL",
+                            quantity: req.body.productQuantity
                         }]
                     },
-                    "amount": {
-                        "currency": "BRL",
-                        "total": "15.00"
+                    amount: {
+                        currency: "BRL",
+                        total: 7500
                     },
-                    "description": "This is the payment description."
+                    description: "This is the payment description."
                 }]
             };
 
@@ -41,14 +47,50 @@ module.exports = {
                 if (error) {
                     throw error;
                 } else {
-                    payment.links.forEach((link) => {
-                        if (link.rel === 'approval_url') return res.redirect(link.href)
-                    })
-                    console.log("Create Payment Response");
-                    console.log(payment);
-                }
-            });
+                    // payment.links.forEach((link) => {
 
+                    //     console.log(req.body.productList)
+                    //     const payloadNewOrder = {
+                    //         deliveryAdress: req.body.deliveryAdress,
+                    //         sendMethod: req.body.sendMethod,
+                    //         paymentMethod: req.body.paymentMethod,
+                    //         orderNumber: Math.random(),
+                    //         user: userId,
+                    //         store: req.body.storeId,
+                    //         cart: req.body.cartId,
+                    //         products: req.body.productList,
+                    //         createdAt: new Date(),
+                    //         payment: payment,
+                    //         status: "PAGAMENTO_ENVIADO",
+                    //         productQuantity: req.body.productQuantity,
+                    //         totalPrice: req.body.totalPrice
+                    //     }
+
+                    //     const newOrder = Order.create(payloadNewOrder)
+                    //     console.log(newOrder)
+                    //     if (link.rel === 'approval_url') return res.redirect(link.href)
+                    // })
+                    const payloadNewOrder = {
+                        deliveryAdress: req.body.deliveryAdress,
+                        sendMethod: req.body.sendMethod,
+                        paymentMethod: req.body.paymentMethod,
+                        orderNumber: Math.random(),
+                        user: userId,
+                        store: req.body.storeId,
+                        cart: req.body.cartId,
+                        products: req.body.productList,
+                        createdAt: new Date(),
+                        payment: payment,
+                        status: "PAGAMENTO_ENVIADO",
+                        productQuantity: req.body.productQuantity,
+                        totalPrice: req.body.totalPrice,
+                        links: payment.links
+                    }
+
+
+                    return res.status(200).json(payloadNewOrder)
+                }
+            })
         } catch (error) {
 
             return res.status(400).json(error.message)
@@ -61,6 +103,8 @@ module.exports = {
             console.log("payerId", payerId)
             const paymentId = req.query.paymentId
             console.log("paymentId", paymentId)
+            const token = req.query.token
+            console.log("paymentId", token)
 
             const valor = { currency: "BRL", total: "15.00" }
             const execute_payment_json = {
@@ -79,8 +123,8 @@ module.exports = {
                     console.log(JSON.stringify(payment))
                     return res.status(200).json({
                         message: "Logado com sucesso",
-                        token,
-                        decode: decoded.payloadRequest
+                        token
+
 
                     })
 

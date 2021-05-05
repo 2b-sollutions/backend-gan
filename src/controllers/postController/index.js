@@ -2,7 +2,8 @@ const Post = require('../../models/Post')
 const Influencer = require('../../models/Influencer')
 const User = require('../../models/User')
 const Product = require('../../models/Product')
-
+const fs = require('fs')
+const guid = require('guid')
 const Helpers = require('../../helpers')
 const dayjs = require('dayjs')
 
@@ -18,12 +19,24 @@ module.exports = {
 
         const userId = decoded.payloadRequest.id
 
+        let fileName = guid.raw().toString()
+
         try {
             user = await User.findById(userId)
             if (user.profile !== 3) {
                 return res.status(400).json({ message: "Você não é um Influenciador" })
             }
             bodyData.userImage = user.userImage
+
+
+
+            fs.writeFile(fileName + ".jpg", bodyData.imagePost, { encoding: 'base64' }, function(err) {
+                if (err) {
+                    console.log(err)
+                } else {
+                    console.log("file created")
+                }
+            })
 
             bodyData.createdAt = new Date()
 

@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs")
 const jwt = require('jsonwebtoken');
 const { consultarCep, calcularPrecoPrazo } = require("correios-brasil");
+const multer = require("multer");
 
 
 module.exports = {
@@ -56,6 +57,19 @@ module.exports = {
             return error
         }
 
+    },
+
+    async uploadImage() {
+        try {
+            const storage = multer.diskStorage({
+                destination: (req, file, callback) => callback(null, __dirname + '/../public/images'),
+                filename: (req, file, callback) => callback(null, file.fieldname + '-' + Date.now() + '.jpg')
+            });
+            return storage
+        } catch (error) {
+            return error
+        }
     }
+
 
 }

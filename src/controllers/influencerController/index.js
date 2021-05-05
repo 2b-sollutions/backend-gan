@@ -71,6 +71,7 @@ module.exports = {
                 return res.status(400).json({ message: "Nome de usuario não encontrado" })
             }
             const influencer = await Influencer.find({ userId: user[0].id })
+
             const payloadResponse = {
                 userName: user[0].userName,
                 userImage: user[0].userImage,

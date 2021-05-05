@@ -30,13 +30,13 @@ module.exports = {
 
 
 
-            fs.writeFile(fileName + ".jpg", bodyData.imagePost, { encoding: 'base64' }, function(err) {
-                if (err) {
-                    console.log(err)
-                } else {
-                    console.log("file created")
-                }
-            })
+            // fs.writeFile(fileName + ".jpg", bodyData.imagePost, { encoding: 'base64' }, function(err) {
+            //     if (err) {
+            //         console.log(err)
+            //     } else {
+            //         console.log("file created")
+            //     }
+            // })
 
             bodyData.createdAt = new Date()
 

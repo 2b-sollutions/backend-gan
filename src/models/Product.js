@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const Schema = new mongoose.Schema({
-    productListPhotos: { type: Array, default: [], required: true },
+    productListImages: { type: Array, default: [], required: true },
     productName: { type: String, required: true },
     productCategory: { type: String },
     productPrice: { type: Number, required: true },
@@ -9,9 +9,9 @@ const Schema = new mongoose.Schema({
     productTechnicalDetails: { type: String },
     sku: { type: String, required: true },
     store: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Store',
-        required: true,
+        idStore: { type: mongoose.Schema.Types.ObjectId, ref: 'Store', required: true },
+        nameStore: { type: String },
+        imageStore: { type: String }
     },
     detailsProduct: {
         type: [{

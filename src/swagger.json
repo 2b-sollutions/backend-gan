@@ -527,7 +527,7 @@
 
         },
         "/carts/addProduct": {
-            "get": {
+            "put": {
                 "tags": ["Carts"],
                 "summary": "Take cart",
                 "consumes": [],
@@ -550,7 +550,7 @@
 
         },
         "/carts/removeProduct": {
-            "get": {
+            "delete": {
                 "tags": ["Carts"],
                 "summary": "Take cart",
                 "consumes": [],

@@ -6,17 +6,13 @@ const Schema = new mongoose.Schema({
     email: { type: String, required: true },
     cpf: { type: String, required: true },
     mei: { type: String, required: true },
-    adress: {
-        street: { type: String },
-        number: { type: Number },
-        city: { type: String }
-    },
-    acountBank: [{
-        number: { type: Number },
-        agency: { type: Number },
-        instituition: { type: String },
-        cpf: { type: String }
-    }]
+    measures: {
+        height: { type: String, required: true },
+        waist: { type: String, required: true },
+        bust: { type: String, required: true },
+        hip: { type: String, required: true },
+        thigh: { type: String, required: true },
+    }
 })
 
 module.exports = mongoose.model('Influencer', Schema)

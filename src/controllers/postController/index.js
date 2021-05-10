@@ -2,57 +2,42 @@ const Post = require('../../models/Post')
 const Influencer = require('../../models/Influencer')
 const User = require('../../models/User')
 const Product = require('../../models/Product')
-const fs = require('fs')
-const guid = require('guid')
+
+// const fs = require('fs')
+
+
 const Helpers = require('../../helpers')
 const dayjs = require('dayjs')
 
 module.exports = {
 
     async createPost(req, res) {
-
         const bodyData = req.body
-
         const { token } = req.headers
-
-        var decoded = await Helpers.decodeToken(token, { complete: true });
-
+        const decoded = await Helpers.decodeToken(token, { complete: true });
         const userId = decoded.payloadRequest.id
-
-        let fileName = guid.raw().toString()
-
+        user = await User.findById(userId)
+        if (user.profile !== 3) {
+            return res.status(400).json({ message: "Você não é um Influenciador" })
+        }
         try {
-            user = await User.findById(userId)
-            if (user.profile !== 3) {
-                return res.status(400).json({ message: "Você não é um Influenciador" })
-            }
+            let listImage = []
             bodyData.userImage = user.userImage
-
-
-
-            // fs.writeFile(fileName + ".jpg", bodyData.imagePost, { encoding: 'base64' }, function(err) {
-            //     if (err) {
-            //         console.log(err)
-            //     } else {
-            //         console.log("file created")
-            //     }
-            // })
-
             bodyData.createdAt = new Date()
-
             bodyData.userId = user._id
-
+            for (const image of bodyData.imagePostList) {
+                const response = await Helpers.uploadImage(image)
+                listImage.push(response.Location)
+                console.log(response.Location)
+            };
+            bodyData.imagePostList = listImage
             const newPost = await Post.create(bodyData)
-
             return res.status(200).json(newPost)
-
         } catch (error) {
-
             return res.status(400).json(error.message)
         }
     },
     async getPost(req, res) {
-
         try {
             const posts = await Post.find()
             const payloadResponse = await Promise.all(
@@ -75,44 +60,28 @@ module.exports = {
                     }
                     return payloadResponse
                 }))
-
             return res.status(200).json(payloadResponse)
-
         } catch (error) {
             return res.status(400).json(error)
         }
     },
     async getMyPosts(req, res) {
-
         const { token } = req.headers
-
-        var decoded = await Helpers.decodeToken(token, { complete: true });
-
+        const decoded = await Helpers.decodeToken(token, { complete: true });
         const userId = decoded.payloadRequest.id
-
         try {
-
             const posts = await Post.find({ userId })
-
             return res.status(200).json(posts)
-
         } catch (error) {
-
             return res.status(400).json(error)
         }
     },
     async deletePost(req, res) {
-
         const { post_id } = req.params
-
         try {
-
             const deletedPost = await Post.findByIdAndDelete(post_id)
-
             return res.status(200).json(deletedPost)
-
         } catch (error) {
-
             return res.status(400).json(error)
         }
     },
@@ -120,9 +89,7 @@ module.exports = {
         console.log("req.params", req.params)
         const postId = req.params.post_id
         try {
-
             const post = await Post.findById({ _id: postId })
-            console.log(post)
             const day = dayjs(new Date());
             const updatedDays = day.diff(post.createdAt, "day")
             const updatedWeek = day.diff(post.createdAt, "week")
@@ -140,45 +107,33 @@ module.exports = {
                     updatedWeek,
                     updatedMonth,
                 },
-                imagePost: post.imagePost,
+                imagePost: post.imagePostList,
                 postId: post.id,
                 productDetailList
             }
-
             return res.status(200).json(payloadResponse)
         } catch (error) {
-
             return res.status(400).json(error)
         }
     },
     async getPostByUserId(req, res) {
-
         const userId = req.params.user_id
         try {
-
             const posts = await Post.find({ userId: userId })
-
             return res.status(200).json(posts)
-
         } catch (error) {
-
             return res.status(400).json(error)
         }
     },
     async getPostInfluencer(req, res) {
         try {
-
             const influencers = await Influencer.find()
-
             const payloadResponse = await Promise.allSettled(
-
                 influencers.map(async(element) => {
-
                     const posts = await Post.find({ userId: element.userId })
                     const user = await User.find({ _id: element.userId })
                     const postsList = []
                     for (const post of posts) {
-
                         const productDetailList = await Promise.all(post.productList.map(async(element) => {
                             const product = await Product.findById({ _id: element })
                             return product
@@ -188,25 +143,20 @@ module.exports = {
                             userId: user[0]._id,
                             userName: user[0].userName,
                             userImage: user[0].userImage,
-                            imagePost: post.imagePost,
+                            imagePost: post.imagePostList,
                             descriptionPost: post.description,
                             createdAt: post.createdAt,
                             productDetailList
 
                         }
                         postsList.push(payloadResponse)
-
                     }
                     return postsList
                 })
             )
-
             return res.status(200).json(payloadResponse)
-
         } catch (error) {
             return res.status(400).json(error.message)
         }
     }
-
-
 }

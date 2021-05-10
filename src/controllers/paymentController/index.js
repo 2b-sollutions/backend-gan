@@ -10,7 +10,6 @@ paypal.configure(paypalConfig)
 module.exports = {
     async buy(req, res) {
         const { token } = req.headers;
-
         var decoded = await Helpers.decodeToken(token, { complete: true });
         const userId = decoded.payloadRequest.id
         try {
@@ -41,35 +40,10 @@ module.exports = {
                     description: "This is the payment description."
                 }]
             };
-
-
-            paypal.payment.create(create_payment_json, function(error, payment) {
+            paypal.payment.create(create_payment_json, async(error, payment) => {
                 if (error) {
                     throw error;
                 } else {
-                    // payment.links.forEach((link) => {
-
-                    //     console.log(req.body.productList)
-                    //     const payloadNewOrder = {
-                    //         deliveryAdress: req.body.deliveryAdress,
-                    //         sendMethod: req.body.sendMethod,
-                    //         paymentMethod: req.body.paymentMethod,
-                    //         orderNumber: Math.random(),
-                    //         user: userId,
-                    //         store: req.body.storeId,
-                    //         cart: req.body.cartId,
-                    //         products: req.body.productList,
-                    //         createdAt: new Date(),
-                    //         payment: payment,
-                    //         status: "PAGAMENTO_ENVIADO",
-                    //         productQuantity: req.body.productQuantity,
-                    //         totalPrice: req.body.totalPrice
-                    //     }
-
-                    //     const newOrder = Order.create(payloadNewOrder)
-                    //     console.log(newOrder)
-                    //     if (link.rel === 'approval_url') return res.redirect(link.href)
-                    // })
                     const payloadNewOrder = {
                         deliveryAdress: req.body.deliveryAdress,
                         sendMethod: req.body.sendMethod,
@@ -87,32 +61,26 @@ module.exports = {
                         links: payment.links
                     }
 
+                    const newOrder = await Order.create(payloadNewOrder)
 
-                    return res.status(200).json(payloadNewOrder)
+                    return res.status(200).json(newOrder)
                 }
             })
         } catch (error) {
-
             return res.status(400).json(error.message)
-
         }
     },
     async success(req, res) {
         try {
             const payerId = req.query.PayerID
-            console.log("payerId", payerId)
             const paymentId = req.query.paymentId
-            console.log("paymentId", paymentId)
             const token = req.query.token
-            console.log("paymentId", token)
-
             const valor = { currency: "BRL", total: "15.00" }
             const execute_payment_json = {
                 "payer_id": payerId,
                 "transactions": [{
                     "amount": valor
                 }]
-
             }
             paypal.payment.execute(paymentId, execute_payment_json, (error, payment) => {
                 if (error) {
@@ -124,49 +92,34 @@ module.exports = {
                     return res.status(200).json({
                         message: "Logado com sucesso",
                         token
-
-
                     })
-
                 }
             })
-
         } catch (error) {
-
             return res.status(400).json(error.message)
-
         }
     },
     async cancel(req, res) {
         const { userName, password } = req.body;
-
         try {
             const hasUser = await User.findOne({ userName })
-
             if (hasUser === null) {
                 return res.status(404).json({ message: 'Usuario não cadastrado' })
             }
-
-
             const payloadRequest = {
                 userName: hasUser.userName,
                 id: hasUser._id,
                 profile: hasUser.profile
             }
-
             const token = await Helpers.createToken(payloadRequest)
             var decoded = await Helpers.decodeToken(token, { complete: true });
             return res.status(200).json({
                 message: "Logado com sucesso",
                 token,
                 decode: decoded.payloadRequest
-
             })
-
         } catch (error) {
-
             return res.status(400).json(error.message)
-
         }
     }
 }

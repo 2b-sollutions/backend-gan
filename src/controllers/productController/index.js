@@ -1,5 +1,7 @@
 const Product = require('../../models/Product')
 const Post = require('../../models/Post')
+
+const dayjs = require('dayjs')
 module.exports = {
     async createProduct(req, res) {
         const bodydata = req.body;
@@ -61,15 +63,24 @@ module.exports = {
     async getProductByPostId(req, res) {
         try {
             const post = await Post.findById({ _id: req.params.post_id })
+            const day = dayjs(new Date());
+            const updatedDays = day.diff(post.createdAt, "day")
+            const updatedWeek = day.diff(post.createdAt, "week")
+            const updatedMonth = day.diff(post.createdAt, "month")
             const productDetailList = await Promise.all(post.productList.map(async(element) => {
                 const product = await Product.findById({ _id: element })
                 return product
             }))
+
             const payloadResponse = {
                 postId: post._id,
                 imagePost: post.imagePost,
                 descriptionPost: post.description,
-                createdAt: post.createdAt,
+                updateDate: {
+                    updatedDays,
+                    updatedWeek,
+                    updatedMonth,
+                },
                 productDetailList
             }
             return res.status(200).json(payloadResponse)

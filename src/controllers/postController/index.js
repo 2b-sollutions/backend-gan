@@ -55,7 +55,7 @@ module.exports = {
                             updatedWeek,
                             updatedMonth,
                         },
-                        imagePost: element.imagePost,
+                        imagePostList: element.imagePostList,
                         postId: element.id
                     }
                     return payloadResponse
@@ -86,10 +86,10 @@ module.exports = {
         }
     },
     async getPostById(req, res) {
-        console.log("req.params", req.params)
         const postId = req.params.post_id
         try {
             const post = await Post.findById({ _id: postId })
+            console.log("req.params", post)
             const day = dayjs(new Date());
             const updatedDays = day.diff(post.createdAt, "day")
             const updatedWeek = day.diff(post.createdAt, "week")
@@ -107,7 +107,7 @@ module.exports = {
                     updatedWeek,
                     updatedMonth,
                 },
-                imagePost: post.imagePostList,
+                imagePostList: post.imagePostList,
                 postId: post.id,
                 productDetailList
             }
@@ -143,7 +143,7 @@ module.exports = {
                             userId: user[0]._id,
                             userName: user[0].userName,
                             userImage: user[0].userImage,
-                            imagePost: post.imagePostList,
+                            imagePostList: post.imagePostList,
                             descriptionPost: post.description,
                             createdAt: post.createdAt,
                             productDetailList

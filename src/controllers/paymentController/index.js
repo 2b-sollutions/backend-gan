@@ -1,9 +1,10 @@
 const User = require('../../models/User')
 const Order = require('../../models/Order')
+const Cart = require('../../models/Cart')
+const OrderDetail = require('../../models/OrderDetails')
 const Helpers = require('../../helpers')
 const paypal = require('paypal-rest-sdk')
 const paypalConfig = require('../../config')
-
 
 paypal.configure(paypalConfig)
 
@@ -45,16 +46,13 @@ module.exports = {
                     throw error;
                 } else {
                     const payloadNewOrder = {
-                        deliveryAdress: req.body.deliveryAdress,
-                        sendMethod: req.body.sendMethod,
-                        paymentMethod: req.body.paymentMethod,
                         orderNumber: Math.random(),
                         user: userId,
-                        store: req.body.storeId,
-                        cart: req.body.cartId,
-                        products: req.body.productList,
+                        productList: [{
+                            productId: req.body.productList[0]._id,
+                            productImage: req.body.productList[0].productImage
+                        }],
                         createdAt: new Date(),
-                        payment: payment,
                         status: "PAGAMENTO_ENVIADO",
                         productQuantity: req.body.productQuantity,
                         totalPrice: req.body.totalPrice,
@@ -63,9 +61,25 @@ module.exports = {
 
                     const newOrder = await Order.create(payloadNewOrder)
 
+                    const payloadNewOrderDetails = {
+                        orderId: newOrder._id,
+                        cartId: req.body.cartId,
+                        payment: payment,
+                        deliveryAdress: req.body.deliveryAdress,
+                        sendMethod: req.body.sendMethod,
+                        paymentMethod: req.body.paymentMethod,
+                        storeList: req.body.storeList
+                    }
+                    console.log(payloadNewOrderDetails)
+                        // const newOrderDetail = await OrderDetail.create(payloadNewOrderDetails)
+
                     return res.status(200).json(newOrder)
                 }
             })
+
+
+
+
         } catch (error) {
             return res.status(400).json(error.message)
         }

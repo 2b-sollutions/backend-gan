@@ -10,7 +10,6 @@ const Helpers = require('../../helpers')
 const dayjs = require('dayjs')
 
 module.exports = {
-
     async createPost(req, res) {
         const bodyData = req.body
         const { token } = req.headers
@@ -24,11 +23,10 @@ module.exports = {
             let listImage = []
             bodyData.userImage = user.userImage
             bodyData.createdAt = new Date()
-            bodyData.userId = user._id
+            bodyData.userId = userId
             for (const image of bodyData.imagePostList) {
                 const response = await Helpers.uploadImage(image)
                 listImage.push(response.Location)
-                console.log(response.Location)
             };
             bodyData.imagePostList = listImage
             const newPost = await Post.create(bodyData)
@@ -39,7 +37,8 @@ module.exports = {
     },
     async getPost(req, res) {
         try {
-            const posts = await Post.find()
+            const { page = 1, limit = 10 } = req.query
+            const posts = await Post.find().limit(limit * 1).skip((page - 1) * limit)
             const payloadResponse = await Promise.all(
                 posts.map(async(element) => {
                     const day = dayjs(new Date());
@@ -58,9 +57,10 @@ module.exports = {
                         imagePostList: element.imagePostList,
                         postId: element.id
                     }
+                    console.log('payloadResponse', payloadResponse)
                     return payloadResponse
                 }))
-            return res.status(200).json(payloadResponse)
+            return res.status(200).json({ totalPorPage: payloadResponse.length, payloadResponse })
         } catch (error) {
             return res.status(400).json(error)
         }
@@ -70,7 +70,8 @@ module.exports = {
         const decoded = await Helpers.decodeToken(token, { complete: true });
         const userId = decoded.payloadRequest.id
         try {
-            const posts = await Post.find({ userId })
+            const { page = 1, limit = 10 } = req.query
+            const posts = await Post.find({ userId }).limit(limit * 1).skip((page - 1) * limit)
             return res.status(200).json(posts)
         } catch (error) {
             return res.status(400).json(error)
@@ -127,10 +128,11 @@ module.exports = {
     },
     async getPostInfluencer(req, res) {
         try {
+            const { page = 1, limit = 10 } = req.query
             const influencers = await Influencer.find()
             const payloadResponse = await Promise.allSettled(
                 influencers.map(async(element) => {
-                    const posts = await Post.find({ userId: element.userId })
+                    const posts = await Post.find({ userId: element.userId }).limit(limit * 1).skip((page - 1) * limit)
                     const user = await User.find({ _id: element.userId })
                     const postsList = []
                     for (const post of posts) {
@@ -147,7 +149,6 @@ module.exports = {
                             descriptionPost: post.description,
                             createdAt: post.createdAt,
                             productDetailList
-
                         }
                         postsList.push(payloadResponse)
                     }

@@ -79,13 +79,29 @@ module.exports = {
             return res.status(400).json(error)
         }
     },
+    async getCartById(req, res) {
+
+        try {
+
+            const cartId = req.params.cartId
+
+            const newCart = await Cart.findById(cartId)
+                // await myCart.populate('products').execPopulate()
+
+            return res.status(200).json(newCart)
+
+        } catch (error) {
+
+            return res.status(400).json(error)
+        }
+    },
     async getCarts(req, res) {
 
         try {
 
             const listCart = await Cart.find()
 
-            await listCart.populate('products').execPopulate()
+
 
             return res.status(200).json(listCart)
 

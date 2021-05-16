@@ -12,7 +12,7 @@ const Schema = new mongoose.Schema({
                     productQuantity: { type: Number, default: 1 },
                     productColor: { type: String, required: true },
                     productSize: { type: String, required: true },
-                    unityPrice: { type: Number, required: true }
+                    productPrice: { type: Number, required: true }
                 }]
             },
         }]
@@ -20,7 +20,7 @@ const Schema = new mongoose.Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     totalTax: { type: Number, required: true },
     totalValue: { type: Number, required: true },
-    totaQuantity: { type: Number, required: true },
+    totalQuantity: { type: Number, required: true },
     enable: { type: Boolean }
 }, { timestamps: true })
 

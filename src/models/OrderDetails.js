@@ -30,10 +30,13 @@ const Schema = new mongoose.Schema({
             productQuantity: { type: Number, default: 1 },
             productColor: { type: String, required: false },
             productSize: { type: String, required: false },
-            productPrice: { type: Number, required: false }
+            productPrice: { type: Number, required: false },
+            productDescription: { type: String, required: false },
+            productImage: { type: String, required: false }
         }],
     }]
 })
+
 
 
 module.exports = mongoose.model('OrderDetail', Schema)

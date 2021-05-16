@@ -1,7 +1,8 @@
 const Order = require('../../models/Order')
-const helpers = require('../../helpers')
+const OrderDetails = require('../../models/OrderDetails')
+const Helpers = require('../../helpers')
 module.exports = {
-    async createOrder(req, res) {
+    async getOrders(req, res) {
 
         const bodydata = req.body;
         const { password, userName } = bodydata
@@ -10,7 +11,7 @@ module.exports = {
         const userId = decoded.payloadRequest.id
 
         try {
-            order = await Order.findOne({ userId })
+            order = await Order.find()
 
             const newOrder = await Order.create(bodydata)
             return res.status(200).json(newOrder)
@@ -18,34 +19,29 @@ module.exports = {
             return res.status(400).json(error.message)
         }
     },
-    async getUser(req, res) {
+    async getOrderDetails(req, res) {
+        const { token } = req.headers;
+        var decoded = await Helpers.decodeToken(token, { complete: true });
+        const userId = decoded.payloadRequest.id
         try {
-            const users = await User.find()
-            return res.status(200).json(users)
+            const orderId = req.params.order_id
+            const orderDetails = await OrderDetails.find({ orderId: orderId })
+            return res.status(200).json(orderDetails)
         } catch (error) {
             return res.status(400).json(error)
         }
     },
-    async getUserById(req, res) {
-        const { user_id } = req.params
+    async getMyOrders(req, res) {
+
+        const { token } = req.headers;
+        var decoded = await Helpers.decodeToken(token, { complete: true });
+        const userId = decoded.payloadRequest.id
+
         try {
-            const user = await User.findById(user_id)
-            return res.status(200).json(user)
+            order = await Order.find({ userId })
+            return res.status(200).json(order)
         } catch (error) {
-            return res.status(400).json(error)
+            return res.status(400).json(error.message)
         }
     },
-    async deleteUser(req, res) {
-
-        const { user_id } = req.params
-        try {
-
-            const deletedUser = await User.findByIdAndDelete(user_id)
-            return res.status(200).json(deletedUser)
-
-        } catch (error) {
-
-            return res.status(400).json(error)
-        }
-    }
 }

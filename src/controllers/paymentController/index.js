@@ -47,7 +47,7 @@ module.exports = {
                 } else {
                     const payloadNewOrder = {
                         orderNumber: Math.random(),
-                        user: userId,
+                        userId: userId,
                         productList: [{
                             productId: req.body.productList[0]._id,
                             productImage: req.body.productList[0].productImage
@@ -71,7 +71,7 @@ module.exports = {
                         storeList: req.body.storeList
                     }
                     console.log(payloadNewOrderDetails)
-                        // const newOrderDetail = await OrderDetail.create(payloadNewOrderDetails)
+                    const newOrderDetail = await OrderDetail.create(payloadNewOrderDetails)
 
                     return res.status(200).json(newOrder)
                 }

@@ -1,7 +1,7 @@
 const { Router } = require('express')
 const routes = Router()
 
-const storeController = require("../../controllers/storeController")
+const storeController = require('../../controllers/storeController')
 const authenticationn = require('../../middlewares')
 
 routes.post('/stores', authenticationn.verifyToken, storeController.createStore)

@@ -17,7 +17,6 @@ module.exports = {
       const createdStore = await Store.create(storeObject)
 
       await createdStore.populate('userName').execPopulate()
-
       return res.status(200).json(createdStore)
     } catch (error) {
       return res.status(400).json(error.message)
@@ -46,7 +45,7 @@ module.exports = {
   async updateStore (req, res) {
     const bodydata = req.body
 
-    const { store_id } = req.params
+    const {} = req.params
 
     try {
       const updatedStore = await Store.findByIdAndUpdate(store_id, bodydata, { new: true })

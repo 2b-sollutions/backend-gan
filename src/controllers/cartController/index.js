@@ -26,7 +26,6 @@ module.exports = {
     const decoded = await Helpers.decodeToken(token, { complete: true })
 
     const userId = decoded.payloadRequest.id
-
     try {
       const createdCart = await Cart.create({ userId, ...bodyData })
 
@@ -121,33 +120,25 @@ module.exports = {
     }
   },
   async addProduct (req, res) {
-    const bodydata = req.bodyv
-
+    const bodydata = req.body
     const { token } = req.headers
-
     const decoded = await Helpers.decodeToken(token, { complete: true })
-
     const userId = decoded.payloadRequest.id
-
-    const { productListFront } = bodydata
-
     try {
       const myCart = await Cart.find({ userId: userId })
-
       const enableCart = myCart.filter(function (cart) {
         return cart.enable
       })
-
       const cartId = enableCart[0].id
+      const { productList } = bodydata
 
-      const { products } = enableCart[0]
+      const total = productList.reduce((all, item) => all + (item.productPrice), 0)
 
-      productListFront.forEach(element => {
-        products.push(element)
-      })
+      
 
-      const updatedCart = await Cart.findByIdAndUpdate(cartId, { products: products }, { new: true })
 
+      console.log('total', total)
+      const updatedCart = await Cart.findByIdAndUpdate(cartId, { productList: bodydata.productList }, { new: true })
       return res.status(200).json(updatedCart)
     } catch (error) {
       return res.status(400).json(error)

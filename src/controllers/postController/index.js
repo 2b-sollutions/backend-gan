@@ -14,7 +14,7 @@ module.exports = {
     const { token } = req.headers
     const decoded = await Helpers.decodeToken(token, { complete: true })
     const userId = decoded.payloadRequest.id
-    user = await User.findById(userId)
+    const user = await User.findById(userId)
     if (user.profile !== 3) {
       return res.status(400).json({ message: 'Você não é um Influenciador' })
     }
@@ -77,16 +77,16 @@ module.exports = {
     }
   },
   async deletePost (req, res) {
-    const { post_id } = req.params
+    const { postId } = req.params
     try {
-      const deletedPost = await Post.findByIdAndDelete(post_id)
+      const deletedPost = await Post.findByIdAndDelete(postId)
       return res.status(200).json(deletedPost)
     } catch (error) {
       return res.status(400).json(error)
     }
   },
   async getPostById (req, res) {
-    const postId = req.params.post_id
+    const postId = req.params.postId
     try {
       const post = await Post.findById({ _id: postId })
       console.log('req.params', post)

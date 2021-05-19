@@ -497,7 +497,7 @@
             }
         },
         "/api/v1/carts/mycart": {
-            "get": {
+            "post": {
                 "tags": ["Carts"],
                 "summary": "Take cart",
                 "consumes": [],

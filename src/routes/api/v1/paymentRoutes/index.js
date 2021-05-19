@@ -1,7 +1,7 @@
 const { Router } = require('express')
 const routes = Router()
 
-const paymentController = require('../../controllers/paymentController')
+const paymentController = require('../../../../controllers/paymentController')
 
 routes.get('/buy', paymentController.buy)
 routes.get('/success', paymentController.success)

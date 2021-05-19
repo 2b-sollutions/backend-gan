@@ -1,21 +1,6 @@
-const userRoutes = require('./userRoutes')
-const cartRoutes = require('./cartRoutes')
-const loginRoutes = require('./loginRoutes')
-const productRoutes = require('./productRoutes')
-const storeRoutes = require('./storeRoutes')
-const influencerRoutes = require('./influencerRoutes')
-const postRoutes = require('./postRoutes')
-const paymentRoutes = require('./paymentRoutes')
-const orderRoutes = require('./orderRoutes')
+const router = require('express').Router()
 
-module.exports = {
-  userRoutes,
-  cartRoutes,
-  loginRoutes,
-  productRoutes,
-  storeRoutes,
-  influencerRoutes,
-  postRoutes,
-  paymentRoutes,
-  orderRoutes
-}
+router.use('/api/v1/', require('./api/v1/'))
+router.get('/', (req, res, next) => res.send({ ok: true }))
+
+module.exports = router

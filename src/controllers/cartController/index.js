@@ -20,17 +20,12 @@ const args = {
 module.exports = {
   async createCart (req, res) {
     const bodyData = req.body
-
     const { token } = req.headers
-
     const decoded = await Helpers.decodeToken(token, { complete: true })
-
     const userId = decoded.payloadRequest.id
     try {
       const createdCart = await Cart.create({ userId, ...bodyData })
-
       await createdCart.populate('products').execPopulate()
-
       return res.status(200).json(createdCart)
     } catch (error) {
       return res.status(400).json(error)
@@ -41,9 +36,7 @@ module.exports = {
     const userName = { _id: userId }
     try {
       const userCart = await Cart.find({ userId: userName })
-
       await userCart.populate('products').execPopulate()
-
       return res.status(200).json(userCart)
     } catch (error) {
       return res.status(400).json(error)
@@ -51,15 +44,11 @@ module.exports = {
   },
   async getMyCart (req, res) {
     const { token } = req.headers
-
     const decoded = await Helpers.decodeToken(token, { complete: true })
-
     try {
       const userId = decoded.payloadRequest.id
-
       const myCart = await Cart.find({ userId })
       // await myCart.populate('products').execPopulate()
-
       return res.status(200).json(myCart)
     } catch (error) {
       return res.status(400).json(error)
@@ -68,10 +57,8 @@ module.exports = {
   async getCartById (req, res) {
     try {
       const cartId = req.params.cartId
-
       const newCart = await Cart.findById(cartId)
       // await myCart.populate('products').execPopulate()
-
       return res.status(200).json(newCart)
     } catch (error) {
       return res.status(400).json(error)
@@ -80,7 +67,6 @@ module.exports = {
   async getCarts (req, res) {
     try {
       const listCart = await Cart.find()
-
       return res.status(200).json(listCart)
     } catch (error) {
       return res.status(400).json(error)
@@ -88,32 +74,21 @@ module.exports = {
   },
   async removeProduct (req, res) {
     const bodydata = req.body
-
     const { token } = req.headers
-
     const decoded = await Helpers.decodeToken(token, { complete: true })
-
     const userId = decoded.payloadRequest.id
-
     const { productListFront } = bodydata
-
     try {
       const myCart = await Cart.find({ userId: userId })
-
       const enableCart = myCart.filter(function (cart) {
         return cart.enable
       })
-
       const cartId = enableCart[0].id
-
       const { products } = enableCart[0]
-
       productListFront.forEach(element => {
         products.splice(products.indexOf(element), 1)
       })
-
       const updatedCart = await Cart.findByIdAndUpdate(cartId, { products: products }, { new: true })
-
       return res.status(200).json(updatedCart)
     } catch (error) {
       return res.status(400).json(error)
@@ -130,14 +105,8 @@ module.exports = {
         return cart.enable
       })
       const cartId = enableCart[0].id
-      const { productList } = bodydata
-
-      const total = productList.reduce((all, item) => all + (item.productPrice), 0)
-
       
-
-
-      console.log('total', total)
+      // const total = productList.reduce((all, item) => all + (item.productPrice), 0)
       const updatedCart = await Cart.findByIdAndUpdate(cartId, { productList: bodydata.productList }, { new: true })
       return res.status(200).json(updatedCart)
     } catch (error) {
@@ -148,9 +117,7 @@ module.exports = {
     try {
       // Recupera o cep
       const cepRequested = req.body.CEP
-
       const adress = await Helpers.getCep(cepRequested)
-
       return res.status(200).json(adress)
     } catch (error) {
       return res.status(400).json(error)
@@ -158,58 +125,42 @@ module.exports = {
   },
   async getDeliveryTax (req, res) {
     const { token } = req.headers
-
     const decoded = await Helpers.decodeToken(token, { complete: true })
-
     const userId = decoded.payloadRequest.id
-
     try {
       const totalSedex = []
       const totalPac = []
       const cepRequested = req.body.CEP
-
       // Fazer uma requisião  para toda a lista de produtos do carrinho e recuperar os ceps das marcars para serem o cep origem
-
       const myCart = await Cart.find({ userId: userId })
-
       const enableCart = myCart.filter(function (cart) {
         return cart.enable
       })
-
       // filtra todas as lojas distintas dos produtos incluso no meu carrinho
-
       for (const productId of enableCart[0].products) {
         const product = await Product.findById(productId)
-
         const store = await Store.findById(product.store)
-
         args.sCepOrigem = store.adress.postCode
         args.sCepDestino = cepRequested
-
         args.nCdServico = ['04014']
         const fretePac = await Helpers.getCepTax(args)
         args.nCdServico = ['04510']
         const freteSedex = await Helpers.getCepTax(args)
-
         totalPac.push(freteSedex[0].Valor)
         totalSedex.push(fretePac[0].Valor)
       };
-
       const totalPacReturn = totalPac.reduce(function (acumulador, valorAtual) {
         const valorParseado = valorAtual.replace(',', '.')
         return acumulador + parseFloat(valorParseado)
       }, 0)
-
       const totalSedexReturn = totalSedex.reduce((acumulador, valorAtual) => {
         const valorParseado = valorAtual.replace(',', '.')
         return acumulador + parseFloat(valorParseado)
       }, 0)
-
       const payloadFinal = {
         totalPacReturn,
         totalSedexReturn
       }
-
       return res.status(200).json(payloadFinal)
     } catch (error) {
       return res.status(400).json(error)

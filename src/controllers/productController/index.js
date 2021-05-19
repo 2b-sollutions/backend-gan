@@ -71,7 +71,6 @@ module.exports = {
         const product = await Product.findById({ _id: element })
         return product
       }))
-
       const payloadResponse = {
         postId: post._id,
         imagePost: post.imagePost,

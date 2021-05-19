@@ -18,7 +18,6 @@ module.exports = {
     const { token } = req.headers
     const decoded = await Helpers.decodeToken(token, { complete: true })
     const userId = decoded.payloadRequest.id
-
     try {
       const order = await Order.find({ userId })
       return res.status(200).json(order)

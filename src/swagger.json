@@ -6,7 +6,7 @@
         "description": "This is a description for Backend-GAN"
     },
     "paths": {
-        "/login": {
+        "/api/v1/login": {
             "post": {
                 "tags": ["Login"],
                 "summary": "login as user",
@@ -36,7 +36,7 @@
                 }
             }
         },
-        "/users": {
+        "/api/v1/users": {
             "post": {
                 "tags": ["Users"],
                 "summary": "creating user",
@@ -98,7 +98,7 @@
                 }
             }
         },
-        "/users/{user_id}": {
+        "/api/v1/users/{user_id}": {
             "get": {
                 "tags": ["Users"],
                 "summary": "Geting user by id",
@@ -113,7 +113,6 @@
                             "type": "apiKey",
                             "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkUmVxdWVzdCI6eyJ1c2VyTmFtZSI6IlRlc3RlSW5mbHVlbmNlciIsImlkIjoiNjAzMjhiMDBiZGM1MzA0YTZjZGUyZGYwIiwicGVyZmlsIjoyfSwiaWF0IjoxNjEzOTkzNzY5LCJleHAiOjE2MTM5OTczNjl9.KVWJ4D1HKqPoIYSFxgBaYiUUXR33QXITEWcN1hQHoOg"
                         }
-
                     },
                     {
                         "name": "user_id",
@@ -128,7 +127,6 @@
                 "responses": {
                     "200": {
                         "description": "Success"
-
                     }
                 }
             },
@@ -164,7 +162,7 @@
                 }
             }
         },
-        "/influencers": {
+        "/api/v1/influencers": {
             "post": {
                 "tags": ["Influencers"],
                 "summary": "Createing Influenceres",
@@ -230,7 +228,7 @@
                 }
             }
         },
-        "/influencers/myAcount": {
+        "/api/v1/influencers/myAcount": {
             "get": {
                 "tags": ["Influencers"],
                 "summary": "Geting my account",
@@ -253,7 +251,7 @@
                 }
             }
         },
-        "/influencers/{userName}": {
+        "/api/v1/influencers/{userName}": {
             "get": {
                 "tags": ["Influencers"],
                 "summary": "Geting influencer by User Name",
@@ -276,7 +274,7 @@
                 }]
             }
         },
-        "/stores": {
+        "/api/v1/stores": {
             "post": {
                 "tags": ["Stores"],
                 "summary": "Createing Stores",
@@ -352,7 +350,7 @@
                 }
             }
         },
-        "/stores/{store_id}": {
+        "/api/v1/stores/{store_id}": {
             "get": {
                 "tags": ["Stores"],
                 "summary": "Geting store by id",
@@ -366,7 +364,6 @@
                             "type": "apiKey",
                             "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkUmVxdWVzdCI6eyJ1c2VyTmFtZSI6IlRlc3RlSW5mbHVlbmNlciIsImlkIjoiNjAzMjhiMDBiZGM1MzA0YTZjZGUyZGYwIiwicGVyZmlsIjoyfSwiaWF0IjoxNjEzOTkzNzY5LCJleHAiOjE2MTM5OTczNjl9.KVWJ4D1HKqPoIYSFxgBaYiUUXR33QXITEWcN1hQHoOg"
                         }
-
                     },
                     {
                         "name": "store_id",
@@ -384,9 +381,8 @@
                     }
                 }
             }
-
         },
-        "/stores/addInfluencer": {
+        "/api/v1/stores/addInfluencer": {
             "post": {
                 "tags": ["Stores"],
                 "summary": "Add influencers at Store",
@@ -420,7 +416,7 @@
                 }
             }
         },
-        "/stores/removeInfluencer": {
+        "/api/v1/stores/removeInfluencer": {
             "post": {
                 "tags": ["Stores"],
                 "summary": "Geting store by id",
@@ -434,7 +430,6 @@
                             "type": "apiKey",
                             "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkUmVxdWVzdCI6eyJ1c2VyTmFtZSI6IlRlc3RlSW5mbHVlbmNlciIsImlkIjoiNjAzMjhiMDBiZGM1MzA0YTZjZGUyZGYwIiwicGVyZmlsIjoyfSwiaWF0IjoxNjEzOTkzNzY5LCJleHAiOjE2MTM5OTczNjl9.KVWJ4D1HKqPoIYSFxgBaYiUUXR33QXITEWcN1hQHoOg"
                         }
-
                     },
                     {
                         "name": "influencerListFront",
@@ -454,9 +449,8 @@
                     }
                 }
             }
-
         },
-        "/carts": {
+        "/api/v1/carts": {
             "post": {
                 "tags": ["Carts"],
                 "summary": "Create cart",
@@ -501,9 +495,8 @@
                     }
                 }
             }
-
         },
-        "/carts/mycart": {
+        "/api/v1/carts/mycart": {
             "get": {
                 "tags": ["Carts"],
                 "summary": "Take cart",
@@ -524,9 +517,8 @@
                     }
                 }
             }
-
         },
-        "/carts/addProduct": {
+        "/api/v1/carts/addProduct": {
             "put": {
                 "tags": ["Carts"],
                 "summary": "Take cart",
@@ -547,9 +539,8 @@
                     }
                 }
             }
-
         },
-        "/carts/removeProduct": {
+        "/api/v1/carts/removeProduct": {
             "delete": {
                 "tags": ["Carts"],
                 "summary": "Take cart",
@@ -570,9 +561,8 @@
                     }
                 }
             }
-
         },
-        "/carts/cep": {
+        "/api/v1/carts/cep": {
             "post": {
                 "tags": ["Carts"],
                 "summary": "Take cart",
@@ -594,9 +584,8 @@
                     }
                 }
             }
-
         },
-        "/carts/cepTax": {
+        "/api/v1/carts/cepTax": {
             "post": {
                 "tags": ["Carts"],
                 "summary": "Take cart",
@@ -619,9 +608,8 @@
                     }
                 }
             }
-
         },
-        "/post/myPosts": {
+        "/api/v1/post/myPosts": {
             "get": {
                 "tags": ["Post"],
                 "summary": "Take MyPost",
@@ -643,7 +631,7 @@
                 }
             }
         },
-        "/post": {
+        "/api/v1/post": {
             "get": {
                 "tags": ["Post"],
                 "summary": "Take All Posts",
@@ -655,9 +643,8 @@
                     }
                 }
             }
-
         },
-        "/post/{post_id}": {
+        "/api/v1/post/{post_id}": {
             "get": {
                 "tags": ["Post"],
                 "summary": "Take Post by Post Id",
@@ -678,9 +665,8 @@
                     }
                 }
             }
-
         },
-        "/post/user/{userd_id}": {
+        "/api/v1/post/user/{userd_id}": {
             "get": {
                 "tags": ["Post"],
                 "summary": "Take All Posts by User Id",
@@ -701,9 +687,8 @@
                     }
                 }
             }
-
-        },
-        "/post/postInfluencer": {
+       },
+        "/api/v1/post/postInfluencer": {
             "get": {
                 "tags": ["Post"],
                 "summary": "Geting all Influencer post's",
@@ -716,7 +701,7 @@
                 }
             }
         },
-        "/products/post/{post_id}": {
+        "/api/v1/products/post/{post_id}": {
             "get": {
                 "tags": ["Producs"],
                 "summary": "Geting products by post_id",
@@ -738,30 +723,7 @@
                 }
             }
         },
-        "/products/post/{post_id}": {
-            "get": {
-                "tags": ["Products"],
-                "summary": "Geting products by post_id",
-                "consumes": [],
-                "produces": ["text/plain", "application/json", "text/json"],
-                "parameters": [{
-                    "name": "post_id",
-                    "in": "path",
-                    "required": false,
-                    "schema": {
-                        "type": "object",
-                        "example": "60327fa7bc253f41f0984b29"
-                    }
-                }],
-                "responses": {
-                    "200": {
-                        "description": "Success"
-                    }
-                }
-            }
-
-        },
-        "/products/{product_id}": {
+        "/api/v1/products/{product_id}": {
             "get": {
                 "tags": ["Products"],
                 "summary": "Geting products by product_id",
@@ -784,7 +746,7 @@
             }
 
         },
-        "/products/{store_id}": {
+        "/api/v1/products/{store_id}": {
             "post": {
                 "tags": ["Products"],
                 "summary": "Register products by store_id",
@@ -807,7 +769,7 @@
             }
 
         },
-        "/products": {
+        "/api/v1/products": {
             "get": {
                 "tags": ["Products"],
                 "summary": "Take All Products",
@@ -821,30 +783,7 @@
             }
 
         },
-        "/products/{store_id}": {
-            "get": {
-                "tags": ["Products"],
-                "summary": "Take all products by store_id",
-                "consumes": [],
-                "produces": ["text/plain", "application/json", "text/json"],
-                "parameters": [{
-                    "name": "store_id",
-                    "in": "path",
-                    "required": false,
-                    "schema": {
-                        "type": "object",
-                        "example": "60327fa7bc253f41f0984b29"
-                    }
-                }],
-                "responses": {
-                    "200": {
-                        "description": "Success"
-                    }
-                }
-            }
-
-        },
-        "/orders/getMyOrders": {
+        "/api/v1/orders/getMyOrders": {
             "get": {
                 "tags": ["Orders"],
                 "summary": "Take orders",
@@ -865,9 +804,8 @@
                     }
                 }
             }
-
         },
-        "/orders/getOrderDetails/{store_id}": {
+        "/api/v1/orders/getOrderDetails/{order_id}": {
             "get": {
                 "tags": ["Orders"],
                 "summary": "Take orders details",
@@ -879,18 +817,25 @@
                     "required": false,
                     "schema": {
                         "type": "apiKey",
-                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkUmVxdWVzdCI6eyJ1c2VyTmFtZSI6IlRlc3RlSW5mbHVlbmNlciIsImlkIjoiNjAzMjhiMDBiZGM1MzA0YTZjZGUyZGYwIiwicGVyZmlsIjoyfSwiaWF0IjoxNjEzOTkzNzY5LCJleHAiOjE2MTM5OTczNjl9.KVWJ4D1HKqPoIYSFxgBaYiUUXR33QXITEWcN1hQHoOg"
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkUmVxdWVzdCI6eyJ1c2VyTmFtZSI6IlRlc3RlU3RvcmUiLCJpZCI6IjYwMzI3ZDY1YTRhZjU3MzlmODRhMWNjYyIsInByb2ZpbGUiOjN9LCJpYXQiOjE2MjEzMDY4MTIsImV4cCI6MTYyMTMxMDQxMn0.F0qfUPUNbYWYQ0Jx9FLVNtIlm5oRbrNjBNPdOery03U"
                     }
-                }],
+                },{
+                    "name": "order_id",
+                    "in": "path",
+                    "required": false,
+                    "schema": {
+                        "type": "object",
+                        "example": "60327fa7bc253f41f0984b29"
+                    }
+                }
+            ],
                 "responses": {
                     "200": {
                         "description": "Success"
                     }
                 }
             }
-
         },
-
         "definitions": {}
     }
 }

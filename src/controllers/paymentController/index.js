@@ -70,7 +70,7 @@ module.exports = {
             storeList: req.body.storeList
           }
           console.log(payloadNewOrderDetails)
-          const newOrderDetail = await OrderDetail.create(payloadNewOrderDetails)
+          await OrderDetail.create(payloadNewOrderDetails)
 
           return res.status(200).json(newOrder)
         }
@@ -109,7 +109,7 @@ module.exports = {
     }
   },
   async cancel (req, res) {
-    const { userName, password } = req.body
+    const { userName } = req.body
     try {
       const hasUser = await User.findOne({ userName })
       if (hasUser === null) {

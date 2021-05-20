@@ -86,7 +86,7 @@ module.exports = {
     }
   },
   async getPostById (req, res) {
-    const postId = req.params.postId
+    const postId = req.params.post_id
     try {
       const post = await Post.findById({ _id: postId })
       console.log('req.params', post)

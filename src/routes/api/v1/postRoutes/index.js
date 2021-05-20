@@ -12,6 +12,6 @@ routes.get('/postInfluencer', postController.getPostInfluencer)
 routes.get('/user/:user_id', postController.getPostByUserId)
 
 routes.delete('/:post_id', postController.deletePost)
-routes.get('/:post_id', postController.getPostById)
+routes.get('/:post_id/post', postController.getPostById)
 
 module.exports = routes

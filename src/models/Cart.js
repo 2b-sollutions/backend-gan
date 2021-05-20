@@ -4,10 +4,11 @@ const Schema = new mongoose.Schema({
   productList: [{
     productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Produto', required: true },
     productName: { type: String, required: true },
-    productQuantity: { type: Number, default: 1 },
-    productColor: { type: String, required: true },
-    productSize: { type: String, required: true },
-    productPrice: { type: Number, required: true }
+    productQuantity: { type: Number, default: null },
+    productColor: { type: String, default: null },
+    productSize: { type: String, default: null },
+    productPrice: { type: Number, required: true },
+    productImage: { type: String, required: true }
   }],
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   totalTax: { type: Number, required: true },

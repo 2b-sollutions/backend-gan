@@ -1,8 +1,8 @@
 const User = require('../../models/User')
 const Order = require('../../models/Order')
-const Cart = require('../../models/Cart')
 const OrderDetail = require('../../models/OrderDetails')
-const Helpers = require('../../helpers')
+const comuns = require('../../helpers/comuns')
+const enums = require('../../helpers/enums')
 const paypal = require('paypal-rest-sdk')
 const paypalConfig = require('../../config')
 
@@ -11,7 +11,7 @@ paypal.configure(paypalConfig)
 module.exports = {
   async buy (req, res) {
     const { token } = req.headers
-    const decoded = await Helpers.decodeToken(token, { complete: true })
+    const decoded = await comuns.decodeToken(token, { complete: true })
     const userId = decoded.payloadRequest.id
     try {
       const create_payment_json = {
@@ -45,16 +45,16 @@ module.exports = {
           throw error
         } else {
           const payloadNewOrder = {
-            orderNumber: Math.random(),
+            orderNumber: '#' + Math.floor(Math.random() * (90000 - 10000) + 1000),
             userId: userId,
             productList: [{
               productId: req.body.productList[0]._id,
               productImage: req.body.productList[0].productImage
             }],
-            createdAt: new Date(),
-            status: 'PAGAMENTO_ENVIADO',
+            createdAt: new Date().day,
+            status: enums.STATUS_PAGAMENTO_ENVIADO,
             productQuantity: req.body.productQuantity,
-            totalPrice: req.body.totalPrice,
+            totalPrice: parseFloat(req.body.totalPrice),
             links: payment.links
           }
 
@@ -120,8 +120,8 @@ module.exports = {
         id: hasUser._id,
         profile: hasUser.profile
       }
-      const token = await Helpers.createToken(payloadRequest)
-      const decoded = await Helpers.decodeToken(token, { complete: true })
+      const token = await comuns.createToken(payloadRequest)
+      const decoded = await comuns.decodeToken(token, { complete: true })
       return res.status(200).json({
         message: 'Logado com sucesso',
         token,

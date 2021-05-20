@@ -644,7 +644,7 @@
                 }
             }
         },
-        "/api/v1/post/{post_id}": {
+        "/api/v1/post/{post_id}/post": {
             "get": {
                 "tags": ["Post"],
                 "summary": "Take Post by Post Id",

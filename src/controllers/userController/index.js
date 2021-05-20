@@ -1,5 +1,5 @@
 const User = require('../../models/User')
-const helpers = require('../../helpers')
+const helpers = require('../../helpers/comuns')
 module.exports = {
   async createUser (req, res) {
     console.log('testeRquisicao', req.Context)

@@ -76,5 +76,12 @@ module.exports = {
     } catch (error) {
       return error
     }
+  },
+  async rastreio () {
+    const codRastreio = ['OJ694821074BR', 'PW935793588BR'] // array de códigos de rastreios
+    return await rastrearEncomendas(codRastreio).then((response) => {
+      console.log(response)
+    })
   }
+
 }

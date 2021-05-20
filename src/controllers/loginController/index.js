@@ -1,5 +1,5 @@
 const User = require('../../models/User')
-const Helpers = require('../../helpers')
+const Helpers = require('../../helpers/comuns')
 
 module.exports = {
   async createSession (req, res) {

@@ -5,7 +5,7 @@ const Product = require('../../models/Product')
 
 // const fs = require('fs')
 
-const Helpers = require('../../helpers')
+const Helpers = require('../../helpers/comuns')
 const dayjs = require('dayjs')
 
 module.exports = {
@@ -127,11 +127,11 @@ module.exports = {
   },
   async getPostInfluencer (req, res) {
     try {
-      const { page = 1, limit = 10 } = req.query
+      // const { page = 1, limit = 10 } = req.query
       const influencers = await Influencer.find()
-      const payloadResponse = await Promise.allSettled(
+      const payloadResponse = await Promise.all(
         influencers.map(async (element) => {
-          const posts = await Post.find({ userId: element.userId }).limit(limit * 1).skip((page - 1) * limit)
+          const posts = await Post.find({ userId: element.userId })
           const user = await User.find({ _id: element.userId })
           const postsList = []
           for (const post of posts) {

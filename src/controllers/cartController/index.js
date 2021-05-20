@@ -1,7 +1,7 @@
 const Cart = require('../../models/Cart')
 const Product = require('../../models/Product')
 const Store = require('../../models/Store')
-const Helpers = require('../../helpers')
+const Helpers = require('../../helpers/comuns')
 
 const args = {
   // Não se preocupe com a formatação dos valores de entrada do cep, qualquer uma será válida (ex: 21770-200, 21770 200, 21asa!770@###200 e etc),

@@ -1,5 +1,5 @@
 const Store = require('../../models/Store')
-const Helpers = require('../../helpers')
+const Helpers = require('../../helpers/comuns')
 
 module.exports = {
   async createStore (req, res) {

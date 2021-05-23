@@ -540,17 +540,19 @@
                      "schema": {
                         "type": "object",
                         "example": {
-                             "productList": [{
-                            "productQuantity": 1,
-                            "_id": "60524c7c9e46703e40ad9891",
-                            "productId": "6092a003199efa0e28691559",
-                            "productColor": "PRETO",
-                            "productName": "Jaqueta da Renner",
-                            "productPrice": 115,
-                            "productSize": "G",
-                            "productImage": "https://media.glassdoor.com/sqll/2004495/monte-carlo-j%C3%B3ias-squarelogo-1559822834643.png"
-                          }
-                        ]
+                            "productList": [{
+                                "productQuantity": 1,
+                                "_id": "60524c7c9e46703e40ad9891",
+                                "productId": "6092a003199efa0e28691559",
+                                "productColor": "PRETO",
+                                "productName": "Jaqueta da Renner",
+                                "productPrice": 115,
+                                "productSize": "G",
+                                "productImage": "https://media.glassdoor.com/sqll/2004495/monte-carlo-j%C3%B3ias-squarelogo-1559822834643.png"
+                          }],
+                          "totalTax": 90,
+	                      "totalValue":305,
+	                      "totalQuantity":3
                     }
                  }
                 }],

@@ -1,5 +1,7 @@
 const Product = require('../../models/Product')
 const Post = require('../../models/Post')
+const Color = require('../../models/Color')
+const Size = require('../../models/Size')
 
 const dayjs = require('dayjs')
 module.exports = {
@@ -85,6 +87,41 @@ module.exports = {
       return res.status(200).json(payloadResponse)
     } catch (error) {
       return res.status(400).json(error.message)
+    }
+  },
+  async createColor (req, res) {
+    const bodydata = req.body
+    try {
+      const newColor = await Color.create(bodydata)
+      return res.status(200).json(newColor)
+    } catch (error) {
+      return res.status(400).json(error)
+    }
+  },
+  async createSize (req, res) {
+    const bodydata = req.body
+    try {
+      const newSize = await Size.create(bodydata)
+      return res.status(200).json(newSize)
+    } catch (error) {
+      return res.status(400).json(error)
+    }
+  },
+  async getColor (req, res) {
+    try {
+      const listColor = await Color.find()
+      return res.status(200).json(listColor)
+    } catch (error) {
+      return res.status(400).json(error)
+    }
+  },
+  async getSize (req, res) {
+    
+    try {
+      const listSize = await Size.find()
+      return res.status(200).json(listSize)
+    } catch (error) {
+      return res.status(400).json(error)
     }
   }
 }

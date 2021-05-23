@@ -83,13 +83,13 @@ module.exports = {
         return cart.enable
       })
       const cartId = enableCart[0].id
-      const updatedCart = await Cart.deleteOne(cartId, { _id: productId }, { new: true })
+      const updatedCart = await Cart.deleteOne(cartId, { productList: productId }, { new: true })
       return res.status(200).json(updatedCart)
     } catch (error) {
       return res.status(400).json(error)
     }
   },
-  async addProduct (req, res) {
+  async updateCart (req, res) {
     const bodydata = req.body
     const { token } = req.headers
     const decoded = await Helpers.decodeToken(token, { complete: true })
@@ -101,9 +101,13 @@ module.exports = {
       })
       const cartId = enableCart[0].id
 
-      // const total = productList.reduce((all, item) => all + (item.productPrice), 0)
-      const updatedCart = await Cart.findByIdAndUpdate(cartId, { productList: bodydata.productList }, { new: true })
-      return res.status(200).json(updatedCart)
+      const updatedCart = await Cart.findByIdAndUpdate(cartId, {
+        productList: bodydata.productList,
+        totalTax: bodydata.totalTax,
+        totalValue: bodydata.totalValue,
+        totalQuantity: bodydata.totalQuantity
+      }, { new: true })
+     return res.status(200).json(updatedCart)
     } catch (error) {
       return res.status(400).json(error)
     }
@@ -162,12 +166,18 @@ module.exports = {
     }
   },
   async getDeliveryTaxCart (req, res) {
-    const { storeList } = req.body
-    const postCodeList = await Promise.all(storeList.map(async (element) => {
-      const propertiesStore = await Store.findById({ _id: element.storeId })
+    const { productList } = req.body
+
+    const storeList = await Promise.all(productList.map(async (element) => {
+      const propertiesProduct = await Product.findById({ _id: element })
+      return propertiesProduct.store.idStore
+    }))
+    const uniqueStore = [...new Set(storeList)]
+
+    const postCodeList = await Promise.all(uniqueStore.map(async (element) => {
+      const propertiesStore = await Store.findById({ _id: element })
       const mapx = {
-        postCode: propertiesStore.adress.postCode,
-        quantityProduct: element.productQuantity
+        postCode: propertiesStore.adress.postCode
       }
       return mapx
     }))
@@ -176,10 +186,10 @@ module.exports = {
       for (const item of postCodeList) {
         args.sCepOrigem = item.postCode
         const tax = await Helpers.getCepTax(args)
-        const total = tax[0].Valor * item.quantityProduct
-        console.log(total)
+        // const total = tax[0].Valor * item.quantityProduct
         valorTotal.push(total)
       }
+      console.log(valorTotal)
       return res.status(200).json(valorTotal)
     } catch (error) {
       return res.status(400).json(error)

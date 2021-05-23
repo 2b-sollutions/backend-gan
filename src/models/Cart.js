@@ -14,7 +14,7 @@ const Schema = new mongoose.Schema({
   totalTax: { type: Number, required: true },
   totalValue: { type: Number, required: true },
   totalQuantity: { type: Number, required: true },
-  enable: { type: Boolean }
+  enable: { type: Boolean, require: true }
 }, { timestamps: true })
 
 module.exports = mongoose.model('Cart', Schema)

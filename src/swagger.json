@@ -472,19 +472,20 @@
                         "schema": {
                             "type": "object",
                             "example": {
-                                "products": ["5ff099d688cc0342dc6c165e", "5ff365a47cf88d2b1cd36501"],
-                                "adress": {
-                                    "street": "testeaaa",
-                                    "number": 555,
-                                    "city": "São Paulo"
-                                },
-                                "payment": {
-                                    "card": {
-                                        "bankCode": 365,
-                                        "number": 5555,
-                                        "cvc": 333
-                                    }
-                                }
+                                "productList": [{
+                                    "productQuantity": 1,
+                                    "_id": "60524c7c9e46703e40ad9891",
+                                    "productId": "6092a003199efa0e28691559",
+                                    "productColor": "PRETO",
+                                    "productName": "Jaqueta da Renner",
+                                    "productPrice": 115,
+                                    "productSize": "G",
+                                              "productImage": "https://media.glassdoor.com/sqll/2004495/monte-carlo-j%C3%B3ias-squarelogo-1559822834643.png"
+                                  }
+                                ],
+                                "totalTax": 60,
+                                "totalValue":115,
+                                "totalQuantity":1
                             }
                         }
                     }
@@ -497,9 +498,9 @@
             }
         },
         "/api/v1/carts/mycart": {
-            "post": {
+            "get": {
                 "tags": ["Carts"],
-                "summary": "Take cart",
+                "summary": "Take my cart",
                 "consumes": [],
                 "produces": ["text/plain", "application/json", "text/json"],
                 "parameters": [{
@@ -518,10 +519,10 @@
                 }
             }
         },
-        "/api/v1/carts/addProduct": {
+        "/api/v1/carts/updatedCart": {
             "put": {
                 "tags": ["Carts"],
-                "summary": "Take cart",
+                "summary": "Update cart",
                 "consumes": [],
                 "produces": ["text/plain", "application/json", "text/json"],
                 "parameters": [{
@@ -531,6 +532,20 @@
                     "schema": {
                         "type": "apiKey",
                         "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkUmVxdWVzdCI6eyJ1c2VyTmFtZSI6IlRlc3RlSW5mbHVlbmNlciIsImlkIjoiNjAzMjhiMDBiZGM1MzA0YTZjZGUyZGYwIiwicGVyZmlsIjoyfSwiaWF0IjoxNjEzOTkzNzY5LCJleHAiOjE2MTM5OTczNjl9.KVWJ4D1HKqPoIYSFxgBaYiUUXR33QXITEWcN1hQHoOg"
+                    },
+                    "type": "object",
+                    "example": {
+                        "productList": [{
+                            "productQuantity": 1,
+                            "_id": "60524c7c9e46703e40ad9891",
+                            "productId": "6092a003199efa0e28691559",
+                            "productColor": "PRETO",
+                            "productName": "Jaqueta da Renner",
+                            "productPrice": 115,
+                            "productSize": "G",
+                            "productImage": "https://media.glassdoor.com/sqll/2004495/monte-carlo-j%C3%B3ias-squarelogo-1559822834643.png"
+                          }
+                        ]
                     }
                 }],
                 "responses": {

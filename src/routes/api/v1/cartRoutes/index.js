@@ -6,7 +6,7 @@ const cartController = require('../../../../controllers/cartController')
 routes.post('/', authenticationn.verifyToken, cartController.createCart)
 routes.get('/:cartId/cart', cartController.getCartById)
 routes.get('/mycart', authenticationn.verifyToken, cartController.getMyCart)
-routes.put('/addProduct', authenticationn.verifyToken, cartController.addProduct)
+routes.put('/updateCart', authenticationn.verifyToken, cartController.updateCart)
 routes.delete('/removeProduct/:productId', authenticationn.verifyToken, cartController.removeProduct)
 
 routes.post('/cep', cartController.getDeliveryCep)

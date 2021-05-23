@@ -798,6 +798,42 @@
             }
 
         },
+        "/api/v1/products/colors": {
+            "get": {
+                "tags": ["Product"],
+                "summary": "Take colors",
+                "consumes": [],
+                "produces": ["text/plain", "application/json", "text/json"],
+                "parameters": [{
+                    "name": "token",
+                    "in": "header",
+                    "required": false
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/v1/products/sizes": {
+            "get": {
+                "tags": ["Products"],
+                "summary": "Take sizes",
+                "consumes": [],
+                "produces": ["text/plain", "application/json", "text/json"],
+                "parameters": [{
+                    "name": "token",
+                    "in": "header",
+                    "required": false
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
         "/api/v1/orders/getMyOrders": {
             "get": {
                 "tags": ["Orders"],

@@ -532,10 +532,15 @@
                     "schema": {
                         "type": "apiKey",
                         "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkUmVxdWVzdCI6eyJ1c2VyTmFtZSI6IlRlc3RlSW5mbHVlbmNlciIsImlkIjoiNjAzMjhiMDBiZGM1MzA0YTZjZGUyZGYwIiwicGVyZmlsIjoyfSwiaWF0IjoxNjEzOTkzNzY5LCJleHAiOjE2MTM5OTczNjl9.KVWJ4D1HKqPoIYSFxgBaYiUUXR33QXITEWcN1hQHoOg"
-                    },
-                    "type": "object",
-                    "example": {
-                        "productList": [{
+                    }
+                },
+                {     "name": "token",
+                      "in": "body",
+                      "required": false,
+                     "schema": {
+                        "type": "object",
+                        "example": {
+                             "productList": [{
                             "productQuantity": 1,
                             "_id": "60524c7c9e46703e40ad9891",
                             "productId": "6092a003199efa0e28691559",
@@ -547,6 +552,7 @@
                           }
                         ]
                     }
+                 }
                 }],
                 "responses": {
                     "200": {

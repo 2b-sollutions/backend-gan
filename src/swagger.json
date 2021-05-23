@@ -519,7 +519,7 @@
                 }
             }
         },
-        "/api/v1/carts/updatedCart": {
+        "/api/v1/carts/updateCart": {
             "put": {
                 "tags": ["Carts"],
                 "summary": "Update cart",

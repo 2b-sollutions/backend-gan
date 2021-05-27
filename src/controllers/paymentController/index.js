@@ -3,78 +3,45 @@ const Order = require('../../models/Order')
 const OrderDetail = require('../../models/OrderDetails')
 const comuns = require('../../helpers/comuns')
 const enums = require('../../helpers/enums')
-const paypal = require('paypal-rest-sdk')
-const paypalConfig = require('../../config')
-
-paypal.configure(paypalConfig)
+const paypal = require('../../helpers/paypal')
 
 module.exports = {
   async buy (req, res) {
     const { token } = req.headers
     const decoded = await comuns.decodeToken(token, { complete: true })
     const userId = decoded.payloadRequest.id
+
     try {
-      const create_payment_json = {
-        intent: 'sale',
-        payer: {
-          payment_method: 'paypal'
-        },
-        redirect_urls: {
-          return_url: 'http://localhost:8090/success',
-          cancel_url: 'http://cancel.url'
-        },
-        transactions: [{
-          item_list: {
-            items: [{
-              name: 'item',
-              sku: 'item',
-              price: req.body.totalPrice,
-              currency: 'BRL',
-              quantity: req.body.productQuantity
-            }]
-          },
-          amount: {
-            currency: 'BRL',
-            total: 7500
-          },
-          description: 'This is the payment description.'
-        }]
+      const payment = await paypal.create(req)
+      const payloadNewOrder = {
+        orderNumber: '#' + Math.floor(Math.random() * (90000 - 10000) + 1000),
+        userId: userId,
+        productList: [{
+          productId: req.body.productList[0]._id,
+          productImage: req.body.productList[0].productImage
+        }],
+        createdAt: new Date(),
+        status: enums.STATUS_PAGAMENTO_ENVIADO,
+        productQuantity: req.body.productQuantity,
+        totalPrice: parseFloat(req.body.totalPrice),
+        links: payment.links
       }
-      paypal.payment.create(create_payment_json, async (error, payment) => {
-        if (error) {
-          throw error
-        } else {
-          const payloadNewOrder = {
-            orderNumber: '#' + Math.floor(Math.random() * (90000 - 10000) + 1000),
-            userId: userId,
-            productList: [{
-              productId: req.body.productList[0]._id,
-              productImage: req.body.productList[0].productImage
-            }],
-            createdAt: new Date().day,
-            status: enums.STATUS_PAGAMENTO_ENVIADO,
-            productQuantity: req.body.productQuantity,
-            totalPrice: parseFloat(req.body.totalPrice),
-            links: payment.links
-          }
 
-          const newOrder = await Order.create(payloadNewOrder)
+      const newOrder = await Order.create(payloadNewOrder)
+      const userProperties = await User.findById(userId)
+      const payloadNewOrderDetails = {
+        orderId: newOrder._id,
+        cartId: req.body.cartId,
+        payment: payment,
+        deliveryAdress: req.body.deliveryAdress,
+        sendMethod: req.body.sendMethod,
+        paymentMethod: req.body.paymentMethod,
+        storeList: req.body.storeList,
+        userName: userProperties.userName
+      }
+      await OrderDetail.create(payloadNewOrderDetails)
 
-          const payloadNewOrderDetails = {
-            orderId: newOrder._id,
-            cartId: req.body.cartId,
-            payment: payment,
-            deliveryAdress: req.body.deliveryAdress,
-            sendMethod: req.body.sendMethod,
-            paymentMethod: req.body.paymentMethod,
-            storeList: req.body.storeList
-          }
-          console.log(payloadNewOrderDetails)
-          await OrderDetail.create(payloadNewOrderDetails)
-
-          return res.status(200).json(newOrder)
-        }
-      })
+      return res.status(200).json(newOrder)
     } catch (error) {
       return res.status(400).json(error.message)
     }
@@ -93,11 +60,9 @@ module.exports = {
       }
       paypal.payment.execute(paymentId, execute_payment_json, (error, payment) => {
         if (error) {
-          console.log(error.response)
           throw error
         } else {
           console.log('pagamento efetuado')
-          console.log(JSON.stringify(payment))
           return res.status(200).json({
             message: 'Logado com sucesso',
             token

@@ -57,7 +57,6 @@ module.exports = {
         region: process.env.AWS_REGION
       })
 
-      console.log(process.env.AWS_SECRET_KEY)
       const fileName = guid.raw().toString()
       const s3 = new aws.S3()
       const rawdata = image
@@ -80,7 +79,7 @@ module.exports = {
   async rastreio () {
     const codRastreio = ['OJ694821074BR', 'PW935793588BR'] // array de códigos de rastreios
     return await rastrearEncomendas(codRastreio).then((response) => {
-      console.log(response)
+      
     })
   }
 

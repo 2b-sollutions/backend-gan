@@ -56,7 +56,6 @@ module.exports = {
             imagePostList: element.imagePostList,
             postId: element.id
           }
-          console.log('payloadResponse', payloadResponse)
           return payloadResponse
         }))
       return res.status(200).json({ totalPorPage: payloadResponse.length, payloadResponse })
@@ -89,7 +88,6 @@ module.exports = {
     const postId = req.params.post_id
     try {
       const post = await Post.findById({ _id: postId })
-      console.log('req.params', post)
       const day = dayjs(new Date())
       const updatedDays = day.diff(post.createdAt, 'day')
       const updatedWeek = day.diff(post.createdAt, 'week')

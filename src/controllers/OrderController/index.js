@@ -11,13 +11,13 @@ module.exports = {
     try {
       const orderId = req.params.order_id
       const orderDetails = await OrderDetails.find({ orderId: orderId })
-      return res.status(200).json(orderDetails)
+      return res.status(200).json(orderDetails[0])
     } catch (error) {
       return res.status(400).json(error)
     }
   },
   async getMyOrders (req, res) {
-    const rastreio = await Helpers.rastreio()
+    // const rastreio = await Helpers.rastreio()
     const { token } = req.headers
     const decoded = await Helpers.decodeToken(token, { complete: true })
     const userId = decoded.payloadRequest.id
@@ -40,8 +40,6 @@ module.exports = {
         }
         return parsedOrder
       })
-      console.log(rastreio)
-      console.log(parsedOrder)
       return res.status(200).json(parsedOrder)
     } catch (error) {
       return res.status(400).json(error.message)

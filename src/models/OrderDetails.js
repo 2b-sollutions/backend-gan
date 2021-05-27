@@ -10,6 +10,7 @@ const Schema = new mongoose.Schema({
     number: { type: Number },
     city: { type: String },
     state: { type: String },
+    initial: { type: String },
     postCode: { type: String, required: true }
   },
   sendMethod: {
@@ -24,6 +25,7 @@ const Schema = new mongoose.Schema({
   storeList: [{
     storeId: { type: mongoose.Schema.Types.ObjectId, ref: 'Store', required: true },
     storeName: { type: String, required: true },
+    storeImage: { type: String, required: true },
     productList: [{
       productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Produto', required: false },
       productName: { type: String, required: false },
@@ -34,7 +36,8 @@ const Schema = new mongoose.Schema({
       productDescription: { type: String, required: false },
       productImage: { type: String, required: false }
     }]
-  }]
+  }],
+  userName: { type: String, required: true }
 })
 
 module.exports = mongoose.model('OrderDetail', Schema)

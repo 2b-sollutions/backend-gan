@@ -170,8 +170,10 @@ module.exports = {
 
     const storeList = await Promise.all(productList.map(async (element) => {
       const propertiesProduct = await Product.findById({ _id: element })
-      return propertiesProduct.store.idStore
+      console.log(propertiesProduct.store.idStore)
+      console.log(propertiesProduct.productCategory)
     }))
+
     const uniqueStore = [...new Set(storeList)]
 
     const postCodeList = await Promise.all(uniqueStore.map(async (element) => {
@@ -185,9 +187,10 @@ module.exports = {
       const valorTotal = []
       for (const item of postCodeList) {
         args.sCepOrigem = item.postCode
-        const tax = await Helpers.getCepTax(args)
-        // const total = tax[0].Valor * item.quantityProduct
-        valorTotal.push(total)
+        args.nCdServico = ['04014']
+        args.sCepDestino = req.body.cepDestiny
+        const fretePac = await Helpers.getCepTax(args)
+        valorTotal.push(fretePac)
       }
       console.log(valorTotal)
       return res.status(200).json(valorTotal)

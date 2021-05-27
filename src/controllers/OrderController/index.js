@@ -2,7 +2,7 @@ const Order = require('../../models/Order')
 const OrderDetails = require('../../models/OrderDetails')
 const Helpers = require('../../helpers/comuns')
 const dayjs = require('dayjs')
-const { rastrearEncomendas } = require('correios-brasil')
+
 module.exports = {
   async getOrderDetails (req, res) {
     const { token } = req.headers
@@ -11,21 +11,45 @@ module.exports = {
     try {
       const orderId = req.params.order_id
       const orderDetails = await OrderDetails.find({ orderId: orderId })
-      return res.status(200).json(orderDetails[0])
+      const order = await Order.findById({ _id: orderId })
+      const storeListNew = await Promise.all(orderDetails[0].storeList.map(async store => {
+        const productListNew = await store.productList.map(produc => {
+          const productListNew = {
+            productName: produc.productName,
+            productColor: produc.productColor,
+            productSize: produc.productSize,
+            productPrice: produc.productPrice,
+            productQuantity: produc.productQuantity,
+            productImage: produc.productImage
+          }
+          return productListNew
+        })
+        const storeListResponse = {
+          storeName: store.storeName,
+          storeImage: store.storeImage,
+          productList: productListNew
+        }
+        return storeListResponse
+      }))
+      const payloadResponse = {
+        deliveryAdress: orderDetails[0].deliveryAdress,
+        sendMethod: orderDetails[0].sendMethod,
+        paymentMethod: orderDetails[0].paymentMethod,
+        resumeOrder: {
+          totalQuantity: order.productQuantity,
+          totalValue: order.totalPrice,
+          storeList: storeListNew
+        }
+      }
+      return res.status(200).json(payloadResponse)
     } catch (error) {
       return res.status(400).json(error)
     }
   },
   async getMyOrders (req, res) {
-    // const rastreio = await Helpers.rastreio()
     const { token } = req.headers
     const decoded = await Helpers.decodeToken(token, { complete: true })
     const userId = decoded.payloadRequest.id
-
-    // const codRastreio = ['QB066124425BR', 'PW935793588BR'] // array de códigos de rastreios
-    // rastrearEncomendas(codRastreio).then((response) => {
-    //   console.log(response)
-    // })
     try {
       const order = await Order.find({ userId })
       const parsedOrder = order.map(element => {

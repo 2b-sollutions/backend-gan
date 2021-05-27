@@ -116,7 +116,6 @@ module.exports = {
     }
   },
   async getSize (req, res) {
-    
     try {
       const listSize = await Size.find()
       return res.status(200).json(listSize)

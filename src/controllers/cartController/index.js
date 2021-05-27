@@ -1,4 +1,5 @@
 const Cart = require('../../models/Cart')
+const Categorie = require('../../models/Categorie')
 const Product = require('../../models/Product')
 const Store = require('../../models/Store')
 const Helpers = require('../../helpers/comuns')
@@ -170,22 +171,34 @@ module.exports = {
 
     const storeList = await Promise.all(productList.map(async (element) => {
       const propertiesProduct = await Product.findById({ _id: element })
-      console.log(propertiesProduct.store.idStore)
-      console.log(propertiesProduct.productCategory)
+      return console.log(propertiesProduct.store.idStore)
+      // console.log(propertiesProduct.productCategory)
     }))
+    console.log('uniqueStore', storeList)
+    productList.map(async (element) => {
+      const propertiesProduct = await Product.findById({ _id: element })
+      return propertiesProduct.store.idStore
+    })
+    console.log('uniqueStore', productList)
+    // const uniqueStore = [...new Set(storeList)]
+    // const postCodeList = await Promise.all(uniqueStore.map(async (element) => {
+    //   const propertiesStore = await Store.findById({ _id: element })
+    //   const mapx = {
+    //     postCode: propertiesStore.adress.postCode
+    //   }
+    //   return mapx
+    // }))
 
-    const uniqueStore = [...new Set(storeList)]
+    // const packageWeight = await Promise.all(uniqueStore.map(async (element) => {
+    //   const propertiesProduct = await Product.findById({ _id: element })
+    //   const propertiesCategorie = await Categorie.find({ name: propertiesProduct.Categorie })
+    //   console.log(propertiesCategorie.weight)
+    //   return propertiesCategorie
+    // }))
 
-    const postCodeList = await Promise.all(uniqueStore.map(async (element) => {
-      const propertiesStore = await Store.findById({ _id: element })
-      const mapx = {
-        postCode: propertiesStore.adress.postCode
-      }
-      return mapx
-    }))
     try {
       const valorTotal = []
-      for (const item of postCodeList) {
+      for (const item of storeList) {
         args.sCepOrigem = item.postCode
         args.nCdServico = ['04014']
         args.sCepDestino = req.body.cepDestiny

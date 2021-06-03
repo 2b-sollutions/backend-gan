@@ -40,9 +40,9 @@ module.exports = {
       return error
     }
   },
-  async getCepTax (cep) {
+  async getCepTax (args) {
     try {
-      const cepReturn = await calcularPrecoPrazo(cep)
+      const cepReturn = await calcularPrecoPrazo(args)
       return cepReturn
     } catch (error) {
       return error

@@ -1,5 +1,5 @@
 const Cart = require('../../models/Cart')
-const Categorie = require('../../models/Categorie')
+const Categorie = require('../../models/Category')
 const Product = require('../../models/Product')
 const Store = require('../../models/Store')
 const Helpers = require('../../helpers/comuns')
@@ -108,7 +108,7 @@ module.exports = {
         totalValue: bodydata.totalValue,
         totalQuantity: bodydata.totalQuantity
       }, { new: true })
-     return res.status(200).json(updatedCart)
+      return res.status(200).json(updatedCart)
     } catch (error) {
       return res.status(400).json(error)
     }
@@ -149,7 +149,7 @@ module.exports = {
         totalPac.push(freteSedex[0].Valor)
         totalSedex.push(fretePac[0].Valor)
       };
-      const totalPacReturn = totalPac.reduce(function (acumulador, valorAtual) {
+      const totalPacReturn = totalPac.reduce((acumulador, valorAtual) => {
         const valorParseado = valorAtual.replace(',', '.')
         return acumulador + parseFloat(valorParseado)
       }, 0)
@@ -168,38 +168,41 @@ module.exports = {
   },
   async getDeliveryTaxCart (req, res) {
     const { productList } = req.body
-
-    const storeList = await Promise.all(productList.map(async (element) => {
-      const propertiesProduct = await Product.findById({ _id: element })
-      return console.log(propertiesProduct.store.idStore)
-      // console.log(propertiesProduct.productCategory)
-    }))
-    console.log('uniqueStore', storeList)
-    productList.map(async (element) => {
-      const propertiesProduct = await Product.findById({ _id: element })
-      return propertiesProduct.store.idStore
-    })
-    console.log('uniqueStore', productList)
-    // const uniqueStore = [...new Set(storeList)]
-    // const postCodeList = await Promise.all(uniqueStore.map(async (element) => {
-    //   const propertiesStore = await Store.findById({ _id: element })
-    //   const mapx = {
-    //     postCode: propertiesStore.adress.postCode
-    //   }
-    //   return mapx
-    // }))
-
-    // const packageWeight = await Promise.all(uniqueStore.map(async (element) => {
-    //   const propertiesProduct = await Product.findById({ _id: element })
-    //   const propertiesCategorie = await Categorie.find({ name: propertiesProduct.Categorie })
-    //   console.log(propertiesCategorie.weight)
-    //   return propertiesCategorie
-    // }))
-
+    const productListForStore = []
+    const pushCep = []
     try {
+      for (const produc of productList) {
+        const propertiesProduct = await Product.findById({ _id: produc })
+        const storeProp = await Store.findById(propertiesProduct.store.idStore)
+        const teste = storeProp.adress.postCode
+        const payloadTax = {
+          idStore: propertiesProduct.store.idStore,
+          idProduct: propertiesProduct._id,
+          postCode: teste,
+          categorie: propertiesProduct.productCategory
+        }
+        productListForStore.push(payloadTax)
+      }
+
+      const dict = []
+      productListForStore.map(item => {
+        dict[item.postCode] = (dict[item.postCode] || 0) + item.categorie.weightCategory
+      })
+
+      Object.entries(dict)
+        .forEach((item) => {
+          const [key, value] = item
+          const payloadDoAmor = {
+            postCode: key,
+            weight: value
+          }
+          pushCep.push(payloadDoAmor)
+        })
+
       const valorTotal = []
-      for (const item of storeList) {
+      for (const item of pushCep) {
         args.sCepOrigem = item.postCode
+        args.nVlPeso = item.weight ? 2 : 1
         args.nCdServico = ['04014']
         args.sCepDestino = req.body.cepDestiny
         const fretePac = await Helpers.getCepTax(args)

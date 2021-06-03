@@ -3,11 +3,15 @@ const mongoose = require('mongoose')
 const Schema = new mongoose.Schema({
   productListImages: { type: Array, default: [], required: true },
   productName: { type: String, required: true },
-  productCategory: { type: String },
   productPrice: { type: Number, required: true },
   productDescription: { type: String },
   productTechnicalDetails: { type: String },
   sku: { type: String, required: true },
+  productCategory: {
+    idCategory: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', required: true },
+    nameCategory: { type: String },
+    weightCategory: { type: Number }
+  },
   store: {
     idStore: { type: mongoose.Schema.Types.ObjectId, ref: 'Store', required: true },
     nameStore: { type: String },

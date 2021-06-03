@@ -5,4 +5,4 @@ const Schema = new mongoose.Schema({
   weight: { type: Number, required: true }
 }, { timestamps: true })
 
-module.exports = mongoose.model('Categorie', Schema)
+module.exports = mongoose.model('Category', Schema)

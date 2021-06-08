@@ -202,7 +202,7 @@ module.exports = {
       const valorTotal = []
       for (const item of pushCep) {
         args.sCepOrigem = item.postCode
-        args.nVlPeso = item.weight > 2000 : 1
+        args.nVlPeso = item.weight ? 2 : 1
         args.nCdServico = ['04014']
         args.sCepDestino = req.body.cepDestiny
         const fretePac = await Helpers.getCepTax(args)

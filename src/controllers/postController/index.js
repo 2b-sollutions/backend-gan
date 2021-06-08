@@ -36,8 +36,8 @@ module.exports = {
   },
   async getPost (req, res) {
     try {
-      const { page = 1, limit = 10 } = req.query
-      const posts = await Post.find().limit(limit * 1).skip((page - 1) * limit)
+      const { page = 1, limit = 10, filter = null } = req.query
+      const posts = await Post.find(filter).limit(limit * 1).skip((page - 1) * limit)
       const payloadResponse = await Promise.all(
         posts.map(async (element) => {
           const day = dayjs(new Date())
@@ -125,8 +125,8 @@ module.exports = {
   },
   async getPostInfluencer (req, res) {
     try {
-      // const { page = 1, limit = 10 } = req.query
-      const influencers = await Influencer.find()
+      const { page = 1, limit = 10 } = req.query
+      const influencers = await Influencer.find().limit(limit * 1).skip((page - 1) * limit)
       const payloadResponse = await Promise.all(
         influencers.map(async (element) => {
           const posts = await Post.find({ userId: element.userId })

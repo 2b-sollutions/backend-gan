@@ -208,8 +208,16 @@ module.exports = {
         const fretePac = await Helpers.getCepTax(args)
         valorTotal.push(fretePac)
       }
-      console.log(valorTotal)
-      return res.status(200).json(valorTotal)
+      // console.log(valorTotal)
+      const finalTax = valorTotal.reduce((acumulador, item) => {
+        return acumulador + parseFloat(item[0].Valor)
+      }, 0)
+
+      const requestPayload = {
+        taxCart: finalTax.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })
+      }
+
+      return res.status(200).json(requestPayload)
     } catch (error) {
       return res.status(400).json(error)
     }

@@ -11,7 +11,7 @@ routes.delete('/removeProduct/:productId', authenticationn.verifyToken, cartCont
 
 routes.post('/cep', cartController.getDeliveryCep)
 routes.post('/cepTax', cartController.getDeliveryTax)
-routes.post('/cart/cepTax', cartController.getDeliveryTaxCart)
+routes.post('/taxCart', cartController.getDeliveryTaxCart)
 
 // Precisa de perfil**************
 routes.get('/:user_id/user', cartController.getUserCarts)

@@ -632,6 +632,30 @@
                 }
             }
         },
+        "/api/v1/carts/taxCart": {
+            "post": {
+                "tags": ["Carts"],
+                "summary": "Take tax at cart",
+                "produces": ["text/plain", "application/json", "text/json"],
+                "parameters": [{
+                    "name": "value",
+                    "in": "body",
+                    "required": false,
+                    "schema": {
+                        "type": "object",
+                        "example": {
+                          "productList": ["6092a003199efa0e28691559","60ac0c571eccf93c50736778","6099c184da0fc6393811dd4f"],
+                          "cepDestiny": "04675010"
+                    }
+                 }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
         "/api/v1/post/myPosts": {
             "get": {
                 "tags": ["Post"],

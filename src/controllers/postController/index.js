@@ -36,8 +36,20 @@ module.exports = {
   },
   async getPost (req, res) {
     try {
-      const { page = 1, limit = 10, filter = null } = req.query
-      const posts = await Post.find(filter).limit(limit * 1).skip((page - 1) * limit)
+      const { page = 1, limit = 10, filter = 0 } = req.query
+      let productList = []
+      const parameterForProduct = { 'productCategory.nameCategory': filter }
+      const queryForProduct = filter.length ? parameterForProduct : null
+      if (queryForProduct) {
+        const product = await Product.find(queryForProduct)
+        productList = product.map(item => {
+          return item._id.toString()
+        })
+      }
+      const parameterForPost = { productList: { $in: productList } }
+      const queryForPost = productList.length ? parameterForPost : null
+      const posts = await Post.find(queryForPost).limit(limit * 1).skip((page - 1) * limit)
+
       const payloadResponse = await Promise.all(
         posts.map(async (element) => {
           const day = dayjs(new Date())

@@ -9,6 +9,7 @@ routes.get('/', postController.getPost)
 routes.get('/myPosts', authenticationn.verifyToken, postController.getMyPosts)
 
 routes.get('/postInfluencer', postController.getPostInfluencer)
+routes.get('/searchAll', postController.getPostInfluencer)
 routes.get('/user/:user_id', postController.getPostByUserId)
 
 routes.delete('/:post_id', postController.deletePost)

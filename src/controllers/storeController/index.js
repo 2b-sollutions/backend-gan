@@ -1,4 +1,5 @@
 const Store = require('../../models/Store')
+const Product = require('../../models/Product')
 const Helpers = require('../../helpers/comuns')
 
 module.exports = {
@@ -82,6 +83,32 @@ module.exports = {
       return res.status(200).json(updatedStore)
     } catch (error) {
       return res.status(400).json(error)
+    }
+  },
+  async producStore (req, res) {
+    try {
+      const store = await Store.find()
+
+      const payloadResponse = await Promise.all(
+        store.map(async (itemStore) => {
+          const products = await Product.find()
+          const productsForStore = []
+          for (const item of products) {
+            if (item.store.idStore.toString() === itemStore._id.toString()) {
+              productsForStore.push(item)
+            }
+          }
+          const payloadIf = {
+            nameStore: itemStore.razaoSocial,
+            products: productsForStore
+          }
+
+          return payloadIf
+        }))
+      console.log(payloadResponse)
+      return res.status(200).json(payloadResponse)
+    } catch (error) {
+      return res.status(400).json(error.message)
     }
   }
 }

@@ -2,6 +2,7 @@ const Post = require('../../models/Post')
 const Influencer = require('../../models/Influencer')
 const User = require('../../models/User')
 const Product = require('../../models/Product')
+const postServices = require('../PostController/services')
 
 // const fs = require('fs')
 
@@ -135,36 +136,21 @@ module.exports = {
       return res.status(400).json(error)
     }
   },
+  // async searchAll(req, res) {
+  //     const { filter = 0 } = req.query
+  //     try {
+  //         const posts = await Promise.all(
+  //             await Post.find({ userId: userId }) await Product.find({ userId: userId }) await Store.find({ userId: userId })
+  //         )
+  //         return res.status(200).json(posts)
+  //     } catch (error) {
+  //         return res.status(400).json(error)
+  //     }
+  // },
   async getPostInfluencer (req, res) {
     try {
-      const { page = 1, limit = 10 } = req.query
-      const influencers = await Influencer.find().limit(limit * 1).skip((page - 1) * limit)
-      const payloadResponse = await Promise.all(
-        influencers.map(async (element) => {
-          const posts = await Post.find({ userId: element.userId })
-          const user = await User.find({ _id: element.userId })
-          const postsList = []
-          for (const post of posts) {
-            const productDetailList = await Promise.all(post.productList.map(async (element) => {
-              const product = await Product.findById({ _id: element })
-              return product
-            }))
-            const payloadResponse = {
-              postId: post._id,
-              userId: user[0]._id,
-              userName: user[0].userName,
-              userImage: user[0].userImage,
-              imagePostList: post.imagePostList,
-              descriptionPost: post.description,
-              createdAt: post.createdAt,
-              productDetailList
-            }
-            postsList.push(payloadResponse)
-          }
-          return postsList
-        })
-      )
-      return res.status(200).json(payloadResponse)
+      const resultEnd = await postServices.getPostInfluencer(req, res)
+      return res.status(200).json(resultEnd)
     } catch (error) {
       return res.status(400).json(error.message)
     }

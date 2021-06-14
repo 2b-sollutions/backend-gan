@@ -95,7 +95,7 @@ module.exports = {
           const productsForStore = []
           for (const item of products) {
             if (item.store.idStore.toString() === itemStore._id.toString()) {
-              productsForStore.push(item)
+              if (item !== null && item !== undefined) { productsForStore.push(item) }
             }
           }
           const payloadIf = {

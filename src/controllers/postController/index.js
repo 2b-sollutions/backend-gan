@@ -47,7 +47,7 @@ module.exports = {
           return item._id.toString()
         })
       }
-      console.log('productList', productList)
+
       const parameterForPost = { productList: { $in: productList } }
       const queryForPost = filter.length ? parameterForPost : null
       const posts = await Post.find(queryForPost).limit(limit * 1).skip((page - 1) * limit)
@@ -179,6 +179,7 @@ module.exports = {
               createdAt: post.createdAt,
               productDetailList
             }
+            console.log(productDetailList)
             if (productDetailList !== null && productDetailList !== undefined) {
               postsList.push(payloadResponseFor)
             }
@@ -186,13 +187,19 @@ module.exports = {
 
           const payloadResponseEnd = {
             influencerName: user[0].userName,
-            influecerImage: user[0].userImage,
+            influencerImage: user[0].userImage,
             postsList
           }
           return payloadResponseEnd
         })
       )
-      return res.status(200).json(payloadResponse)
+
+      const payLoadFiltered = payloadResponse.filter((item) => {
+        if (item.postsList.length > 0) {
+          return item
+        }
+      })
+      return res.status(200).json(payLoadFiltered)
     } catch (error) {
       return res.status(400).json(error.message)
     }

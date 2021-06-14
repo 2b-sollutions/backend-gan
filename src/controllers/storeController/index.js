@@ -95,18 +95,23 @@ module.exports = {
           const productsForStore = []
           for (const item of products) {
             if (item.store.idStore.toString() === itemStore._id.toString()) {
-              if (item !== null && item !== undefined) { productsForStore.push(item) }
+              productsForStore.push(item)
             }
           }
           const payloadIf = {
             nameStore: itemStore.razaoSocial,
             products: productsForStore
           }
-
           return payloadIf
         }))
-      console.log(payloadResponse)
-      return res.status(200).json(payloadResponse)
+
+      const payLoadFiltered = payloadResponse.filter((item) => {
+        if (item.products.length > 0) {
+          return item
+        }
+      })
+
+      return res.status(200).json(payLoadFiltered)
     } catch (error) {
       return res.status(400).json(error.message)
     }

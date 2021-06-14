@@ -42,13 +42,14 @@ module.exports = {
       const parameterForProduct = { 'productCategory.nameCategory': filter }
       const queryForProduct = filter.length ? parameterForProduct : null
       if (queryForProduct) {
-        const product = await Product.find(queryForProduct)
+        const product = await Product.find(parameterForProduct)
         productList = product.map(item => {
           return item._id.toString()
         })
       }
+      console.log('productList', productList)
       const parameterForPost = { productList: { $in: productList } }
-      const queryForPost = productList.length ? parameterForPost : null
+      const queryForPost = filter.length ? parameterForPost : null
       const posts = await Post.find(queryForPost).limit(limit * 1).skip((page - 1) * limit)
 
       const payloadResponse = await Promise.all(
@@ -157,37 +158,40 @@ module.exports = {
   // }
   async getPostInfluencer (req, res) {
     const { page = 1, limit = 10 } = req.query
-    const influencers = await Influencer.find().limit(limit * 1).skip((page - 1) * limit)
-    const payloadResponse = await Promise.all(
-      influencers.map(async (element) => {
-        const posts = await Post.find({ userId: element.userId }).limit(limit * 1).skip((page - 1) * limit)
-        const user = await User.find({ _id: element.userId })
+    try {
+      const influencers = await Influencer.find().limit(limit * 1).skip((page - 1) * limit)
+      const payloadResponse = await Promise.all(
+        influencers.map(async (element) => {
+          const posts = await Post.find({ userId: element.userId }).limit(limit * 1).skip((page - 1) * limit)
+          const user = await User.find({ _id: element.userId })
 
-        const postsList = []
-        for (const post of posts) {
-          const productDetailList = await Promise.all(await post.productList.map(async (element) => {
-            const product = await Product.findById({ _id: element })
+          const postsList = []
+          for (const post of posts) {
+            const productDetailList = await Promise.all(await post.productList.map(async (element) => {
+              const product = await Product.findById({ _id: element })
 
-            return product
-          }))
-          const payloadResponseFor = {
-            postId: post._id,
-            imagePostList: post.imagePostList,
-            descriptionPost: post.description,
-            createdAt: post.createdAt,
-            productDetailList
+              return product
+            }))
+            const payloadResponseFor = {
+              postId: post._id,
+              imagePostList: post.imagePostList,
+              descriptionPost: post.description,
+              createdAt: post.createdAt,
+              productDetailList
+            }
+            postsList.push(payloadResponseFor)
           }
-          postsList.push(payloadResponseFor)
-        }
 
-        const payloadResponseEnd = {
-          influencerName: user[0].userName,
-          postsList
-        }
-        return payloadResponseEnd
-      })
-    )
-
-    return payloadResponse
+          const payloadResponseEnd = {
+            influencerName: user[0].userName,
+            postsList
+          }
+          return payloadResponseEnd
+        })
+      )
+      return res.status(200).json(payloadResponse)
+    } catch (error) {
+      return res.status(400).json(error.message)
+    }
   }
 }

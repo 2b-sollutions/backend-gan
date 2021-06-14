@@ -179,11 +179,14 @@ module.exports = {
               createdAt: post.createdAt,
               productDetailList
             }
-            postsList.push(payloadResponseFor)
+            if (productDetailList !== null && productDetailList !== undefined) {
+              postsList.push(payloadResponseFor)
+            }
           }
 
           const payloadResponseEnd = {
             influencerName: user[0].userName,
+            influecerImage: user[0].userImage,
             postsList
           }
           return payloadResponseEnd

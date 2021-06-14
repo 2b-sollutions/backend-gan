@@ -21,6 +21,7 @@ const args = {
 module.exports = {
   async createCart (req, res) {
     const bodyData = req.body
+    bodyData.enable = true
     const { token } = req.headers
     const decoded = await Helpers.decodeToken(token, { complete: true })
     const userId = decoded.payloadRequest.id

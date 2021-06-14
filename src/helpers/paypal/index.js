@@ -45,6 +45,7 @@ module.exports = {
           if (error) {
             reject(error)
           } else {
+            console.log(payment)
             resolve(payment)
           }
         })

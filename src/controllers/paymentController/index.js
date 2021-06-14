@@ -4,15 +4,24 @@ const OrderDetail = require('../../models/OrderDetails')
 const comuns = require('../../helpers/comuns')
 const enums = require('../../helpers/enums')
 const paypal = require('../../helpers/paypal')
-
+const valor = {}
 module.exports = {
+
   async buy (req, res) {
     const { token } = req.headers
     const decoded = await comuns.decodeToken(token, { complete: true })
     const userId = decoded.payloadRequest.id
 
     try {
+      const linkPush = []
       const payment = await paypal.create(req)
+      const url = payment.links.forEach(item => {
+        if (item.rel === 'approval_url') {
+          linkPush.push(item.href)
+        }
+      })
+      console.log(url)
+
       const payloadNewOrder = {
         orderNumber: '#' + Math.floor(Math.random() * (90000 - 10000) + 1000),
         userId: userId,
@@ -24,7 +33,7 @@ module.exports = {
         status: enums.STATUS_PAGAMENTO_ENVIADO,
         productQuantity: req.body.productQuantity,
         totalPrice: parseFloat(req.body.totalPrice),
-        links: payment.links
+        link: linkPush[0]
       }
 
       const newOrder = await Order.create(payloadNewOrder)
@@ -41,7 +50,7 @@ module.exports = {
       }
       await OrderDetail.create(payloadNewOrderDetails)
 
-      return res.status(200).json(newOrder)
+      return res.status(200).json(payloadNewOrder)
     } catch (error) {
       return res.status(400).json(error.message)
     }
@@ -51,18 +60,18 @@ module.exports = {
       const payerId = req.query.PayerID
       const paymentId = req.query.paymentId
       const token = req.query.token
-      const valor = { currency: 'BRL', total: '15.00' }
+
       const execute_payment_json = {
         payer_id: payerId,
         transactions: [{
           amount: valor
         }]
       }
-      paypal.payment.execute(paymentId, execute_payment_json, (error, payment) => {
+      paypal.payment.execute(paymentId, execute_payment_json, async (error, payment) => {
         if (error) {
           throw error
         } else {
-          console.log('pagamento efetuado')
+          // const newOrder = await Order.OrderDetail({payment.id = payment[0].id})
           return res.status(200).json({
             message: 'Logado com sucesso',
             token

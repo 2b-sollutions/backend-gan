@@ -2,7 +2,7 @@ const Post = require('../../models/Post')
 const Influencer = require('../../models/Influencer')
 const User = require('../../models/User')
 const Product = require('../../models/Product')
-const postServices = require('../PostController/services')
+// const postServices = require('../PostController/services')
 
 // const fs = require('fs')
 

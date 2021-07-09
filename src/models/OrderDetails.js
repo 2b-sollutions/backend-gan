@@ -27,7 +27,7 @@ const Schema = new mongoose.Schema({
     storeName: { type: String, required: true },
     storeImage: { type: String, required: true },
     productList: [{
-      productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Produto', required: false },
+      productId: { type: String, required: false },
       productName: { type: String, required: false },
       productQuantity: { type: Number, default: 1 },
       productColor: { type: String, required: false },

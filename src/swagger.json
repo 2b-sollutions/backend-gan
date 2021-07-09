@@ -750,7 +750,7 @@
         },
         "/api/v1/products/post/{post_id}": {
             "get": {
-                "tags": ["Producs"],
+                "tags": ["Products"],
                 "summary": "Geting products by post_id",
                 "consumes": [],
                 "produces": ["text/plain", "application/json", "text/json"],
@@ -770,7 +770,7 @@
                 }
             }
         },
-        "/api/v1/products/{product_id}": {
+        "/api/v1/products/{product_id}/product": {
             "get": {
                 "tags": ["Products"],
                 "summary": "Geting products by product_id",
@@ -793,7 +793,7 @@
             }
 
         },
-        "/api/v1/products/{store_id}": {
+        "/api/v1/products/{store_id}/store": {
             "post": {
                 "tags": ["Products"],
                 "summary": "Register products by store_id",
@@ -832,7 +832,7 @@
         },
         "/api/v1/products/colors": {
             "get": {
-                "tags": ["Product"],
+                "tags": ["Products"],
                 "summary": "Take colors",
                 "consumes": [],
                 "produces": ["text/plain", "application/json", "text/json"],
@@ -918,6 +918,85 @@
                     }
                 }
             }
+        },
+        "/api/v1/payment/buy": {
+            "post": {
+                "tags": ["Payments"],
+                "summary": "Make Payment fo your cart",
+                "consumes": [],
+                "produces": ["text/plain", "application/json", "text/json"],
+                "parameters": [{
+                    "name": "token",
+                    "in": "header",
+                    "required": false,
+                    "schema": {
+                        "type": "apiKey",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkUmVxdWVzdCI6eyJ1c2VyTmFtZSI6IlRlc3RlSW5mbHVlbmNlciIsImlkIjoiNjAzMjhiMDBiZGM1MzA0YTZjZGUyZGYwIiwicGVyZmlsIjoyfSwiaWF0IjoxNjEzOTkzNzY5LCJleHAiOjE2MTM5OTczNjl9.KVWJ4D1HKqPoIYSFxgBaYiUUXR33QXITEWcN1hQHoOg"
+                    }
+                },
+                {
+                    "name": "paymentList",
+                    "in": "body",
+                    "required": false,
+                    "schema": {
+                        "type": "object",
+                        "example": {
+                                "deliveryAdress": {
+                                  "street": "testeaaa",
+                                  "number": 555,
+                                  "city": "São Paulo",
+                                      "state":"SP",
+                                        "postCode": 12422110
+                                },
+                                "sendMethod":{
+                                    "typeMethod": "PAC",
+                                    "price": 37.00,
+                                    "deliveryDateEstimated":""
+                                },
+                                "paymentMethod":{
+                                    "typeMethod": "Paypal",
+                                    "Description":"",
+                                    "imageMethod":"",
+                                    "credCard":"master"
+                                    
+                                },
+                                "cartId":"60431558fc37be18b0562e9b",
+                                "productList": [
+                                {
+                                  "_id": "6092a003199efa0e28691559",
+                                  "productName": "Jaqueta da Renner",
+                                  "productDescription": "Tamnho M P e G",
+                                  "productPrice": 115,
+                                  "productQuantity": 1,
+                                        "productSize": "P",
+                                        "productColor": "Roxo",
+                                  "productImage": "https://tse1.mm.bing.net/th?id=OIP.0N-c1zc07K0q_9iPzN0SzwHaHa&pid=Api&P=0&w=300&h=300",
+                                  "__v": 0
+                                },
+                                {
+                                  "_id": "6092b974199efa0e2869155b",
+                                  "productName": "Jaqueta da Renner",
+                                  "productDescription": "Tamnho M P e G",
+                                  "productPrice": 115,
+                                  "productQuantity": 1,
+                                        "productSize": "P",
+                                        "productColor": "Roxo",
+                                  "productImage": "https://tse1.mm.bing.net/th?id=OIP.0N-c1zc07K0q_9iPzN0SzwHaHa&pid=Api&P=0&w=300&h=300",
+                                  "__v": 0
+                                }],
+                              "totalPrice": 230,
+                                "productQuantity": 5
+                            }
+                        }
+                    }
+            ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+
         },
         "definitions": {}
     }

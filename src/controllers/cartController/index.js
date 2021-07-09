@@ -60,7 +60,6 @@ module.exports = {
     try {
       const cartId = req.params.cartId
       const newCart = await Cart.findById(cartId)
-      // await myCart.populate('products').execPopulate()
       return res.status(200).json(newCart)
     } catch (error) {
       return res.status(400).json(error)
@@ -116,7 +115,6 @@ module.exports = {
   },
   async getDeliveryCep (req, res) {
     try {
-      // Recupera o cep
       const cepRequested = req.body.CEP
       const adress = await Helpers.getCep(cepRequested)
       return res.status(200).json(adress)
@@ -135,18 +133,20 @@ module.exports = {
       // Fazer uma requisião  para toda a lista de produtos do carrinho e recuperar os ceps das marcars para serem o cep origem
       const myCart = await Cart.find({ userId: userId })
       const enableCart = myCart.filter(function (cart) {
-        return cart.enable
+        return cart
       })
+      let freteSedex = []
+      let fretePac = []
       // filtra todas as lojas distintas dos produtos incluso no meu carrinho
-      for (const productId of enableCart[0].products) {
-        const product = await Product.findById(productId)
-        const store = await Store.findById(product.store)
+      for (const productId of enableCart[0].productList) {
+        const product = await Product.findById(productId.productId)
+        const store = await Store.findById(product.store.idStore)
         args.sCepOrigem = store.adress.postCode
         args.sCepDestino = cepRequested
         args.nCdServico = ['04014']
-        const fretePac = await Helpers.getCepTax(args)
+        fretePac = await Helpers.getCepTax(args)
         args.nCdServico = ['04510']
-        const freteSedex = await Helpers.getCepTax(args)
+        freteSedex = await Helpers.getCepTax(args)
         totalPac.push(freteSedex[0].Valor)
         totalSedex.push(fretePac[0].Valor)
       };
@@ -159,8 +159,14 @@ module.exports = {
         return acumulador + parseFloat(valorParseado)
       }, 0)
       const payloadFinal = {
-        totalPacReturn,
-        totalSedexReturn
+        totalPac: {
+          totalPacReturn,
+          prazoEntrega: fretePac[0].PrazoEntrega
+        },
+        totalSedex: {
+          totalSedexReturn,
+          prazoEntrega: freteSedex[0].PrazoEntrega
+        }
       }
       return res.status(200).json(payloadFinal)
     } catch (error) {

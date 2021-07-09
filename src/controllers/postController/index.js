@@ -1,10 +1,7 @@
 const Post = require('../../models/Post')
-const Influencer = require('../../models/Influencer')
 const User = require('../../models/User')
 const Product = require('../../models/Product')
-// const postServices = require('../PostController/services')
-
-// const fs = require('fs')
+const postServices = require('../../services/postServices')
 
 const Helpers = require('../../helpers/comuns')
 const dayjs = require('dayjs')
@@ -148,58 +145,10 @@ module.exports = {
   //         return res.status(400).json(error)
   //     }
   // },
-  // async getPostInfluencer (req, res) {
-  //   try {
-  //     const resultEnd = await postServices.getPostInfluencer(req, res)
-  //     return res.status(200).json(resultEnd)
-  //   } catch (error) {
-  //     return res.status(400).json(error.message)
-  //   }
-  // }
   async getPostInfluencer (req, res) {
-    const { page = 1, limit = 10 } = req.query
     try {
-      const influencers = await Influencer.find().limit(limit * 1).skip((page - 1) * limit)
-      const payloadResponse = await Promise.all(
-        influencers.map(async (element) => {
-          const posts = await Post.find({ userId: element.userId }).limit(limit * 1).skip((page - 1) * limit)
-          const user = await User.find({ _id: element.userId })
-
-          const postsList = []
-          for (const post of posts) {
-            const productDetailList = await Promise.all(await post.productList.map(async (element) => {
-              const product = await Product.findById({ _id: element })
-
-              return product
-            }))
-            const payloadResponseFor = {
-              postId: post._id,
-              imagePostList: post.imagePostList,
-              descriptionPost: post.description,
-              createdAt: post.createdAt,
-              productDetailList
-            }
-            console.log(productDetailList)
-            if (productDetailList !== null && productDetailList !== undefined) {
-              postsList.push(payloadResponseFor)
-            }
-          }
-
-          const payloadResponseEnd = {
-            influencerName: user[0].userName,
-            influencerImage: user[0].userImage,
-            postsList
-          }
-          return payloadResponseEnd
-        })
-      )
-
-      const payLoadFiltered = payloadResponse.filter((item) => {
-        if (item.postsList.length > 0) {
-          return item
-        }
-      })
-      return res.status(200).json(payLoadFiltered)
+      const resultEnd = await postServices.getPostInfluencer(req, res)
+      return res.status(200).json(resultEnd)
     } catch (error) {
       return res.status(400).json(error.message)
     }

@@ -85,7 +85,7 @@ module.exports = {
       return res.status(400).json(error)
     }
   },
-  async producStore (req, res) {
+  async productStore (req, res) {
     try {
       const store = await Store.find()
 

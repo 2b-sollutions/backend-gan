@@ -1,10 +1,11 @@
 const User = require('../../models/User')
 const Order = require('../../models/Order')
 const OrderDetail = require('../../models/OrderDetails')
+const paymentServices = require('../../services/paymentServices')
 const comuns = require('../../helpers/comuns')
 const enums = require('../../helpers/enums')
 const paypal = require('../../helpers/paypal')
-const valor = {}
+
 module.exports = {
 
   async buy (req, res) {
@@ -20,8 +21,7 @@ module.exports = {
           linkPush.push(item.href)
         }
       })
-      console.log(url)
-
+      const storeList = await paymentServices.searchStoreByProductList(req.body.productList)
       const payloadNewOrder = {
         orderNumber: '#' + Math.floor(Math.random() * (90000 - 10000) + 1000),
         userId: userId,
@@ -38,6 +38,7 @@ module.exports = {
 
       const newOrder = await Order.create(payloadNewOrder)
       const userProperties = await User.findById(userId)
+
       const payloadNewOrderDetails = {
         orderId: newOrder._id,
         cartId: req.body.cartId,
@@ -45,7 +46,7 @@ module.exports = {
         deliveryAdress: req.body.deliveryAdress,
         sendMethod: req.body.sendMethod,
         paymentMethod: req.body.paymentMethod,
-        storeList: req.body.storeList,
+        storeList: storeList,
         userName: userProperties.userName
       }
       await OrderDetail.create(payloadNewOrderDetails)
@@ -57,26 +58,14 @@ module.exports = {
   },
   async success (req, res) {
     try {
-      const payerId = req.query.PayerID
-      const paymentId = req.query.paymentId
-      const token = req.query.token
-
-      const execute_payment_json = {
-        payer_id: payerId,
-        transactions: [{
-          amount: valor
-        }]
-      }
-      paypal.payment.execute(paymentId, execute_payment_json, async (error, payment) => {
-        if (error) {
-          throw error
-        } else {
-          // const newOrder = await Order.OrderDetail({payment.id = payment[0].id})
-          return res.status(200).json({
-            message: 'Logado com sucesso',
-            token
-          })
-        }
+      const confirmationPayment = await paypal.success(req)
+      const orderDetail = await OrderDetail.find({ 'payment.id': confirmationPayment.id })
+      await Order.findByIdAndUpdate(orderDetail[0].orderId, { status: enums.STATUS_PAGAMENTO_CONFIRMADO }, { new: true })
+      return res.status(200).json({
+        message: 'Pagamento efetuado com sucesso',
+        orderNumber: '#454677',
+        emailPurchaser: confirmationPayment.email,
+        name: { ...confirmationPayment.first_name, ...confirmationPayment.last_name }
       })
     } catch (error) {
       return res.status(400).json(error.message)

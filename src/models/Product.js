@@ -13,7 +13,7 @@ const Schema = new mongoose.Schema({
     weightCategory: { type: Number }
   },
   store: {
-    idStore: { type: mongoose.Schema.Types.ObjectId, ref: 'Store', required: true },
+    idStore: { type: String },
     nameStore: { type: String },
     imageStore: { type: String }
   },

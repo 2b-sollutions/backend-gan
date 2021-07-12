@@ -147,10 +147,52 @@ module.exports = {
   // },
   async getPostInfluencer (req, res) {
     try {
-      const resultEnd = await postServices.getPostInfluencer(req, res)
+      const resultEnd = await postServices.getPostInfluencer(req)
       return res.status(200).json(resultEnd)
     } catch (error) {
       return res.status(400).json(error.message)
+    }
+  },
+  async getRelationedPost (req, res) {
+    try {
+      const { page = 1, filter = 0 } = req.query
+      let productList = []
+      const parameterForProduct = { 'productCategory.nameCategory': filter }
+      const queryForProduct = filter.length ? parameterForProduct : null
+      if (queryForProduct) {
+        const product = await Product.find(parameterForProduct)
+        productList = product.map(item => {
+          return item._id.toString()
+        })
+      }
+
+      const parameterForPost = { productList: { $in: productList } }
+      const queryForPost = filter.length ? parameterForPost : null
+      const posts = await Post.find(queryForPost).limit(3).skip((page - 1) * 3)
+
+      const payloadResponse = await Promise.all(
+        posts.map(async (element) => {
+          const day = dayjs(new Date())
+          const updatedDays = day.diff(element.createdAt, 'day')
+          const updatedWeek = day.diff(element.createdAt, 'week')
+          const updatedMonth = day.diff(element.createdAt, 'month')
+          const user = await User.findById(element.userId)
+          const payloadResponse = {
+            user: user.userName,
+            userImage: user.userImage,
+            updateDate: {
+              updatedDays,
+              updatedWeek,
+              updatedMonth
+            },
+            imagePostList: element.imagePostList,
+            postId: element.id
+          }
+          return payloadResponse
+        }))
+      return res.status(200).json({ totalPorPage: payloadResponse.length, payloadResponse })
+    } catch (error) {
+      return res.status(400).json(error)
     }
   }
 }

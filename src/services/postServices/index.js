@@ -5,7 +5,7 @@ const Product = require('../../models/Product')
 
 module.exports = {
 
-  async getPostInfluencer (req, res) {
+  async getPostInfluencer (req) {
     const { page = 1, limit = 10 } = req.query
     const influencers = await Influencer.find().limit(limit * 1).skip((page - 1) * limit)
     const payloadResponse = await Promise.all(

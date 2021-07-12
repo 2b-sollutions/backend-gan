@@ -684,6 +684,93 @@
                 "summary": "Take All Posts",
                 "consumes": [],
                 "produces": ["text/plain", "application/json", "text/json"],
+                "parameters": [{
+                    "name": "page",
+                    "in": "query",
+                    "required": true,
+                    "type": "array",
+                    "items": {
+                    "type": "string",
+                    "enum": [
+                        "1",
+                        "2",
+                        "3"
+                    ]
+                 }
+                },
+                {   "name": "limit",
+                    "in": "query",
+                    "required": true,
+                    "type": "array",
+                    "items": {
+                    "type": "string",
+                    "enum": [
+                        "1",
+                        "5",
+                        "10"
+                    ]
+                 }
+                },
+                {
+                    "name": "filter",
+                    "in": "query",
+                    "required": true,
+                    "type": "array",
+                    "items": {
+                    "type": "string",
+                    "enum": [
+                        "Camisa",
+                        "Camiseta",
+                        "Cropped"
+                    ]
+                 }
+                }
+                
+            ],
+                
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/v1/post/relationed": {
+            "get": {
+                "tags": ["Post"],
+                "summary": "Take Posts Reletianed",
+                "consumes": [],
+                "produces": ["text/plain", "application/json", "text/json"],
+                "parameters": [{
+                    "name": "page",
+                    "in": "query",
+                    "required": true,
+                    "type": "array",
+                    "items": {
+                    "type": "string",
+                    "enum": [
+                        "1",
+                        "2",
+                        "3"
+                    ]
+                 }
+                },
+                {
+                    "name": "filter",
+                    "in": "query",
+                    "required": true,
+                    "type": "array",
+                    "items": {
+                    "type": "string",
+                    "enum": [
+                        "Camisa",
+                        "Camiseta",
+                        "Cropped"
+                    ]
+                 }
+                }
+                
+            ],
                 "responses": {
                     "200": {
                         "description": "Success"

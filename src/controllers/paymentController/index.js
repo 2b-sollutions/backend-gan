@@ -51,7 +51,23 @@ module.exports = {
       }
       await OrderDetail.create(payloadNewOrderDetails)
 
-      return res.status(200).json(payloadNewOrder)
+      const payLoadResponse = {
+        mode: 'sandbox',
+        approvalUrl: payloadNewOrder.link,
+        placeholder: 'ppplus',
+        payerEmail: 'lincoln.araujo.dias@gmail.com',
+        payerFirstName: userProperties.userName,
+        payerLastName: userProperties.userName,
+        payerPhone: '12988108463',
+        payerTaxId: '30949017787',
+        miniBrowser: false,
+        language: 'pt_BR',
+        country: 'BR',
+        merchantInstallmentSelection: '1',
+        merchantInstallmentSelectionOptional: true
+      }
+
+      return res.status(200).json(payLoadResponse)
     } catch (error) {
       return res.status(400).json(error.message)
     }

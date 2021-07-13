@@ -34,11 +34,16 @@ module.exports = {
           },
           amount: {
             currency: 'BRL',
-            total: req.body.totalPrice
+            total: req.body.totalPrice,
+            details: {
+              shipping: req.body.shipping,
+              subtotal: req.body.subtotal,
+              tax: '0'
+            }
           },
           description: 'This is the payment description.',
           payment_options: {
-            allowed_payment_method: "IMMEDIATE_PAY"
+            allowed_payment_method: 'IMMEDIATE_PAY'
           }
         }]
       }
@@ -48,7 +53,6 @@ module.exports = {
           if (error) {
             reject(error)
           } else {
-            
             resolve(payment)
           }
         })

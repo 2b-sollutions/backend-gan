@@ -1,3 +1,6 @@
+const Product = require('../../models/Product')
+const Post = require('../../models/Post')
+const Store = require('../../models/Store')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const { consultarCep, calcularPrecoPrazo, rastrearEncomendas } = require('correios-brasil')
@@ -76,10 +79,21 @@ module.exports = {
       return error
     }
   },
+  async searchAll (req, res) {
+    const { filter = 0 } = req.query
+    try {
+      await Post.find({ userId: userId })
+      await Product.find({ userId: userId })
+      await Store.find({ userId: userId })
+
+      return res.status(200).json(posts)
+    } catch (error) {
+      return res.status(400).json(error)
+    }
+  },
   async rastreio () {
     const codRastreio = ['OJ694821074BR', 'PW935793588BR'] // array de códigos de rastreios
     return await rastrearEncomendas(codRastreio).then((response) => {
-      
     })
   }
 

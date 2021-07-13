@@ -8,7 +8,7 @@ module.exports = {
       const storeListArr = []
       const productList = []
       for (const productItem of productLists) {
-        const product = await Product.findById(productItem._id)
+        const product = await Product.findById(productItem.productId)
         const storeProduct = await Store.findById(product.store.idStore)
 
         if (!storeListArr.includes(storeProduct.id)) {

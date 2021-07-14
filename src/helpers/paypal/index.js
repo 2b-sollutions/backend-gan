@@ -24,13 +24,12 @@ module.exports = {
           payment_method: 'paypal'
         },
         redirect_urls: {
-          return_url: 'http://localhost:8090/api/v1/payment/success',
-          cancel_url: 'http://cancel.url'
+          return_url: 'https://ecommerce-gan-back.herokuapp.com/api/v1/payment/success',
+          cancel_url: 'https://ecommerce-gan-back.herokuapp.com/api/v1/payment/cancel'
         },
         transactions: [{
           item_list: {
             items: itemList
-          // items: [{  name: 'item',    sku: 'item',   price: '1.00',   currency: 'BRL',  quantity: 2   }]
           },
           amount: {
             currency: 'BRL',
@@ -47,7 +46,6 @@ module.exports = {
           }
         }]
       }
-
       return new Promise((resolve, reject) => {
         paypal.payment.create(create_payment_json, async (error, payment) => {
           if (error) {

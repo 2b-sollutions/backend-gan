@@ -35,7 +35,7 @@ module.exports = {
         totalPrice: parseFloat(req.body.totalPrice),
         link: linkPush[0]
       }
-
+      console.log('LINKS', payment.links)
       const newOrder = await Order.create(payloadNewOrder)
       const userProperties = await User.findById(userId)
 
@@ -55,7 +55,7 @@ module.exports = {
         mode: 'sandbox',
         approvalUrl: payloadNewOrder.link,
         placeholder: 'ppplus',
-        payerEmail: 'lincoln.araujo.dias@gmail.com',
+        payerEmail: 'comprador@ganteste.com',
         payerFirstName: userProperties.userName,
         payerLastName: userProperties.userName,
         payerPhone: '12988108463',
@@ -63,7 +63,7 @@ module.exports = {
         miniBrowser: false,
         language: 'pt_BR',
         country: 'BR',
-        merchantInstallmentSelection: '1',
+        merchantInstallmentSelection: 1,
         merchantInstallmentSelectionOptional: true
       }
 

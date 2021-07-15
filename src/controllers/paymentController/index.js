@@ -14,13 +14,17 @@ module.exports = {
     const userId = decoded.payloadRequest.id
 
     try {
-      const linkPush = []
+      const approval_url = []
+      const execute_url = []
       const payment = await paypal.create(req)
       const url = payment.links.forEach(item => {
         if (item.rel === 'approval_url') {
-          linkPush.push(item.href)
+          approval_url.push(item.href)
+        } else if (item.rel === 'execute') {
+          execute_url.push(item.href)
         }
       })
+     
       const storeList = await paymentServices.searchStoreByProductList(req.body.productList)
       const payloadNewOrder = {
         orderNumber: '#' + Math.floor(Math.random() * (90000 - 10000) + 1000),
@@ -33,7 +37,8 @@ module.exports = {
         status: enums.STATUS_PAGAMENTO_ENVIADO,
         productQuantity: req.body.productQuantity,
         totalPrice: parseFloat(req.body.totalPrice),
-        link: linkPush[0]
+        approval_url: approval_url[0],
+        execute_url: execute_url[0]
       }
       console.log('LINKS', payment.links)
       const newOrder = await Order.create(payloadNewOrder)
@@ -50,10 +55,11 @@ module.exports = {
         userName: userProperties.userName
       }
       await OrderDetail.create(payloadNewOrderDetails)
-
       const payLoadResponse = {
         mode: 'sandbox',
-        approvalUrl: payloadNewOrder.link,
+        payId: '',
+        approvalUrl: payloadNewOrder.approval_url,
+        executeUrl: payloadNewOrder.execute_url.split('/')[6],
         placeholder: 'ppplus',
         payerEmail: 'comprador@ganteste.com',
         payerFirstName: userProperties.userName,

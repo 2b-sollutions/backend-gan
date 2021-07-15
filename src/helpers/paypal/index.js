@@ -23,6 +23,7 @@ module.exports = {
         payer: {
           payment_method: 'paypal'
         },
+        experience_profile_id: "XP-KKBV-GX57-QQAA-TAKM",
         redirect_urls: {
           return_url: 'https://ecommerce-gan-back.herokuapp.com/api/v1/payment/success',
           cancel_url: 'https://ecommerce-gan-back.herokuapp.com/api/v1/payment/cancel'

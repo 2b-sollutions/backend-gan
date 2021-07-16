@@ -1,5 +1,6 @@
 const User = require('../../models/User')
 const Order = require('../../models/Order')
+const Cart = require('../../models/Cart')
 const OrderDetail = require('../../models/OrderDetails')
 const paymentServices = require('../../services/paymentServices')
 const comuns = require('../../helpers/comuns')
@@ -14,13 +15,17 @@ module.exports = {
     const userId = decoded.payloadRequest.id
 
     try {
-      const linkPush = []
+      const approval_url = []
+      const execute_url = []
       const payment = await paypal.create(req)
       const url = payment.links.forEach(item => {
         if (item.rel === 'approval_url') {
-          linkPush.push(item.href)
+          approval_url.push(item.href)
+        } else if (item.rel === 'execute') {
+          execute_url.push(item.href)
         }
       })
+     
       const storeList = await paymentServices.searchStoreByProductList(req.body.productList)
       const payloadNewOrder = {
         orderNumber: '#' + Math.floor(Math.random() * (90000 - 10000) + 1000),
@@ -33,7 +38,8 @@ module.exports = {
         status: enums.STATUS_PAGAMENTO_ENVIADO,
         productQuantity: req.body.productQuantity,
         totalPrice: parseFloat(req.body.totalPrice),
-        link: linkPush[0]
+        approval_url: approval_url[0],
+        execute_url: execute_url[0]
       }
       console.log('LINKS', payment.links)
       const newOrder = await Order.create(payloadNewOrder)
@@ -50,10 +56,11 @@ module.exports = {
         userName: userProperties.userName
       }
       await OrderDetail.create(payloadNewOrderDetails)
-
       const payLoadResponse = {
         mode: 'sandbox',
-        approvalUrl: payloadNewOrder.link,
+        payId: '',
+        approvalUrl: payloadNewOrder.approval_url,
+        executeUrl: payloadNewOrder.execute_url.split('/')[6],
         placeholder: 'ppplus',
         payerEmail: 'comprador@ganteste.com',
         payerFirstName: userProperties.userName,
@@ -76,12 +83,14 @@ module.exports = {
     try {
       const confirmationPayment = await paypal.success(req)
       const orderDetail = await OrderDetail.find({ 'payment.id': confirmationPayment.id })
+      const order = await Order.findById(orderDetail[0].orderId)
       await Order.findByIdAndUpdate(orderDetail[0].orderId, { status: enums.STATUS_PAGAMENTO_CONFIRMADO }, { new: true })
+      await Cart.findByIdAndUpdate(orderDetail[0].cartId, { enable: false }, { new: true })
       return res.status(200).json({
         message: 'Pagamento efetuado com sucesso',
-        orderNumber: '#454677',
-        emailPurchaser: confirmationPayment.email,
-        name: { ...confirmationPayment.first_name, ...confirmationPayment.last_name }
+        orderNumber: order.orderNumber,
+        emailPurchaser: confirmationPayment.payer.payer_info.email,
+        name: `${confirmationPayment.payer.payer_info.first_name} ${confirmationPayment.payer.payer_info.last_name}`
       })
     } catch (error) {
       return res.status(400).json(error.message)

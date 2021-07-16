@@ -1,5 +1,6 @@
 const User = require('../../models/User')
 const Order = require('../../models/Order')
+const Cart = require('../../models/Cart')
 const OrderDetail = require('../../models/OrderDetails')
 const paymentServices = require('../../services/paymentServices')
 const comuns = require('../../helpers/comuns')
@@ -82,12 +83,14 @@ module.exports = {
     try {
       const confirmationPayment = await paypal.success(req)
       const orderDetail = await OrderDetail.find({ 'payment.id': confirmationPayment.id })
+      const order = await Order.findById(orderDetail[0].orderId)
       await Order.findByIdAndUpdate(orderDetail[0].orderId, { status: enums.STATUS_PAGAMENTO_CONFIRMADO }, { new: true })
+      await Cart.findByIdAndUpdate(orderDetail[0].cartId, { enable: false }, { new: true })
       return res.status(200).json({
         message: 'Pagamento efetuado com sucesso',
-        orderNumber: '#454677',
-        emailPurchaser: confirmationPayment.email,
-        name: { ...confirmationPayment.first_name, ...confirmationPayment.last_name }
+        orderNumber: order.orderNumber,
+        emailPurchaser: confirmationPayment.payer.payer_info.email,
+        name: `${confirmationPayment.payer.payer_info.first_name} ${confirmationPayment.payer.payer_info.last_name}`
       })
     } catch (error) {
       return res.status(400).json(error.message)

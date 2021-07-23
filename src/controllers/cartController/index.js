@@ -1,5 +1,4 @@
 const Cart = require('../../models/Cart')
-const Categorie = require('../../models/Category')
 const Product = require('../../models/Product')
 const Store = require('../../models/Store')
 const Helpers = require('../../helpers/comuns')

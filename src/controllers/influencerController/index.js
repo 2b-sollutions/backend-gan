@@ -43,6 +43,7 @@ module.exports = {
   },
   async getInfluencerByUserName (req, res) {
     try {
+      const { token } = req.headers
       const userName = req.params.userName
       const user = await User.find({ userName })
 
@@ -50,11 +51,24 @@ module.exports = {
         return res.status(400).json({ message: 'Nome de usuario não encontrado' })
       }
       const influencer = await Influencer.find({ userId: user[0].id })
+      const decoded = await Helpers.decodeToken(token, { complete: true })
       const payloadResponse = {
         userName: user[0].userName,
         userImage: user[0].userImage,
         _id: user[0].id,
         description: influencer[0].cellPhone
+      }
+      if (token.length > 0 && token.length !== null && token.length !== undefined) {
+        const data = {
+          userIdtoken: decoded.payloadRequest.id,
+          userId: user[0].id
+        }
+        const isSameProfile = await Helpers.verifyProfile(data)
+        if (isSameProfile) {
+          return res.status(200).json(payloadResponse)
+        } else {
+          return res.status(203).json(payloadResponse)
+        }
       }
       return res.status(200).json(payloadResponse)
     } catch (error) {

@@ -20,7 +20,7 @@ module.exports = {
   async getUserProducts (req, res) {
     const { store_id } = req.params
     try {
-      const producs = await Product.find({ store: store_id })
+      const producs = await Product.find({ 'store.idStore': store_id })
       return res.status(200).json(producs)
     } catch (error) {
       return res.status(400).json(error)

@@ -25,7 +25,6 @@ module.exports = {
           execute_url.push(item.href)
         }
       })
-     
       const storeList = await paymentServices.searchStoreByProductList(req.body.productList)
       const payloadNewOrder = {
         orderNumber: '#' + Math.floor(Math.random() * (90000 - 10000) + 1000),
@@ -41,7 +40,6 @@ module.exports = {
         approval_url: approval_url[0],
         execute_url: execute_url[0]
       }
-      console.log('LINKS', payment.links)
       const newOrder = await Order.create(payloadNewOrder)
       const userProperties = await User.findById(userId)
 
@@ -55,6 +53,7 @@ module.exports = {
         storeList: storeList,
         userName: userProperties.userName
       }
+      comuns.awsSendEmail(payloadNewOrderDetails, payloadNewOrder)
       await OrderDetail.create(payloadNewOrderDetails)
       const payLoadResponse = {
         mode: 'sandbox',

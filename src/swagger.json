@@ -881,7 +881,7 @@
 
         },
         "/api/v1/products/{store_id}/store": {
-            "post": {
+            "get": {
                 "tags": ["Products"],
                 "summary": "Register products by store_id",
                 "consumes": [],

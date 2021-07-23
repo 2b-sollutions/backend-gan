@@ -95,6 +95,73 @@ module.exports = {
     const codRastreio = ['OJ694821074BR', 'PW935793588BR'] // array de códigos de rastreios
     return await rastrearEncomendas(codRastreio).then((response) => {
     })
+  },
+  async verifyProfile (data) {
+    if (data.userIdtoken === data.userId) {
+      return true
+    } else {
+      return false
+    }
+  },
+  async awsSendEmail (payload, payload2) {
+    try {
+      aws.config.setPromisesDependency()
+      aws.config.update({
+        accessKeyId: process.env.AWS_ACCES_KEY_FEN,
+        secretAccessKey: process.env.AWS_SECRET_KEY_FEN,
+        region: process.env.AWS_REGION
+      })
+
+      const payloadToSend = {
+        customerName: payload.userName,
+        orderNumber: payload2.orderNumber,
+        emailAddress: 'lincoln@fen.social',
+        address: {
+          addressDsc: payload.deliveryAdress.street,
+          number: payload.deliveryAdress.number,
+          district: 'São Paulo',
+          city: payload.deliveryAdress.city,
+          state: payload.deliveryAdress.state
+        },
+        shipping: {
+          method: payload.sendMethod.typeMethod,
+          estimateDelivery: payload.sendMethod.deliveryDateEstimated
+        },
+        payment: {
+          method: 'Cartão de Crédito',
+          endCardNumber: '5687',
+          installments: '3',
+          paymentValue: payload.payment.transactions[0].amount.total
+        }
+      }
+      
+      const params = {
+        Message: JSON.stringify(payloadToSend),
+        // MessageStructure: 'json',
+        TopicArn: 'arn:aws:sns:sa-east-1:583919085126:fen-notification-topic'
+      }
+
+      // Create promise and SNS service object
+      const publishTextPromise = new aws.SNS({ apiVersion: '2010-03-31' }).publish(
+        {
+          Message: params.Message,
+          // MessageStructure: params.MessageStructure,
+          TopicArn: params.TopicArn
+        }
+      ).promise()
+
+      // Handle promise's fulfilled/rejected states
+      publishTextPromise.then(
+        function (data) {
+          console.log(`Message ${payloadToSend} sent to the topic ${params.TopicArn}`)
+          console.log('MessageID is ' + data.MessageId)
+        }).catch(
+        function (err) {
+          console.error(err, err.stack)
+        })
+    } catch (error) {
+      return error.message
+    }
   }
 
 }

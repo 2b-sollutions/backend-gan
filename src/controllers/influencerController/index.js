@@ -59,7 +59,7 @@ module.exports = {
         _id: user[0].id,
         description: influencer[0].descriptionProfile
       }
-      if (token) {
+      if (token && token !== null) {
         const data = {
           userIdtoken: decoded.payloadRequest.id,
           userId: user[0].id

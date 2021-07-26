@@ -59,7 +59,7 @@ module.exports = {
         _id: user[0].id,
         description: influencer[0].descriptionProfile
       }
-      if (token && token !== null) {
+      if (token) {
         const data = {
           userIdtoken: decoded.payloadRequest.id,
           userId: user[0].id
@@ -68,10 +68,10 @@ module.exports = {
         if (isSameProfile) {
           return res.status(200).json(payloadResponse)
         } else {
-          return res.status(200).json(payloadResponse)
+          return res.status(203).json(payloadResponse)
         }
       }
-      return res.status(200).json(payloadResponse)
+      return res.status(203).json(payloadResponse)
     } catch (error) {
       return res.status(400).json(error.message)
     }

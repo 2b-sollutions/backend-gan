@@ -68,10 +68,10 @@ module.exports = {
         if (isSameProfile) {
           return res.status(200).json(payloadResponse)
         } else {
-          return res.status(203).json(payloadResponse)
+          return res.status(200).json(payloadResponse)
         }
       }
-      return res.status(203).json(payloadResponse)
+      return res.status(200).json(payloadResponse)
     } catch (error) {
       return res.status(400).json(error.message)
     }

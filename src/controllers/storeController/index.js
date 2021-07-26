@@ -1,4 +1,5 @@
 const Store = require('../../models/Store')
+const User = require('../../models/User')
 const Product = require('../../models/Product')
 const Helpers = require('../../helpers/comuns')
 
@@ -16,6 +17,7 @@ module.exports = {
         return res.status(400).json({ message: 'Cnpj ja cadastrado' })
       }
       const createdStore = await Store.create(storeObject)
+      User.findByIdAndUpdate(userModel.id, { registerCompleted: true }, { new: true })
       await createdStore.populate('userName').execPopulate()
       return res.status(200).json(createdStore)
     } catch (error) {

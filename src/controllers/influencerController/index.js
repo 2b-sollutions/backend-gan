@@ -17,6 +17,7 @@ module.exports = {
         return res.status(400).json({ message: 'Cpf ja cadastrado' })
       }
       const newInfluencer = await Influencer.create(influencerObject)
+      User.findByIdAndUpdate(userModel.id, { registerCompleted: true }, { new: true })
       return res.status(200).json(newInfluencer)
     } catch (error) {
       return res.status(400).json(error.message)
@@ -56,9 +57,9 @@ module.exports = {
         userName: user[0].userName,
         userImage: user[0].userImage,
         _id: user[0].id,
-        description: influencer[0].cellPhone
+        description: influencer[0].descriptionProfile
       }
-      if (token.length > 0 && token.length !== null && token.length !== undefined) {
+      if (token) {
         const data = {
           userIdtoken: decoded.payloadRequest.id,
           userId: user[0].id
@@ -70,7 +71,7 @@ module.exports = {
           return res.status(203).json(payloadResponse)
         }
       }
-      return res.status(200).json(payloadResponse)
+      return res.status(203).json(payloadResponse)
     } catch (error) {
       return res.status(400).json(error.message)
     }

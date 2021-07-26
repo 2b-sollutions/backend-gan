@@ -8,6 +8,7 @@ routes.post('/', [body('password').isLength({ min: 8 }).withMessage('Use 8 ou ma
 
   userController.createUser)
 routes.get('/', authenticationn.verifyToken, userController.getUser)
+routes.put('/activateUser', userController.activateUser)
 
 // Precisara olhar para  perfil
 routes.get('/:user_id', authenticationn.verifyToken, userController.getUserById)

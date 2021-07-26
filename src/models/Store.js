@@ -1,25 +1,25 @@
 const mongoose = require('mongoose')
 
 const Schema = new mongoose.Schema({
-  razaoSocial: { type: String, required: true },
-  celphone: { type: String, required: true },
-  adress: {
+  userId: { type: mongoose.Schema.Types.Array, ref: 'User', required: true },
+  cnpj: { type: String, required: true },
+  descriptionProfile: { type: String, required: true },
+  storeAdress: {
     street: { type: String },
     number: { type: Number },
     city: { type: String },
-    postCode: { type: String, required: true }
+    postCode: { type: String, required: true },
+    district: { type: String, required: true },
+    state: { type: String, required: true },
+    complement: { type: String }
   },
-  cnpj: { type: String, required: true },
-  email: { type: String, required: true },
-  legalTerms: { type: Boolean, required: true },
-  acountBank: [{
-    number: { type: Number },
+  storeAcountBank: {
     agency: { type: Number },
-    instituition: { type: String },
-    cvc: { type: Number }
-  }],
-  influencerList: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Influencer' }],
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }
+    account: { type: Number },
+    bank: { type: String },
+    pixKey: { type: String }
+  },
+  influencerList: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Influencer' }]
 })
 
 module.exports = mongoose.model('Store', Schema)

@@ -42,5 +42,14 @@ module.exports = {
     } catch (error) {
       return res.status(400).json(error)
     }
+  },
+  async activateUser (req, res) {
+    const { userId, userActivate } = req.body
+    try {
+      await User.findByIdAndUpdate(userId, { userActivate: userActivate }, { new: true })
+      return res.status(200).json('atualizado com sucesso')
+    } catch (error) {
+      return res.status(400).json(error)
+    }
   }
 }

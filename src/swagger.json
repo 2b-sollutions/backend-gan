@@ -188,13 +188,31 @@
                                 "password": { "type": "string" }
                             },
                             "example": {
-                                "userName": "testeInfluencer",
-                                "fullName": "1234",
-                                "cellPhone": "122334444",
-                                "email": "testeInfluencer@gmail.com",
-                                "cpf": "334443",
-                                "mei": "34567",
-                                "age": "30"
+                                "userId":"60ff6026ebd6e13d1c0d2dab" ,
+                                "cpf": 24430939389 ,
+                                "descriptionProfile":"alo alo estou testando influenciador" ,
+                                "measures": {
+                                    "height": "1.66",
+                                    "waist": "80",
+                                    "bust": "34",
+                                    "hip": "454",
+                                    "thigh": "12"
+                                },
+                                "influencerAdress": {
+                                    "street": "Avenida Quintanilha Ribeirop",
+                                    "number": "454",
+                                    "city": "São Paulo",
+                                    "postCode": "12333039",
+                                    "district": "Vila Campestre",
+                                    "state": "SP",
+                                    "complement": ""
+                                  },
+                                "influencerAcountBank": {
+                                    "agency": "3445",
+                                    "account": "54567898",
+                                    "bank": "{ type: String }",
+                                    "pixKey":"13434144gfdfgdfg"
+                                  }
                             }
                         }
                     }
@@ -251,7 +269,30 @@
                 }
             }
         },
-        "/api/v1/influencers/{userName}": {
+        "/api/v1/influencers/myStores": {
+            "get": {
+                "tags": ["Influencers"],
+                "summary": "Geting my Stores",
+                "consumes": [],
+                "produces": ["text/plain", "application/json", "text/json"],
+                "parameters": [{
+                    "name": "token",
+                    "in": "header",
+                    "required": false,
+                    "schema": {
+                        "type": "apiKey",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkUmVxdWVzdCI6eyJ1c2VyTmFtZSI6IkxJTkNBTyBEQSBNQVNTQSIsImlkIjoiNjBmZjYwMjZlYmQ2ZTEzZDFjMGQyZGFiIiwicHJvZmlsZSI6M30sImlhdCI6MTYyNzM1MjcwMiwiZXhwIjoxNjI3MzU2MzAyfQ.K1MRRfzV3yYc1G7RNA8P3Vx0EkEZrAgrK1__ol5LtBw"
+                    }
+
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/v1/influencers/{userName}/store": {
             "get": {
                 "tags": ["Influencers"],
                 "summary": "Geting influencer by User Name",
@@ -300,23 +341,25 @@
                                 "password": { "type": "string" }
                             },
                             "example": {
-                                "razaoSocial": "12312321313",
-                                "celphone": "12222",
-                                "influencerList": ["5ffdb1b45c67c0450c4d73fa", "5febbe951a5a5d553cd970e8", "5febbe991a5a5d553cd970e9"],
-                                "cnpj": "34523445678",
-                                "adress": {
-                                    "street": "loka",
-                                    "number": 555,
-                                    "city": "São Paulo"
+                                "userId": "60ff6b7c14bfb15154c970d6",
+                                "cnpj":"343200001000",
+                                "descriptionProfile": "Estou aqui testando para ver se a loja funciona",
+                                "storeAddress": {
+                                       "city": "São José dos Campos",
+                                       "complement": "undefined",
+                                       "district": "Parque Industrial",
+                                       "number": "123",
+                                       "postCode": "12235590",
+                                       "state": "SP",
+                                       "street": "Rua Tefe"
+                                    },
+                                "storeAccountBank": {
+                                    "account": "1212313",
+                                    "agency": "0000",
+                                    "document": "12312312",
+                                    "pix": "156156156"
                                 },
-                                "acountBank": {
-                                    "number": 5555,
-                                    "agency": "",
-                                    "instituition": 365,
-                                    "cpf": 333
-                                },
-                                "legalTerms": true,
-                                "email": "testeStore@gmail.com"
+                               "influencerList":[]
                             }
                         }
                     }

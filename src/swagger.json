@@ -269,7 +269,7 @@
                 }
             }
         },
-        "/api/v1/influencers/myStores": {
+        "/api/v1/influencers/stores": {
             "get": {
                 "tags": ["Influencers"],
                 "summary": "Geting my Stores",
@@ -292,7 +292,7 @@
                 }
             }
         },
-        "/api/v1/influencers/{userName}/store": {
+        "/api/v1/influencers/{userName}/page": {
             "get": {
                 "tags": ["Influencers"],
                 "summary": "Geting influencer by User Name",

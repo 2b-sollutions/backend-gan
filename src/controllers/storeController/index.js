@@ -17,7 +17,7 @@ module.exports = {
         return res.status(400).json({ message: 'Cnpj ja cadastrado' })
       }
       const createdStore = await Store.create(storeObject)
-      User.findByIdAndUpdate(userModel.id, { registerCompleted: true }, { new: true })
+      await User.findByIdAndUpdate(userModel.id, { registerCompleted: true }, { new: true })
       await createdStore.populate('userName').execPopulate()
       return res.status(200).json(createdStore)
     } catch (error) {

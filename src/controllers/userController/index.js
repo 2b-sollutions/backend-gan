@@ -11,6 +11,8 @@ module.exports = {
       }
       const encryptPassword = await helpers.encryptPassword(password)
       bodydata.password = encryptPassword
+      const response = await helpers.uploadImage(bodydata.userImage)
+      bodydata.userImage = response.Location
       const newUser = await User.create(bodydata)
       return res.status(200).json(newUser)
     } catch (error) {

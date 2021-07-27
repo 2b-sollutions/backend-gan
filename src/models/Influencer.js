@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const Schema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.Array, ref: 'User', required: true },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   cpf: { type: String, required: true },
   descriptionProfile: { type: String, required: true },
   measures: {

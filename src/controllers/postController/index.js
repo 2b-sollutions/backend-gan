@@ -19,7 +19,6 @@ module.exports = {
     try {
       const listImage = []
       bodyData.userImage = user.userImage
-      bodyData.createdAt = new Date()
       bodyData.userId = userId
       for (const image of bodyData.imagePostList) {
         const response = await Helpers.uploadImage(image)

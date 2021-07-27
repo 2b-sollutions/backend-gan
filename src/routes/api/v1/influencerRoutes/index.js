@@ -9,6 +9,7 @@ routes.get('/myAcount', authenticationn.verifyToken, influencerController.getMyA
 
 // Precisa de perfil
 routes.get('/', influencerController.getInfluencer)
-routes.get('/:userName', influencerController.getInfluencerByUserName)
+routes.get('/:userName/store', influencerController.getInfluencerByUserName)
+routes.get('/myStores', authenticationn.verifyToken, influencerController.getMyStores)
 
 module.exports = routes

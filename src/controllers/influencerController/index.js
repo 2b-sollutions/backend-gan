@@ -1,4 +1,5 @@
 const Influencer = require('../../models/Influencer')
+const Store = require('../../models/Store')
 const User = require('../../models/User')
 const Helpers = require('../../helpers/comuns')
 module.exports = {
@@ -75,6 +76,26 @@ module.exports = {
     } catch (error) {
       return res.status(400).json(error.message)
     }
+  },
+  async getMyStores (req, res) {
+    const { token } = req.headers
+    const decoded = await Helpers.decodeToken(token, { complete: true })
+    const storeList = []
+    try {
+      const _id = decoded.payloadRequest.id
+      const myStores = await Store.find({ influencerList: _id })
+      for (const store of myStores) {
+        const user = await User.find({ _id: store.userId })
+        const payloadResponse = {
+          store_id: user[0].id,
+          store_image: user[0].userImage,
+          store_name: user[0].userName
+        }
+        storeList.push(payloadResponse)
+      }
+      return res.status(200).json(storeList)
+    } catch (error) {
+      return res.status(400).json(error.message)
+    }
   }
-
 }

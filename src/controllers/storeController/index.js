@@ -58,12 +58,12 @@ module.exports = {
     const store_id = decoded.payloadRequest.id
     const { influencerListFront } = bodydata
     try {
-      const store = await Store.findById(store_id)
-      const { influencerList } = store
+      const store = await Store.find({ userId: store_id })
+      const influencerList = store[0].influencerList
       influencerListFront.forEach(element => {
         influencerList.push(element)
       })
-      const updatedStore = await Store.findByIdAndUpdate(store_id, { influencerList: influencerList }, { new: true })
+      const updatedStore = await Store.findByIdAndUpdate(store[0]._id, { influencerList: influencerList }, { new: true })
       return res.status(200).json(updatedStore)
     } catch (error) {
       return res.status(400).json(error)

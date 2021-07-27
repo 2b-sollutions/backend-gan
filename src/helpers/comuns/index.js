@@ -134,7 +134,7 @@ module.exports = {
           paymentValue: payload.payment.transactions[0].amount.total
         }
       }
-      
+
       const params = {
         Message: JSON.stringify(payloadToSend),
         // MessageStructure: 'json',

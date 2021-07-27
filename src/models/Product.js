@@ -13,9 +13,9 @@ const Schema = new mongoose.Schema({
     weightCategory: { type: Number }
   },
   store: {
-    idStore: { type: String },
-    nameStore: { type: String },
-    imageStore: { type: String }
+    userId: { type: String },
+    userName: { type: String },
+    userImage: { type: String }
   },
   detailsProduct: {
     type: [{

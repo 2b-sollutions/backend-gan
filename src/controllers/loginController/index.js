@@ -18,6 +18,9 @@ module.exports = {
       if (!validPassword) {
         return res.status(404).json({ message: 'Senha incorreta' })
       }
+      if (!hasUser.userActivate) {
+        return res.status(403).json({ message: 'Infelizmente seu usuario ainda não foi verificado' })
+      }
       const payloadRequest = {
         userName: hasUser.userName,
         id: hasUser._id,

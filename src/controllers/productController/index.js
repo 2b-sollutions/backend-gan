@@ -2,14 +2,17 @@ const Product = require('../../models/Product')
 const Post = require('../../models/Post')
 const Color = require('../../models/Color')
 const Size = require('../../models/Size')
+const Helpers = require('../../helpers/comuns')
 
 const dayjs = require('dayjs')
 module.exports = {
   async createProduct (req, res) {
+    const { token } = req.headers
+    const decoded = await Helpers.decodeToken(token, { complete: true })
+    const userModel = decoded.payloadRequest
     const bodydata = req.body
-    const { store_id } = req.params
     try {
-      const data = { store_id, ...bodydata }
+      const data = { ...userModel.id, ...bodydata }
       const newProduct = await Product.create(data)
       await newProduct.populate('userName').execPopulate()
       return res.status(200).json(newProduct)
@@ -17,7 +20,7 @@ module.exports = {
       return res.status(400).json(error)
     }
   },
-  async getUserProducts (req, res) {
+  async getStoreProducts (req, res) {
     const { store_id } = req.params
     try {
       const producs = await Product.find({ 'store.idStore': store_id })

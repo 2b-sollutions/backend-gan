@@ -4,7 +4,7 @@ const routes = Router()
 const productController = require('../../../../controllers/productController')
 
 routes.post('/', productController.createProduct)
-routes.get('/:store_id/store/', productController.getUserProducts)
+// routes.get('/:store_id/store/', productController.getUserProducts)
 routes.put('/:store_id/:product_id', productController.updateProduct)
 routes.delete('/:store_id/:product_id', productController.deleteProduct)
 

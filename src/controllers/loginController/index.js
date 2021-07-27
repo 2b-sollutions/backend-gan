@@ -28,7 +28,8 @@ module.exports = {
       return res.status(200).json({
         message: 'Logado com sucesso',
         token,
-        decode: decoded.payloadRequest
+        decode: decoded.payloadRequest,
+        registerCompleted: hasUser.registerCompleted
       })
     } catch (error) {
       return res.status(400).json(error.message)

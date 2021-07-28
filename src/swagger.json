@@ -802,7 +802,8 @@
                             "userId":"6100c5916e67aa0015396506",
                             "description":"Teste Post para Tropica",
                             "productList": ["6100ac1ad2158a1168209e7f"],
-                            "imagePostList": "base64"
+                            "technicalDetails": "gosto de usar tenis 34", 
+                            "imagePostList": ["base64","outraBase64"]
                         }
                     }
                 }

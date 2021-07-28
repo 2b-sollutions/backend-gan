@@ -4,6 +4,7 @@ const Schema = new mongoose.Schema({
   userId: { type: String },
   technicalDetaisl: { type: String },
   description: { type: String },
+  technicalDetails: { type: String },
   userImage: { type: String },
   productList: { type: Array, default: [], required: true },
   imagePostList: { type: Array, default: [], required: true }

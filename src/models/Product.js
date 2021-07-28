@@ -23,8 +23,7 @@ const Schema = new mongoose.Schema({
       productColor: { type: String, required: true },
       productSize: { type: String, required: true }
     }]
-  },
-  createdAt: { type: Date }
-})
+  }
+}, { timestamps: true })
 
 module.exports = mongoose.model('Product', Schema)

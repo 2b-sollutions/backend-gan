@@ -92,7 +92,10 @@ module.exports = {
     const { page = 1, limit = 3 } = req.query
     const payloadResponse = []
     try {
-      const products = await Product.find({ 'store.userId': store_id }).limit(limit * 1).skip((page - 1) * limit)
+      const quantidadeTotal = await Product.find({ 'store.userId': store_id }).count()
+      const products = await Product.find({ 'store.userId': store_id }).sort({ createdAt: -1 }).limit(limit * 1).skip((page - 1) * limit)
+      const totalPage = Math.round(quantidadeTotal / limit)
+
       products.forEach(product => {
         const payloadForEachResponse = {
           product_id: product._id,
@@ -102,7 +105,7 @@ module.exports = {
         }
         payloadResponse.push(payloadForEachResponse)
       })
-      return res.status(200).json({ payloadResponse, totalPorPage: payloadResponse.length })
+      return res.status(200).json({ payloadResponse, totalPage })
     } catch (error) {
       return res.status(400).json(error)
     }

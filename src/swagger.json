@@ -414,9 +414,61 @@
                         "required": false,
                         "schema": {
                             "type": "object",
-                            "example": "60327fa7bc253f41f0984b29"
+                            "example": "610049af1edcae0015ff5e89"
                         }
                     }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/v1/stores/{store_id}/products": {
+            "get": {
+                "tags": ["Stores"],
+                "summary": "Geting all products of the store",
+                "consumes": [],
+                "produces": ["text/plain", "application/json", "text/json"],
+                "parameters": [
+                    {
+                        "name": "store_id",
+                        "in": "path",
+                        "required": false,
+                        "schema": {
+                            "type": "object",
+                            "example": "60327fa7bc253f41f0984b29"
+                        }
+                    },
+                    {
+                    "name": "page",
+                    "in": "query",
+                    "required": true,
+                    "type": "array",
+                    "items": {
+                    "type": "string",
+                    "enum": [
+                        "1",
+                        "2",
+                        "3"
+                    ]
+                 }
+                },
+                {
+                    "name": "limit",
+                    "in": "query",
+                    "required": true,
+                    "type": "array",
+                    "items": {
+                    "type": "string",
+                    "enum": [
+                        "3",
+                        "5",
+                        "10"
+                    ]
+                 }
+                }
                 ],
                 "responses": {
                     "200": {
@@ -714,6 +766,47 @@
                         "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkUmVxdWVzdCI6eyJ1c2VyTmFtZSI6IlRlc3RlSW5mbHVlbmNlciIsImlkIjoiNjAzMjhiMDBiZGM1MzA0YTZjZGUyZGYwIiwicGVyZmlsIjoyfSwiaWF0IjoxNjEzOTkzNzY5LCJleHAiOjE2MTM5OTczNjl9.KVWJ4D1HKqPoIYSFxgBaYiUUXR33QXITEWcN1hQHoOg"
                     }
                 }],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/v1/post/createPost": {
+            "post": {
+                "tags": ["Post"],
+                "summary": "Creating post",
+                "consumes": [],
+                "produces": ["text/plain", "application/json", "text/json"],
+                "parameters": [{
+                    "name": "token",
+                    "in": "header",
+                    "required": false,
+                    "schema": {
+                        "type": "apiKey",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkUmVxdWVzdCI6eyJ1c2VyTmFtZSI6IlRlc3RlSW5mbHVlbmNlciIsImlkIjoiNjAzMjhiMDBiZGM1MzA0YTZjZGUyZGYwIiwicGVyZmlsIjoyfSwiaWF0IjoxNjEzOTkzNzY5LCJleHAiOjE2MTM5OTczNjl9.KVWJ4D1HKqPoIYSFxgBaYiUUXR33QXITEWcN1hQHoOg"
+                    }
+                },
+                {
+                    "name": "value",
+                    "in": "body",
+                    "required": false,
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "userName": { "type": "string" },
+                            "password": { "type": "string" }
+                        },
+                        "example": {
+                            "userId":"6100c5916e67aa0015396506",
+                            "description":"Teste Post para Tropica",
+                            "productList": ["6100ac1ad2158a1168209e7f"],
+                            "imagePostList": "base64"
+                        }
+                    }
+                }
+            ],
                 "responses": {
                     "200": {
                         "description": "Success"

@@ -4,14 +4,19 @@ const Post = require('../../models/Post')
 const Color = require('../../models/Color')
 const Size = require('../../models/Size')
 const Helpers = require('../../helpers/comuns')
-
 const dayjs = require('dayjs')
 module.exports = {
   async createProduct (req, res) {
+    const listImage = []
     const { token } = req.headers
     const decoded = await Helpers.decodeToken(token, { complete: true })
     const tokenData = decoded.payloadRequest
-    const bodydata = req.body
+    const bodyData = req.body
+    for (const image of bodyData.productListImages) {
+      const response = await Helpers.uploadImage(image)
+      listImage.push(response.Location)
+    };
+    console.log(listImage)
     try {
       const user = await User.find({ _id: tokenData.id })
       const store = {
@@ -21,8 +26,8 @@ module.exports = {
           userName: user[0].userName
         }
       }
-      const payloadCreate = { ...bodydata, ...store }
-      console.log(payloadCreate)
+      bodyData.productListImages = listImage
+      const payloadCreate = { ...bodyData, ...store }
       const newProduct = await Product.create(payloadCreate)
       return res.status(200).json(newProduct)
     } catch (error) {

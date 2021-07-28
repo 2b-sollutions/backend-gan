@@ -24,7 +24,7 @@ module.exports = {
         const response = await Helpers.uploadImage(image)
         listImage.push(response.Location)
       };
-      bodyData.imagePostList = listImage
+      bodyData.productListImages = listImage
       const newPost = await Post.create(bodyData)
       return res.status(200).json(newPost)
     } catch (error) {

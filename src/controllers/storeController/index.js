@@ -89,19 +89,20 @@ module.exports = {
   },
   async getProductsByStore (req, res) {
     const { store_id } = req.params
-    const payloadResponse1 = []
+    const { page = 1, limit = 3 } = req.query
+    const payloadResponse = []
     try {
-      const products = await Product.find({ 'store.userId': store_id })
+      const products = await Product.find({ 'store.userId': store_id }).limit(limit * 1).skip((page - 1) * limit)
       products.forEach(product => {
-        const payloadResponse = {
+        const payloadForEachResponse = {
           product_id: product._id,
           product_image: product.productListImages[0],
           prouct_name: product.productName,
           product_price: product.productPrice
         }
-        payloadResponse1.push(payloadResponse)
+        payloadResponse.push(payloadForEachResponse)
       })
-      return res.status(200).json(payloadResponse1)
+      return res.status(200).json({ payloadResponse, totalPorPage: payloadResponse.length })
     } catch (error) {
       return res.status(400).json(error)
     }

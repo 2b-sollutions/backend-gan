@@ -19,6 +19,7 @@ module.exports = {
       }
       const newInfluencer = await Influencer.create(influencerObject)
       const response = await Helpers.uploadImage(bodydata.userImage)
+      console.log("response", response)
       const teste = await User.findByIdAndUpdate(userModel.id, { registerCompleted: true, userImage: response.Location }, { new: true })
       console.log("teste USER IMAGE", teste)
       return res.status(200).json(newInfluencer)

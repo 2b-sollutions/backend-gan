@@ -1,4 +1,5 @@
 const Product = require('../../models/Product')
+const User = require('../../models/User')
 const Post = require('../../models/Post')
 const Color = require('../../models/Color')
 const Size = require('../../models/Size')
@@ -9,26 +10,26 @@ module.exports = {
   async createProduct (req, res) {
     const { token } = req.headers
     const decoded = await Helpers.decodeToken(token, { complete: true })
-    const userModel = decoded.payloadRequest
+    const tokenData = decoded.payloadRequest
     const bodydata = req.body
     try {
-      const data = { ...userModel.id, ...bodydata }
-      const newProduct = await Product.create(data)
-      await newProduct.populate('userName').execPopulate()
+      const user = await User.find({ _id: tokenData.id })
+      const store = {
+        store: {
+          userId: user[0]._id,
+          userImage: user[0].userImage,
+          userName: user[0].userName
+        }
+      }
+      const payloadCreate = { ...bodydata, ...store }
+      console.log(payloadCreate)
+      const newProduct = await Product.create(payloadCreate)
       return res.status(200).json(newProduct)
     } catch (error) {
       return res.status(400).json(error)
     }
   },
-  async getStoreProducts (req, res) {
-    const { store_id } = req.params
-    try {
-      const producs = await Product.find({ 'store.idStore': store_id })
-      return res.status(200).json(producs)
-    } catch (error) {
-      return res.status(400).json(error)
-    }
-  },
+
   async updateProduct (req, res) {
     const bodydata = req.body
     const { product_id, store_id } = req.params

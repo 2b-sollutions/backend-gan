@@ -10,7 +10,7 @@ routes.get('/', authenticationn.verifyToken, storeController.getStore)
 routes.post('/addInfluencer', authenticationn.verifyToken, storeController.addInfluencer)
 routes.post('/removeInfluencer', authenticationn.verifyToken, storeController.removeInfluencer)
 
-routes.get('/productStore', storeController.productStore)
+routes.get('/:store_id/products', storeController.getProductsByStore)
 
 // vai precisar de permissao
 routes.get('/:store_id', authenticationn.verifyToken, storeController.getStoreById)

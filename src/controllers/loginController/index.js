@@ -16,7 +16,7 @@ module.exports = {
       }
       const validPassword = await Helpers.decryptPassword(passwordParams)
       if (!validPassword) {
-        return res.status(404).json({ message: 'Senha incorreta' })
+        return res.status(404).json({ message: 'Usuario ou Senha incorreto' })
       }
       if (!hasUser.userActivate) {
         return res.status(403).json({ message: 'Infelizmente seu usuario ainda não foi verificado' })

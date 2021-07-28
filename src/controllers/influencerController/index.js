@@ -18,7 +18,8 @@ module.exports = {
         return res.status(400).json({ message: 'Cpf ja cadastrado' })
       }
       const newInfluencer = await Influencer.create(influencerObject)
-      await User.findByIdAndUpdate(userModel.id, { registerCompleted: true }, { new: true })
+      const response = await Helpers.uploadImage(bodydata.userImage)
+      await User.findByIdAndUpdate(userModel.id, { registerCompleted: true, userImage: response.Location }, { new: true })
       return res.status(200).json(newInfluencer)
     } catch (error) {
       return res.status(400).json(error.message)

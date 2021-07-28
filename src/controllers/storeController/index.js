@@ -87,35 +87,54 @@ module.exports = {
       return res.status(400).json(error)
     }
   },
-  async productStore (req, res) {
+  async getProductsByStore (req, res) {
+    const { store_id } = req.params
+    const payloadResponse1 = []
     try {
-      const store = await Store.find()
-
-      const payloadResponse = await Promise.all(
-        store.map(async (itemStore) => {
-          const products = await Product.find()
-          const productsForStore = []
-          for (const item of products) {
-            if (item.store.idStore.toString() === itemStore._id.toString()) {
-              productsForStore.push(item)
-            }
-          }
-          const payloadIf = {
-            nameStore: itemStore.razaoSocial,
-            products: productsForStore
-          }
-          return payloadIf
-        }))
-
-      const payLoadFiltered = payloadResponse.filter((item) => {
-        if (item.products.length > 0) {
-          return item
+      const products = await Product.find({ 'store.userId': store_id })
+      products.forEach(product => {
+        const payloadResponse = {
+          product_id: product._id,
+          product_image: product.productListImages[0],
+          prouct_name: product.productName,
+          product_price: product.productPrice
         }
+        payloadResponse1.push(payloadResponse)
       })
-
-      return res.status(200).json(payLoadFiltered)
+      return res.status(200).json(payloadResponse1)
     } catch (error) {
-      return res.status(400).json(error.message)
+      return res.status(400).json(error)
     }
   }
+  // async productStore (req, res) {
+  //   try {
+  //     const store = await Store.find()
+
+  //     const payloadResponse = await Promise.all(
+  //       store.map(async (itemStore) => {
+  //         const products = await Product.find()
+  //         const productsForStore = []
+  //         for (const item of products) {
+  //           if (item.store.idStore.toString() === itemStore._id.toString()) {
+  //             productsForStore.push(item)
+  //           }
+  //         }
+  //         const payloadIf = {
+  //           nameStore: itemStore.razaoSocial,
+  //           products: productsForStore
+  //         }
+  //         return payloadIf
+  //       }))
+
+  //     const payLoadFiltered = payloadResponse.filter((item) => {
+  //       if (item.products.length > 0) {
+  //         return item
+  //       }
+  //     })
+
+  //     return res.status(200).json(payLoadFiltered)
+  //   } catch (error) {
+  //     return res.status(400).json(error.message)
+  //   }
+  // }
 }

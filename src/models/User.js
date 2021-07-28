@@ -10,7 +10,7 @@ const Schema = new mongoose.Schema({
   legalTerms: { type: Boolean, required: true },
   userActivate: { type: Boolean, default: false },
   registerCompleted: { type: Boolean, default: false },
-  userImage: { type: String }
+  userImage: { type: String, default: null }
 }, { timestamps: true })
 
 module.exports = mongoose.model('User', Schema)

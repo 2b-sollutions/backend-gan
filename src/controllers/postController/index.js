@@ -106,7 +106,7 @@ module.exports = {
       const updatedWeek = day.diff(post.createdAt, 'week')
       const updatedMonth = day.diff(post.createdAt, 'month')
       const user = await User.findById(post.userId)
-      const influencerModel = await Influencer.findById(post.userId)
+      const influencerModel = await Influencer.find({ userId: post.userId })
       const productDetailList = await Promise.all(post.productList.map(async (element) => {
         const product = await Product.findById({ _id: element })
         return product

@@ -1,6 +1,7 @@
 const Post = require('../../models/Post')
 const User = require('../../models/User')
 const Product = require('../../models/Product')
+const Influencer = require('../../models/Influencer')
 const postServices = require('../../services/postServices')
 
 const Helpers = require('../../helpers/comuns')
@@ -13,7 +14,7 @@ module.exports = {
     const decoded = await Helpers.decodeToken(token, { complete: true })
     const userId = decoded.payloadRequest.id
     const user = await User.findById(userId)
-    if (user.profile !== 3) {
+    if (user.profile !== 2) {
       return res.status(400).json({ message: 'Você não é um Influenciador' })
     }
     try {
@@ -64,7 +65,9 @@ module.exports = {
               updatedMonth
             },
             imagePostList: element.imagePostList,
-            postId: element.id
+            postId: element.id,
+            description: element.description,
+            technicalDetails: element.technicalDetails
           }
           return payloadResponse
         }))
@@ -103,12 +106,16 @@ module.exports = {
       const updatedWeek = day.diff(post.createdAt, 'week')
       const updatedMonth = day.diff(post.createdAt, 'month')
       const user = await User.findById(post.userId)
+      const influencerModel = await Influencer.findById(post.userId)
       const productDetailList = await Promise.all(post.productList.map(async (element) => {
         const product = await Product.findById({ _id: element })
         return product
       }))
       const payloadResponse = {
         user: user.userName,
+        userMeasure: influencerModel.measures,
+        description: post.description,
+        technicalDetails: post.technicalDetails,
         userImage: user.userImage,
         updateDate: {
           updatedDays,

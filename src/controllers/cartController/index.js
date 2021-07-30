@@ -139,8 +139,8 @@ module.exports = {
       // filtra todas as lojas distintas dos produtos incluso no meu carrinho
       for (const productId of enableCart[0].productList) {
         const product = await Product.findById(productId.productId)
-        const store = await Store.findById(product.store.idStore)
-        args.sCepOrigem = store.adress.postCode
+        const store = await Store.find({ userId: product.store.userId })
+        args.sCepOrigem = store[0].storeAddress.postCode
         args.sCepDestino = cepRequested
         args.nCdServico = ['04014']
         fretePac = await Helpers.getCepTax(args)
@@ -179,10 +179,10 @@ module.exports = {
     try {
       for (const produc of productList) {
         const propertiesProduct = await Product.findById({ _id: produc })
-        const storeProp = await Store.findById(propertiesProduct.store.idStore)
-        const teste = storeProp.adress.postCode
+        const storeProp = await Store.find({ userId: propertiesProduct.store.userId })
+        const teste = storeProp[0].storeAddress.postCode
         const payloadTax = {
-          idStore: propertiesProduct.store.idStore,
+          idStore: propertiesProduct.store.userId,
           idProduct: propertiesProduct._id,
           postCode: teste,
           categorie: propertiesProduct.productCategory

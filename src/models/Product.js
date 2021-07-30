@@ -18,12 +18,20 @@ const Schema = new mongoose.Schema({
     userImage: { type: String }
   },
   detailsProduct: {
-    type: [{
+    hexadecimal: { type: Number, required: true },
+    colorName: { type: Number, required: true },
+    disponibility: {
       productQuantity: { type: Number, required: true },
-      productColor: { type: String, required: true },
       productSize: { type: String, required: true }
-    }]
+    }
   }
 }, { timestamps: true })
 
 module.exports = mongoose.model('Product', Schema)
+
+
+
+
+
+
+

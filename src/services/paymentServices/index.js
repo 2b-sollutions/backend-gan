@@ -1,4 +1,5 @@
 const Store = require('../../models/Store')
+const User = require('../../models/Store')
 const Product = require('../../models/Product')
 
 module.exports = {
@@ -9,21 +10,21 @@ module.exports = {
       const productList = []
       for (const productItem of productLists) {
         const product = await Product.findById(productItem.productId)
-        const storeProduct = await Store.findById(product.store.idStore)
-
-        if (!storeListArr.includes(storeProduct.id)) {
-          storeListArr.push(storeProduct.id)
+        const storeProduct = await Store.find({ userId: product.store.userId })
+        const userModel = await User.findById({ _id: product.store.userId })
+        if (!storeListArr.includes(storeProduct.userId)) {
+          storeListArr.push(storeProduct.userId)
           productList.push(productItem)
           const storeList = {
-            storeId: storeProduct.id,
-            storeName: storeProduct.razaoSocial,
-            storeImage: 'storeProduct.storeImage',
+            storeId: storeProduct.userId,
+            storeName: userModel.userName,
+            storeImage: userModel.image,
             productList
           }
           productListForStore.push(storeList)
         } else {
           productListForStore.map((item) => {
-            if (item.storeId === product.store.idStore) {
+            if (item.userId === product.store.userId) {
               item.productList.push(productItem)
             }
             return item

@@ -9,7 +9,7 @@ const Schema = new mongoose.Schema({
   email: { type: String },
   cellPhone: { type: String },
   legalTerms: { type: Boolean, required: true },
-  userActivate: { type: Boolean, default: false },
+  userActivate: { type: Boolean, default: true },
   registerCompleted: { type: Boolean, default: false },
   userImage: { type: String, default: null }
 }, { timestamps: true })

@@ -3,7 +3,7 @@ const User = require('../../models/User')
 const Product = require('../../models/Product')
 
 module.exports = {
-  async searchStoreByProductList (productLists, userProperties) {
+  async searchStoreByProductList (productLists) {
     try {
       const productListForStore = []
       const storeListArr = []

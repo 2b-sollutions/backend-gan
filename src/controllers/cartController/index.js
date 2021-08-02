@@ -25,6 +25,10 @@ module.exports = {
     const decoded = await Helpers.decodeToken(token, { complete: true })
     const userId = decoded.payloadRequest.id
     try {
+      const cart = await Cart.find({ userId: userId })
+      if (cart) {
+        Cart.findByIdAndUpdate(cart._id, { enable: false })
+      }
       const createdCart = await Cart.create({ userId, ...bodyData })
       await createdCart.populate('products').execPopulate()
       return res.status(200).json(createdCart)

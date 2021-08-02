@@ -103,7 +103,7 @@ module.exports = {
       return false
     }
   },
-  async awsSendEmail (payload, payload2) {
+  async awsSendEmail (payloadNewOrderDetails, payloadNewOrder) {
     try {
       aws.config.setPromisesDependency()
       aws.config.update({
@@ -113,25 +113,25 @@ module.exports = {
       })
 
       const payloadToSend = {
-        customerName: payload.userName,
-        orderNumber: payload2.orderNumber,
-        emailAddress: 'lincoln@fen.social',
+        customerName: payloadNewOrderDetails.userName,
+        orderNumber: payloadNewOrder.orderNumber,
+        emailAddress: payloadNewOrderDetails.email,
         address: {
-          addressDsc: payload.deliveryAdress.street,
-          number: payload.deliveryAdress.number,
+          addressDsc: payloadNewOrderDetails.deliveryAdress.street,
+          number: payloadNewOrderDetails.deliveryAdress.number,
           district: 'São Paulo',
-          city: payload.deliveryAdress.city,
-          state: payload.deliveryAdress.state
+          city: payloadNewOrderDetails.deliveryAdress.city,
+          state: payloadNewOrderDetails.deliveryAdress.state
         },
         shipping: {
-          method: payload.sendMethod.typeMethod,
-          estimateDelivery: payload.sendMethod.deliveryDateEstimated
+          method: payloadNewOrderDetails.sendMethod.typeMethod,
+          estimateDelivery: payloadNewOrderDetails.sendMethod.deliveryDateEstimated
         },
         payment: {
           method: 'Cartão de Crédito',
           endCardNumber: '5687',
           installments: '3',
-          paymentValue: payload.payment.transactions[0].amount.total
+          paymentValue: payloadNewOrderDetails.payment.transactions[0].amount.total
         }
       }
 
@@ -146,7 +146,7 @@ module.exports = {
         {
           Message: params.Message,
           // MessageStructure: params.MessageStructure,
-          TopicArn: params.TopicArn
+          TopicArn: 'arn:aws:sns:sa-east-1:583919085126:fen-notification-topic'
         }
       ).promise()
 

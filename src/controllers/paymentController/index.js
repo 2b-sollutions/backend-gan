@@ -25,7 +25,8 @@ module.exports = {
           execute_url.push(item.href)
         }
       })
-      const storeList = await paymentServices.searchStoreByProductList(req.body.productList)
+      const userProperties = await User.findById(userId)
+      const storeList = await paymentServices.searchStoreByProductList(req.body.productList, userProperties)
       const payloadNewOrder = {
         orderNumber: '#' + Math.floor(Math.random() * (90000 - 10000) + 1000),
         userId: userId,
@@ -41,7 +42,8 @@ module.exports = {
         execute_url: execute_url[0]
       }
       const newOrder = await Order.create(payloadNewOrder)
-      const userProperties = await User.findById(userId)
+      
+      console.log('storeList', storeList)
 
       const payloadNewOrderDetails = {
         orderId: newOrder._id,
@@ -51,7 +53,8 @@ module.exports = {
         sendMethod: req.body.sendMethod,
         paymentMethod: req.body.paymentMethod,
         storeList: storeList,
-        userName: userProperties.userName
+        userName: userProperties.userName,
+        email: userProperties.email
       }
       comuns.awsSendEmail(payloadNewOrderDetails, payloadNewOrder)
       await OrderDetail.create(payloadNewOrderDetails)
@@ -61,10 +64,10 @@ module.exports = {
         approvalUrl: payloadNewOrder.approval_url,
         executeUrl: payloadNewOrder.execute_url.split('/')[6],
         placeholder: 'ppplus',
-        payerEmail: 'comprador@ganteste.com',
+        payerEmail: userProperties.email,
         payerFirstName: userProperties.userName,
         payerLastName: userProperties.userName,
-        payerPhone: '12988108463',
+        payerPhone: userProperties.cellPhone,
         payerTaxId: '30949017787',
         miniBrowser: false,
         language: 'pt_BR',

@@ -1,9 +1,9 @@
 const Store = require('../../models/Store')
-const User = require('../../models/Store')
+const User = require('../../models/User')
 const Product = require('../../models/Product')
 
 module.exports = {
-  async searchStoreByProductList (productLists) {
+  async searchStoreByProductList (productLists, userProperties) {
     try {
       const productListForStore = []
       const storeListArr = []
@@ -11,14 +11,14 @@ module.exports = {
       for (const productItem of productLists) {
         const product = await Product.findById(productItem.productId)
         const storeProduct = await Store.find({ userId: product.store.userId })
-        const userModel = await User.findById({ _id: product.store.userId })
-        if (!storeListArr.includes(storeProduct.userId)) {
-          storeListArr.push(storeProduct.userId)
+        const userProperties = await User.findById(storeProduct[0].userId)
+        if (!storeListArr.includes(storeProduct[0].userId)) {
+          storeListArr.push(storeProduct[0].userId)
           productList.push(productItem)
           const storeList = {
-            storeId: storeProduct.userId,
-            storeName: userModel.userName,
-            storeImage: userModel.image,
+            storeId: storeProduct[0].userId,
+            storeName: userProperties.userName,
+            storeImage: userProperties.userImage,
             productList
           }
           productListForStore.push(storeList)

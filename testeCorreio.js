@@ -1,6 +1,1 @@
-var soap = require('soap');
-var url = 'https://apphom.correios.com.br/SigepMasterJPA/AtendeClienteService/AtendeCliente?wsdl';
-soap.createClient(url, function(err, client) {
-    if(err) return console.log(err);
-    console.log(client.AtendeClienteService);
-});
+{"deliveryAdress":{"street":"Rua Doutor João Pedro Cardoso","number":34,"city":"Pindamonhangaba","state":"SP","postCode":12422110},"sendMethod":{"typeMethod":"Sedex","price":24.9,"deliveryDateEstimated":"Entrega estimada até 7 dias úteis"},"paymentMethod":{"typeMethod":"Paypal","Description":"","imageMethod":"","credCard":"master"},"cartId":"61048518a0d5b9001562cf8d","productList":[{"productQuantity":3,"productColor":"Azul","productSize":"P","_id":"61048518a0d5b9001562cf8e","productId":"6101f0551250ca0d5c855e72","productName":"Saida de Lado","productPrice":154,"productImage":"https://upload-fen.s3.amazonaws.com/aa3f3653-9918-ab61-16e7-2055d2b4af9e.jpeg"}],"totalPrice":178.9,"subtotal":154,"shipping":24.9,"productQuantity":1}

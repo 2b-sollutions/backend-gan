@@ -89,9 +89,9 @@ module.exports = {
     }
   },
   async deletePost (req, res) {
-    const { postId } = req.params
+    const { post_id } = req.params
     try {
-      const deletedPost = await Post.findByIdAndDelete(postId)
+      const deletedPost = await Post.findByIdAndDelete(post_id)
       return res.status(200).json(deletedPost)
     } catch (error) {
       return res.status(400).json(error)

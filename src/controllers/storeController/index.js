@@ -109,36 +109,39 @@ module.exports = {
     } catch (error) {
       return res.status(400).json(error)
     }
+  },
+  async getStoreByUsername (req, res) {
+    try {
+      const { token } = req.headers
+      const userName = req.params.user_name
+      const user = await User.find({ userName })
+
+      if (user.length === 0) {
+        return res.status(400).json({ message: 'Nome de usuario não encontrado' })
+      }
+      const store = await Store.find({ userId: user[0].id })
+      const decoded = await Helpers.decodeToken(token, { complete: true })
+      const payloadResponse = {
+        userName: user[0].userName,
+        userImage: user[0].userImage,
+        _id: user[0].id,
+        description: store[0].descriptionProfile
+      }
+      if (token) {
+        const data = {
+          userIdtoken: decoded.payloadRequest.id,
+          userId: user[0].id
+        }
+        const isSameProfile = await Helpers.verifyProfile(data)
+        if (isSameProfile) {
+          return res.status(200).json(payloadResponse)
+        } else {
+          return res.status(203).json(payloadResponse)
+        }
+      }
+      return res.status(203).json(payloadResponse)
+    } catch (error) {
+      return res.status(400).json(error.message)
+    }
   }
-  // async productStore (req, res) {
-  //   try {
-  //     const store = await Store.find()
-
-  //     const payloadResponse = await Promise.all(
-  //       store.map(async (itemStore) => {
-  //         const products = await Product.find()
-  //         const productsForStore = []
-  //         for (const item of products) {
-  //           if (item.store.idStore.toString() === itemStore._id.toString()) {
-  //             productsForStore.push(item)
-  //           }
-  //         }
-  //         const payloadIf = {
-  //           nameStore: itemStore.razaoSocial,
-  //           products: productsForStore
-  //         }
-  //         return payloadIf
-  //       }))
-
-  //     const payLoadFiltered = payloadResponse.filter((item) => {
-  //       if (item.products.length > 0) {
-  //         return item
-  //       }
-  //     })
-
-  //     return res.status(200).json(payLoadFiltered)
-  //   } catch (error) {
-  //     return res.status(400).json(error.message)
-  //   }
-  // }
 }

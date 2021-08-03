@@ -815,6 +815,32 @@
                 }
             }
         },
+        "/api/v1/post/": {
+            "delete": {
+                "tags": ["Post"],
+                "summary": "Delete post by id",
+                "consumes": [],
+                "produces": ["text/plain", "application/json", "text/json"],
+                "parameters": [
+                    {
+                        "name": "post_id",
+                        "in": "path",
+                        "required": false,
+                        "schema": {
+                            "type": "object",
+                            "example": "60327d65a4af5739f84a1ccc"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+
+                    }
+                }
+            }
+        },
+        
         "/api/v1/post": {
             "get": {
                 "tags": ["Post"],

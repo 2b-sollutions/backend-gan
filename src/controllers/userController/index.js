@@ -13,6 +13,7 @@ module.exports = {
       bodydata.password = encryptPassword
       const response = await helpers.uploadImage(bodydata.userImage)
       bodydata.userImage = response.Location
+      bodydata.fullName = bodydata.fullName ? bodydata.fullName : bodydata.userName
       const newUser = await User.create(bodydata)
       return res.status(200).json(newUser)
     } catch (error) {

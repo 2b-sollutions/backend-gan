@@ -12,7 +12,9 @@ routes.get('/', productController.getProducts)
 routes.get('/:product_id/product', productController.getProductById)
 routes.post('/color', productController.createColor)
 routes.post('/size', productController.createSize)
+routes.post('/categories', productController.createCategory)
 routes.get('/size', productController.getSize)
 routes.get('/colors', productController.getColor)
+routes.get('/categories', productController.getCategory)
 
 module.exports = routes

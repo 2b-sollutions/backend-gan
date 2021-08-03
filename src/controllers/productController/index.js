@@ -1,3 +1,4 @@
+const Category = require('../../models/Category')
 const Product = require('../../models/Product')
 const User = require('../../models/User')
 const Post = require('../../models/Post')
@@ -5,6 +6,7 @@ const Color = require('../../models/Color')
 const Size = require('../../models/Size')
 const Helpers = require('../../helpers/comuns')
 const dayjs = require('dayjs')
+
 module.exports = {
   async createProduct (req, res) {
     const listImage = []
@@ -98,6 +100,15 @@ module.exports = {
       return res.status(400).json(error.message)
     }
   },
+  async createCategory (req, res) {
+    const bodydata = req.body
+    try {
+      const newCategory = await Category.create(bodydata)
+      return res.status(200).json(newCategory)
+    } catch (error) {
+      return res.status(400).json(error)
+    }
+  },
   async createColor (req, res) {
     const bodydata = req.body
     try {
@@ -128,6 +139,14 @@ module.exports = {
     try {
       const listSize = await Size.find()
       return res.status(200).json(listSize)
+    } catch (error) {
+      return res.status(400).json(error)
+    }
+  },
+  async getCategory (req, res) {
+    try {
+      const listCategory = await Category.find()
+      return res.status(200).json(listCategory)
     } catch (error) {
       return res.status(400).json(error)
     }

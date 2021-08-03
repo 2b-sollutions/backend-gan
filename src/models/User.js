@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
 
 const Schema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   fullname: { type: String, required: false, unique: true },
   userName: { type: String, required: true, unique: true },
   profile: { type: Number, required: true },

@@ -18,9 +18,9 @@ module.exports = {
       const response = await Helpers.uploadImage(image)
       listImage.push(response.Location)
     };
-    console.log(listImage)
     try {
       const user = await User.find({ _id: tokenData.id })
+      const category = await Category.findById(bodyData.idCategory)
       const store = {
         store: {
           userId: user[0]._id,
@@ -28,8 +28,17 @@ module.exports = {
           userName: user[0].userName
         }
       }
+
+      const productCategory = {
+        productCategory: {
+          idCategory: category._id,
+          nameCategory: category.name,
+          weightCategory: category.weight
+        }
+      }
       bodyData.productListImages = listImage
-      const payloadCreate = { ...bodyData, ...store }
+      const payloadCreate = { ...bodyData, ...store, ...productCategory }
+      console.log(payloadCreate)
       const newProduct = await Product.create(payloadCreate)
       return res.status(200).json(newProduct)
     } catch (error) {

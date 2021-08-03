@@ -17,14 +17,14 @@ const Schema = new mongoose.Schema({
     userName: { type: String },
     userImage: { type: String }
   },
-  detailsProduct: {
-    hexadecimal: { type: Number, required: true },
-    colorName: { type: Number, required: true },
-    disponibility: {
-      productQuantity: { type: Number, required: true },
+  detailsProduct: [{
+    hexadecimal: { type: String, required: true },
+    colorName: { type: String, required: true },
+    disponibility: [{
+      productQuantity: { type: String, required: true },
       productSize: { type: String, required: true }
-    }
-  }
+    }]
+  }]
 }, { timestamps: true })
 
 module.exports = mongoose.model('Product', Schema)

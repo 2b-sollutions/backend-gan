@@ -14,11 +14,13 @@ module.exports = {
     const decoded = await Helpers.decodeToken(token, { complete: true })
     const tokenData = decoded.payloadRequest
     const bodyData = req.body
-    for (const image of bodyData.productListImages) {
-      const response = await Helpers.uploadImage(image)
-      listImage.push(response.Location)
-    };
+    
     try {
+
+      for (const image of bodyData.productListImages) {
+        const response = await Helpers.uploadImage(image)
+        listImage.push(response.Location)
+      };
       const user = await User.find({ _id: tokenData.id })
       const category = await Category.findById(bodyData.idCategory)
       const store = {
@@ -38,7 +40,6 @@ module.exports = {
       }
       bodyData.productListImages = listImage
       const payloadCreate = { ...bodyData, ...store, ...productCategory }
-      console.log(payloadCreate)
       const newProduct = await Product.create(payloadCreate)
       return res.status(200).json(newProduct)
     } catch (error) {
@@ -47,10 +48,30 @@ module.exports = {
   },
 
   async updateProduct (req, res) {
-    const bodydata = req.body
+    const decoded = await Helpers.decodeToken(token, { complete: true })
+    const tokenData = decoded.payloadRequest
+    const bodyData = req.body
     const { product_id } = req.params
     try {
-      const updatedProduct = await Product.findByIdAndUpdate(product_id, bodydata, { new: true })
+
+      const user = await User.find({ _id: tokenData.id })
+      const category = await Category.findById(bodyData.idCategory)
+      const store = {
+        store: {
+          userId: user[0]._id,
+          userImage: user[0].userImage,
+          userName: user[0].userName
+        }
+      }
+      const productCategory = {
+        productCategory: {
+          idCategory: category._id,
+          nameCategory: category.name,
+          weightCategory: category.weight
+        }
+      }
+      const payloadCreate = { ...bodyData, ...store, ...productCategory }
+      const updatedProduct = await Product.findByIdAndUpdate(product_id, payloadCreate, { new: true })
       return res.status(200).json(updatedProduct)
     } catch (error) {
       return res.status(400).json(error)
@@ -68,6 +89,9 @@ module.exports = {
     const { product_id } = req.params
     try {
       const deletedProduct = await Product.findByIdAndDelete(product_id)
+
+
+      const 
       return res.status(200).json(deletedProduct)
     } catch (error) {
       return res.status(400).json(error)

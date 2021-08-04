@@ -13,14 +13,14 @@ module.exports = {
       const orderDetails = await OrderDetails.find({ orderId: orderId })
       const order = await Order.findById({ _id: orderId })
       const storeListNew = await Promise.all(orderDetails[0].storeList.map(async store => {
-        const productListNew = await store.productList.map(produc => {
+        const productListNew = await store.productList.map(product => {
           const productListNew = {
-            productName: produc.productName,
-            productColor: produc.productColor,
-            productSize: produc.productSize,
-            productPrice: produc.productPrice,
-            productQuantity: produc.productQuantity,
-            productImage: produc.productImage
+            productName: product.productName,
+            productColor: product.productColor,
+            productSize: product.productSize,
+            productPrice: product.productPrice,
+            productQuantity: product.productQuantity,
+            productImage: product.productImage
           }
           return productListNew
         })

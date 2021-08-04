@@ -629,9 +629,9 @@
                         "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkUmVxdWVzdCI6eyJ1c2VyTmFtZSI6IlRlc3RlSW5mbHVlbmNlciIsImlkIjoiNjAzMjhiMDBiZGM1MzA0YTZjZGUyZGYwIiwicGVyZmlsIjoyfSwiaWF0IjoxNjEzOTkzNzY5LCJleHAiOjE2MTM5OTczNjl9.KVWJ4D1HKqPoIYSFxgBaYiUUXR33QXITEWcN1hQHoOg"
                     }
                 },
-                {     "name": "token",
-                      "in": "body",
-                      "required": false,
+                {    "name": "corpo",
+                     "in": "body",
+                     "required": false,
                      "schema": {
                         "type": "object",
                         "example": {
@@ -1033,6 +1033,88 @@
                     "schema": {
                         "type": "object",
                         "example": "60327fa7bc253f41f0984b29"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+
+        },
+        "/api/v1/products/{product_id}/products": {
+            "delete": {
+                "tags": ["Products"],
+                "summary": "Delete products by product_id",
+                "consumes": [],
+                "produces": ["text/plain", "application/json", "text/json"],
+                "parameters": [{
+                    "name": "product_id",
+                    "in": "path",
+                    "required": false,
+                    "schema": {
+                        "type": "object",
+                        "example": "6101f0551250ca0d5c855e72"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+
+        },
+        "/api/v1/products/{product_id}/products": {
+            "update": {
+                "tags": ["Products"],
+                "summary": "update products by product_id",
+                "consumes": [],
+                "produces": ["text/plain", "application/json", "text/json"],
+                "parameters": [
+                    {
+                        "name": "product_id",
+                        "in": "path",
+                        "required": false,
+                        "schema": {
+                            "type": "object",
+                            "example": "6101ee5f1250ca0d5c855e6f"
+                        }
+                    },
+                    {
+                    "name": "body",
+                    "in": "body",
+                    "required": false,
+                    "schema": {
+                        "type": "object",
+                        "example": {
+                            "productListImages": ["https://media.glassdoor.com/sqll/2004495/monte-carlo-j%C3%B3ias-squarelogo-1559822834643.png"],
+                            "productName": "Saida de Frente",
+                            "productPrice": 354.00,
+                            "productDescription": "Saida de Frente com o estilo boho para você chamar de sua. Incrível para um look despojado. Feita em viscose texturizada, essa blusa possui manga flutuante, decote em V com abertura drapeada com cordão para amarração. Tem abertura em V nas costas e comprimento curto (cropped).Viscose Cropped Manga curta flutuante Texturizado Decote v",
+                            "productTechnicalDetails": "",
+                            "sku":"aaaaaaa",
+                            "idCategory":"60afb496ac7943438c70dc42",
+                            "detailsProduct": [
+                                {
+                                    "hexadecimal": "#FF0000",
+                                        "colorName": "Cinza caxao",
+                                        "disponibility": {
+                                                    "productQuantity":"15",
+                                                    "productSize":"P"
+                                        }
+                                },
+                                        {
+                                    "hexadecimal": "#FF0000",
+                                        "colorName": "Cinza caxao",
+                                        "diponibility": {
+                                                    "productQuantity":"15",
+                                                    "productSize":"P"
+                                        }
+                                }
+                            ]
+                    }
                     }
                 }],
                 "responses": {

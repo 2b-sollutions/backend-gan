@@ -1,12 +1,12 @@
 const { Router } = require('express')
 const routes = Router()
-
+const authenticationn = require('../../../../middlewares')
 const productController = require('../../../../controllers/productController')
 
 routes.post('/', productController.createProduct)
 // routes.get('/:store_id/store/', productController.getUserProducts)
-routes.put('/:store_id/:product_id', productController.updateProduct)
-routes.delete('/:store_id/:product_id', productController.deleteProduct)
+routes.put('/:product_id/products', authenticationn.verifyToken, productController.updateProduct)
+routes.delete('/:product_id/products', authenticationn.verifyToken , productController.deleteProduct)
 
 routes.get('/', productController.getProducts)
 routes.get('/:product_id/product', productController.getProductById)

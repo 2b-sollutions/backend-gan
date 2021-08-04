@@ -89,9 +89,6 @@ module.exports = {
     const { product_id } = req.params
     try {
       const deletedProduct = await Product.findByIdAndDelete(product_id)
-
-
-      const 
       return res.status(200).json(deletedProduct)
     } catch (error) {
       return res.status(400).json(error)

@@ -12,7 +12,7 @@ routes.get('/postInfluencer', postController.getPostInfluencer)
 // routes.get('/searchAll', postController.getPostInfluencer)
 routes.get('/user/:user_id', postController.getPostByUserId)
 routes.get('/relationed', postController.getRelationedPost)
-routes.delete('/:post_id', postController.deletePost)
+routes.delete('/:post_id', authenticationn.verifyToken, postController.deletePost)
 routes.get('/:post_id/post', postController.getPostById)
 
 module.exports = routes

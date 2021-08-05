@@ -5,7 +5,8 @@ const Schema = new mongoose.Schema({
   orderNumber: { type: String, required: true },
   productList: [{
     productId: { type: String, required: true },
-    productImage: { type: String }
+    productImage: { type: String },
+    productName: { type: String }
   }],
   productQuantity: { type: Number, required: true },
   totalPrice: { type: Number, required: true },

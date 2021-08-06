@@ -64,7 +64,7 @@ module.exports = {
         approvalUrl: payloadNewOrder.approval_url,
         executeUrl: payloadNewOrder.execute_url.split('/')[6],
         placeholder: 'ppplus',
-        payerEmail: userProperties.userName,
+        payerEmail: userProperties.email,
         payerFirstName: userProperties.userName,
         payerLastName: userProperties.userName,
         payerPhone: userProperties.cellPhone,

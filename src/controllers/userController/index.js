@@ -3,11 +3,11 @@ const helpers = require('../../helpers/comuns')
 module.exports = {
   async createUser (req, res) {
     const bodydata = req.body
-    const { password, userName } = bodydata
+    const { password, email } = bodydata
     try {
-      const user = await User.findOne({ userName })
+      const user = await User.findOne({ email })
       if (user !== null) {
-        return res.status(400).json({ message: 'Usuario ja cadastrado' })
+        return res.status(400).json({ message: 'Usuário ja cadastrado' })
       }
       const encryptPassword = await helpers.encryptPassword(password)
       bodydata.password = encryptPassword
@@ -22,6 +22,13 @@ module.exports = {
   },
   async getUser (req, res) {
     try {
+      const { token } = req.headers
+      const decoded = await Helpers.decodeToken(token, { complete: true })
+      const userId = decoded.payloadRequest.id
+      const user = await User.findById(userId)
+      if (user.profile !== 5) {
+        return res.status(400).json({ message: 'Você não tem permissão' })
+      }
       const users = await User.find()
       return res.status(200).json(users)
     } catch (error) {

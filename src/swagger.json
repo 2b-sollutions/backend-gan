@@ -1330,6 +1330,20 @@
             }
 
         },
+        "/api/v1/payment/banks": {
+            "get": {
+                "tags": ["Payments"],
+                "summary": "Make Payment fo your cart",
+                "consumes": [],
+                "produces": ["text/plain", "application/json", "text/json"],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+
+        },
         "definitions": {}
     }
 }

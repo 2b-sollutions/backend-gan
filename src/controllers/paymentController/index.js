@@ -1,6 +1,7 @@
 const User = require('../../models/User')
 const Order = require('../../models/Order')
 const Cart = require('../../models/Cart')
+const Bank = require('../../models/Bank')
 const OrderDetail = require('../../models/OrderDetails')
 const paymentServices = require('../../services/paymentServices')
 const comuns = require('../../helpers/comuns')
@@ -117,6 +118,14 @@ module.exports = {
         token,
         decode: decoded.payloadRequest
       })
+    } catch (error) {
+      return res.status(400).json(error.message)
+    }
+  },
+  async banks (req, res) {
+    try {
+      const allBanks = await Bank.find()
+      return res.status(200).json(allBanks)
     } catch (error) {
       return res.status(400).json(error.message)
     }

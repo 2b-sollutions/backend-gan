@@ -6,5 +6,6 @@ const paymentController = require('../../../../controllers/paymentController')
 routes.post('/buy', paymentController.buy)
 routes.get('/success', paymentController.success)
 routes.get('/cancel', paymentController.cancel)
+routes.get('/banks', paymentController.banks)
 
 module.exports = routes
